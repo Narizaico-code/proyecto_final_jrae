@@ -1,7 +1,7 @@
 package org.jrae.carwashito.dominio.dto;
 
-public record ClientesDto (
-        long codigo,
+public record ClienteDto(
+        long codigoCliente,
         String name,
         String lastName,
         String nickname,

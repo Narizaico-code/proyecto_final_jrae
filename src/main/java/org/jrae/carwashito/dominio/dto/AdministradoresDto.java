@@ -1,7 +1,7 @@
 package org.jrae.carwashito.dominio.dto;
 
 public record AdministradoresDto(
-        long codigo,
+        long codigoAdministrador,
         String name,
         String lastName,
         String email,

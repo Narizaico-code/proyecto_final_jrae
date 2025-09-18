@@ -8,8 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.jrae.carwashito.dominio.dto.AdministradoresDto;
 import org.jrae.carwashito.dominio.dto.ModAdministradoresDto;
-import org.jrae.carwashito.dominio.dto.PrecioVehiculoDto;
-import org.jrae.carwashito.dominio.service.AdministradoresService;
+import org.jrae.carwashito.dominio.service.AdministradorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +20,9 @@ import java.util.List;
 @Tag(name = "Administradores", description = "Opciones (CRUD) sobre los administradores de carWashito")
 public class AdministradoresController {
 
-    private final AdministradoresService administradoresService;
+    private final AdministradorService administradoresService;
 
-    public AdministradoresController(AdministradoresService administradoresService ) {
+    public AdministradoresController(AdministradorService administradoresService ) {
             this.administradoresService = administradoresService;
     }
 
@@ -44,8 +43,8 @@ public class AdministradoresController {
     )
     public ResponseEntity<AdministradoresDto> obtenerAdministradoresPorCodigo
             (@Parameter(description = "Identificador de el Administrador a registrar", example = "5")
-             @PathVariable Long codigo){
-        return  ResponseEntity.ok(this.administradoresService.obtenerAdministradoresPorCodigo(codigo));
+             @PathVariable Long codigoAdministrador){
+        return  ResponseEntity.ok(this.administradoresService.obtenerAdministradoresPorCodigo(codigoAdministrador));
     }
 
     // Guardar película
@@ -59,14 +58,14 @@ public class AdministradoresController {
     // Modificar Administrador
     @PutMapping("{codigo}")
     public ResponseEntity<AdministradoresDto> modificarAdministradores
-    (@PathVariable Long codigo, @RequestBody @Valid ModAdministradoresDto modAdministradoresDto){
-        return ResponseEntity.ok(this.administradoresService.modificarAdministradores(codigo, modAdministradoresDto));
+    (@PathVariable Long codigoAdministrador, @RequestBody @Valid ModAdministradoresDto modAdministradoresDto){
+        return ResponseEntity.ok(this.administradoresService.modificarAdministradores(codigoAdministrador, modAdministradoresDto));
     }
 
     // Eliminar película
     @DeleteMapping("{codigo}")
-    public ResponseEntity<AdministradoresDto> eliminarPelicula(@PathVariable Long codigo) {
-        administradoresService.eliminarAdministradores(codigo);
+    public ResponseEntity<AdministradoresDto> eliminarPelicula(@PathVariable Long codigoAdministrador) {
+        administradoresService.eliminarAdministradores(codigoAdministrador);
         return ResponseEntity.noContent().build();
     }
 }

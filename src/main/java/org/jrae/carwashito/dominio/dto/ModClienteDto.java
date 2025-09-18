@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record ModClientesDto (
+public record ModClienteDto(
         @NotBlank(message = "El nombre es obligatorio")
         String name,
         @NotBlank(message = "El apellido es Obligatorio")

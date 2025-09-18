@@ -5,11 +5,11 @@ import org.jrae.carwashito.dominio.dto.ModAdministradoresDto;
 
 import java.util.List;
 
-public interface AdministradoresRepository {
+public interface AdministradorRepository {
     List<AdministradoresDto> obtenerTodo();
-    AdministradoresDto obtenerAdministradoresPorCodigo(Long codigo);
+    AdministradoresDto obtenerAdministradoresPorCodigo(Long codigoAdministrador);
     AdministradoresDto guardarAdministradores(AdministradoresDto administradoresDto);
-    AdministradoresDto modificarAdministradores(Long codigo, ModAdministradoresDto modAdministradoresDto);
-    void eliminarAdministradores(Long codigo);
+    AdministradoresDto modificarAdministradores(Long codigoAdministrador, ModAdministradoresDto modAdministradoresDto);
+    void eliminarAdministradores(Long codigoAdministrador);
 
 }

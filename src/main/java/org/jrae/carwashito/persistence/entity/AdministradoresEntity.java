@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class AdministradoresEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long codigo;
+    private long codigoAdministrador;
     @Column(length = 150, unique = true, nullable = false)
     private String nombre;
     @Column(length = 150, unique = true, nullable = false)

@@ -1,7 +1,7 @@
 package org.jrae.carwashito.web.mapper;
 
-import org.jrae.carwashito.dominio.dto.EmpleadosDto;
-import org.jrae.carwashito.persistence.entity.EmpleadosEntity;
+import org.jrae.carwashito.dominio.dto.EmpleadoDto;
+import org.jrae.carwashito.persistence.entity.EmpleadoEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -18,7 +18,7 @@ public interface EmpleadosMapper {
     @Mapping(source = "correo", target = "email")
     @Mapping(source = "telefono", target = "phoneNumber")
     @Mapping(source = "cargo", target = "position")
-    public EmpleadosDto toDto(EmpleadosEntity entity);
+    public EmpleadoDto toDto(EmpleadoEntity entity);
 
-    public List<EmpleadosDto> toDto(Iterable<EmpleadosEntity> entities);
+    public List<EmpleadoDto> toDto(Iterable<EmpleadoEntity> entities);
 }

@@ -3,8 +3,8 @@ package org.jrae.carwashito.dominio.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record EmpleadosDto(
-        long codigo,
+public record EmpleadoDto(
+        long codigoEmpleado,
         String name,
         String lastName,
         int age,

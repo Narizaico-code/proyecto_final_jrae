@@ -6,10 +6,10 @@ import lombok.Data;
 @Entity
 @Table(name = "Clientes")
 @Data
-public class ClientesEntity {
+public class ClienteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long codigo;
+    private long codigoCliente;
     @Column(length = 150, unique = true, nullable = false)
     private String nombre;
     @Column(length = 150, unique = true, nullable = false)
