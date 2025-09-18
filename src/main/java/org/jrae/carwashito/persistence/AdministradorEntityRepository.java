@@ -1,11 +1,11 @@
 package org.jrae.carwashito.persistence;
 
-import org.jrae.carwashito.dominio.dto.AdministradoresDto;
-import org.jrae.carwashito.dominio.dto.ModAdministradoresDto;
+import org.jrae.carwashito.dominio.dto.AdministradorDto;
+import org.jrae.carwashito.dominio.dto.ModAdministradorDto;
 import org.jrae.carwashito.dominio.repository.AdministradorRepository;
 import org.jrae.carwashito.persistence.crud.CrudAdministradorEntity;
-import org.jrae.carwashito.persistence.entity.AdministradoresEntity;
-import org.jrae.carwashito.web.mapper.AdministradoresMapper;
+import org.jrae.carwashito.persistence.entity.AdministradorEntity;
+import org.jrae.carwashito.web.mapper.AdministradorMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,57 +13,57 @@ import java.util.List;
 @Repository
 public class AdministradorEntityRepository implements AdministradorRepository {
 
-    private final CrudAdministradorEntity crudAdministradores;
-    private final AdministradoresMapper administradoresMapper;
+    private final CrudAdministradorEntity crudAdministrador;
+    private final AdministradorMapper administradorMapper;
 
-    public AdministradorEntityRepository(CrudAdministradorEntity crudAdministradores, AdministradoresMapper administradoresMapper){
-        this.crudAdministradores = crudAdministradores;
-        this.administradoresMapper = administradoresMapper;
+    public AdministradorEntityRepository(CrudAdministradorEntity crudAdministrador, AdministradorMapper administradorMapper){
+        this.crudAdministrador = crudAdministrador;
+        this.administradorMapper = administradorMapper;
     }
 
     @Override
-    public List<AdministradoresDto> obtenerTodo() {
-        return this.administradoresMapper.toDto(this.crudAdministradores.findAll());
-
-    }
-
-    @Override
-    public AdministradoresDto obtenerAdministradoresPorCodigo(Long codigoAdministrador) {
-        return this.administradoresMapper.toDto(this.crudAdministradores.findById(codigoAdministrador).orElse(null));
+    public List<AdministradorDto> obtenerTodo() {
+        return this.administradorMapper.toDto(this.crudAdministrador.findAll());
 
     }
 
     @Override
-    public AdministradoresDto guardarAdministradores(AdministradoresDto administradoresDto) {
+    public AdministradorDto obtenerAdministradoresPorCodigo(Long codigoAdministrador) {
+        return this.administradorMapper.toDto(this.crudAdministrador.findById(codigoAdministrador).orElse(null));
+
+    }
+
+    @Override
+    public AdministradorDto guardarAdministradores(AdministradorDto administradoresDto) {
         // Instanciar clase de entidad
-        AdministradoresEntity administradoresEntity = new AdministradoresEntity();
+        AdministradorEntity administradoresEntity = new AdministradorEntity();
 
         // Convertir de DTO a Entity usando Mapper
-        administradoresEntity = this.administradoresMapper.toEntity(administradoresDto);
+        administradoresEntity = this.administradorMapper.toEntity(administradoresDto);
 
         // Guardar en la base de datos JPA
-        this.crudAdministradores.save(administradoresEntity);
+        this.crudAdministrador.save(administradoresEntity);
 
         // Retornar el valor guardado como DTO
-        return this.administradoresMapper.toDto(administradoresEntity);
+        return this.administradorMapper.toDto(administradoresEntity);
     }
 
     @Override
-    public AdministradoresDto modificarAdministradores(Long codigoAdministrador, ModAdministradoresDto modAdministradoresDto) {
-        AdministradoresEntity administradoresEntity = this.crudAdministradores.findById(codigoAdministrador)
+    public AdministradorDto modificarAdministradores(Long codigoAdministrador, ModAdministradorDto modAdministradoresDto) {
+        AdministradorEntity administradoresEntity = this.crudAdministrador.findById(codigoAdministrador)
                 .orElseThrow(() -> new RuntimeException("El administrador con código " + codigoAdministrador + " no existe"));
 
-        this.administradoresMapper.updateEntityFromDto(modAdministradoresDto, administradoresEntity);
-        return this.administradoresMapper.toDto(this.crudAdministradores.save(administradoresEntity));
+        this.administradorMapper.updateEntityFromDto(modAdministradoresDto, administradoresEntity);
+        return this.administradorMapper.toDto(this.crudAdministrador.save(administradoresEntity));
     }
 
 
     @Override
     public void eliminarAdministradores(Long codigoAdministrador){
-        AdministradoresEntity administrador = this.crudAdministradores.findById(codigoAdministrador).orElse(null);
+        AdministradorEntity administrador = this.crudAdministrador.findById(codigoAdministrador).orElse(null);
 
         if (administrador != null) {
-            this.crudAdministradores.deleteById(codigoAdministrador); // eliminar si existe
+            this.crudAdministrador.deleteById(codigoAdministrador); // eliminar si existe
         }
 
     }

@@ -2,9 +2,7 @@ package org.jrae.carwashito.dominio.dto;
 
 import jakarta.validation.constraints.*;
 
-import java.time.LocalDate;
-
-public record ModAdministradoresDto (
+public record ModAdministradorDto(
         @NotBlank(message = "El nombre es obligatorio")
         String name,
         @NotBlank(message = "El apellido es Obligatorio")

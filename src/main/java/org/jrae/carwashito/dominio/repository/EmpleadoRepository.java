@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface EmpleadoRepository {
     List<EmpleadoDto> obtenerTodo();
-   /* EmpleadoDto obtenerEmpleadoPorCodigo(Long codigoEmpleado);
+    EmpleadoDto obtenerEmpleadoPorCodigo(Long codigoEmpleado);
     EmpleadoDto guardarEmpleado(EmpleadoDto empleadosDto);
-    EmpleadoDto modificarEmppleado(Long codigoEmpleado, ModEmpleadoDto modEmpleadosDto);
-    void eliminarEmpleado(Long codigo);*/
+    EmpleadoDto modificarEmpleado(Long codigoEmpleado, ModEmpleadoDto modEmpleadosDto);
+    void eliminarEmpleado(Long codigoEmpleado);
 }

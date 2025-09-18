@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class EmpleadoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long codigo;
+    private Long codigoEmpleado;
     @Column(length = 150, unique = true, nullable = false)
     private String nombre;
     @Column(length = 150, unique = true, nullable = false)
@@ -33,7 +33,7 @@ public class EmpleadoEntity {
     private String cargo;
     // Relación con Administrador
     @ManyToOne
-    @JoinColumn(name = "administrador_id", nullable = false)
-    private AdministradoresEntity administradores;
+    @JoinColumn(name = "codigo_administrador", nullable = false)
+    private AdministradorEntity administradores;
 }
 

@@ -3,12 +3,10 @@ package org.jrae.carwashito.persistence.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 @Entity
 @Table(name = "Administradores")
 @Data
-public class AdministradoresEntity {
+public class AdministradorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long codigoAdministrador;

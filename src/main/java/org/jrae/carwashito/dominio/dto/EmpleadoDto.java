@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record EmpleadoDto(
-        long codigoEmpleado,
+        Long codigo,
         String name,
         String lastName,
         int age,

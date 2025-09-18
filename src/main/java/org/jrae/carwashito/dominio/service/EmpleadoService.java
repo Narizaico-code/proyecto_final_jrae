@@ -1,8 +1,7 @@
 package org.jrae.carwashito.dominio.service;
 
-import org.jrae.carwashito.dominio.dto.AdministradoresDto;
 import org.jrae.carwashito.dominio.dto.EmpleadoDto;
-import org.jrae.carwashito.dominio.dto.ModAdministradoresDto;
+import org.jrae.carwashito.dominio.dto.ModEmpleadoDto;
 import org.jrae.carwashito.dominio.repository.EmpleadoRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +19,20 @@ public class EmpleadoService {
     public List<EmpleadoDto> obtenerTodo(){
         return this.empleadoRepository.obtenerTodo();
     }
-/*
+
     public EmpleadoDto obtenerEmpleadoPorCodigo(Long codigoEmpleado){
-        return this.empleadoRepository.obtenerAdministradoresPorCodigo(codigo);
+        return this.empleadoRepository.obtenerEmpleadoPorCodigo(codigoEmpleado);
     }
 
-    public AdministradoresDto guardarAdministradores(AdministradoresDto administradoresDto){
-        return this.administradoresRepository.guardarAdministradores(administradoresDto);
+    public EmpleadoDto guardarEmpleado(EmpleadoDto empleadoDto){
+        return this.empleadoRepository.guardarEmpleado(empleadoDto);
     }
 
-    public AdministradoresDto modificarAdministradores(Long codigo, ModAdministradoresDto modAdministradoresDto) {
-        return administradoresRepository.modificarAdministradores(codigo, modAdministradoresDto);
+    public EmpleadoDto modificarEmpleado(Long codigoEmpleado, ModEmpleadoDto modEmpleadoDto) {
+        return empleadoRepository.modificarEmpleado(codigoEmpleado, modEmpleadoDto);
     }
 
-    public void eliminarAdministradores(Long codigo){
-        this.administradoresRepository.eliminarAdministradores(codigo);
+    public void eliminarEmpleado(Long codigoEmpleado){
+        this.empleadoRepository.eliminarEmpleado(codigoEmpleado);
     }
-}*/
 }

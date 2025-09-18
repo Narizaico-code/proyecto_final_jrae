@@ -5,7 +5,7 @@ import org.jrae.carwashito.dominio.dto.ModClienteDto;
 import org.jrae.carwashito.dominio.repository.ClienteRepository;
 import org.jrae.carwashito.persistence.crud.CrudClienteEntity;
 import org.jrae.carwashito.persistence.entity.ClienteEntity;
-import org.jrae.carwashito.web.mapper.ClientesMapper;
+import org.jrae.carwashito.web.mapper.ClienteMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,21 +14,21 @@ import java.util.List;
 public class ClienteEntityRepository implements ClienteRepository {
 
     private final CrudClienteEntity crudClientes;
-    private final ClientesMapper clientesMapper;
+    private final ClienteMapper clienteMapper;
 
-    public ClienteEntityRepository(CrudClienteEntity crudClientes, ClientesMapper clientesMapper){
+    public ClienteEntityRepository(CrudClienteEntity crudClientes, ClienteMapper clienteMapper){
         this.crudClientes = crudClientes;
-        this.clientesMapper = clientesMapper;
+        this.clienteMapper = clienteMapper;
     }
 
     @Override
     public List<ClienteDto> obtenerTodo() {
-        return this.clientesMapper.toDto(this.crudClientes.findAll());
+        return this.clienteMapper.toDto(this.crudClientes.findAll());
     }
 
     @Override
     public ClienteDto obtenerClientesPorCodigo(Long codigoCliente) {
-        return this.clientesMapper.toDto(this.crudClientes.findById(codigoCliente).orElse(null));
+        return this.clienteMapper.toDto(this.crudClientes.findById(codigoCliente).orElse(null));
     }
 
     @Override
@@ -37,13 +37,13 @@ public class ClienteEntityRepository implements ClienteRepository {
         ClienteEntity clientesEntity = new ClienteEntity();
 
         // Convertir de DTO a Entity usando Mapper
-        clientesEntity = this.clientesMapper.toEntity(clientesDto);
+        clientesEntity = this.clienteMapper.toEntity(clientesDto);
 
         // Guardar en la base de datos JPA
         this.crudClientes.save(clientesEntity);
 
         // Retornar el valor guardado como DTO
-        return this.clientesMapper.toDto(clientesEntity);
+        return this.clienteMapper.toDto(clientesEntity);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class ClienteEntityRepository implements ClienteRepository {
         ClienteEntity clientesEntity = this.crudClientes.findById(codigoCliente)
                 .orElseThrow(() -> new RuntimeException("El Cliente con código " + codigoCliente + " no existe"));
 
-        this.clientesMapper.updateEntityFromDto(modClientesDto, clientesEntity);
-        return this.clientesMapper.toDto(this.crudClientes.save(clientesEntity));
+        this.clienteMapper.updateEntityFromDto(modClientesDto, clientesEntity);
+        return this.clienteMapper.toDto(this.crudClientes.save(clientesEntity));
     }
 
     @Override

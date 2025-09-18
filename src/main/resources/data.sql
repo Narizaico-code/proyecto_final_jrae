@@ -54,3 +54,16 @@ VALUES ('Proveedor Cuatro', '55510004', 'proveedor4@example.com', 'Calle 4 #404'
 
 INSERT IGNORE INTO Proveedores (nombre, numero, correo, direccion)
 VALUES ('Proveedor Cinco', '55510005', 'proveedor5@example.com', 'Calle 5 #505');
+
+INSERT IGNORE INTO Empleados
+(nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
+VALUES
+('Carlos', 'García', 28, TRUE, 3500.50, '2022-03-15', 'carlos.garcia@example.com', '55889977', 'Lavador', 1),
+
+('María', 'López', 32, TRUE, 4200.75, '2021-06-10', 'maria.lopez@example.com', '55776655', 'Recepcionista', 1),
+
+('Pedro', 'Martínez', 25, FALSE, 3100.00, '2023-01-05', 'pedro.martinez@example.com', '55667788', 'Lavador', 2),
+
+('Ana', 'Hernández', 29, TRUE, 4800.20, '2020-11-20', 'ana.hernandez@example.com', '55443322', 'Supervisora', 2),
+
+('Luis', 'Ramírez', 35, TRUE, 5200.00, '2019-09-12', 'luis.ramirez@example.com', '55998877', 'Encargado', 3);
