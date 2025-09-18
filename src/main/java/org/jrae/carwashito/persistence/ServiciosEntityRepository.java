@@ -4,9 +4,11 @@ import org.jrae.carwashito.dominio.dto.ServiciosDto;
 import org.jrae.carwashito.dominio.repository.ServiciosRepository;
 import org.jrae.carwashito.persistence.crud.CrudServiciosEntity;
 import org.jrae.carwashito.web.mapper.ServiciosMapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class ServiciosEntityRepository implements ServiciosRepository {
     private final CrudServiciosEntity crudServicios;
     private final ServiciosMapper serviciosMapper;

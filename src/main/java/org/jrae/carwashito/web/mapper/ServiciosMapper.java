@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-// @Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface ServiciosMapper {
     @Mapping(source = "nombre", target = "name")
     @Mapping(source = "descripcion", target = "description")

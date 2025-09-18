@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 public record ServiciosDto(
         long codigo,
-        String nombre,
-        String descripcion,
-        BigDecimal precio
+        String name,
+        String description,
+        BigDecimal price
 ) {
 }
