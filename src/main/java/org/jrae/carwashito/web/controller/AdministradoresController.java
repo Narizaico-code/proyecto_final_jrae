@@ -67,6 +67,6 @@ public class AdministradoresController {
     @DeleteMapping("{codigo}")
     public ResponseEntity<AdministradoresDto> eliminarPelicula(@PathVariable Long codigo) {
         administradoresService.eliminarAdministradores(codigo);
-        return ResponseEntity.noContent().build(); // 204 No Content
+        return ResponseEntity.noContent().build();
     }
 }

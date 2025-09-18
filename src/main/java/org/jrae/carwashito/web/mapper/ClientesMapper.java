@@ -31,5 +31,4 @@ public interface ClientesMapper {
     ClientesEntity toEntity(ClientesDto dto);
     void updateEntityFromDto(ModClientesDto modClientesDto, @MappingTarget ClientesEntity entity);
 
-    void modificarEntityFromDto(ModClientesDto modClientesDto, ClientesEntity clientesEntity);
 }
