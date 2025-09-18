@@ -54,3 +54,19 @@ VALUES ('Proveedor Cuatro', '55510004', 'proveedor4@example.com', 'Calle 4 #404'
 
 INSERT IGNORE INTO Proveedores (nombre, numero, correo, direccion)
 VALUES ('Proveedor Cinco', '55510005', 'proveedor5@example.com', 'Calle 5 #505');
+
+-- Inventarios
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (150.00, 'Shampoo Automotriz', '2025-12-31', 50, 1, 1);
+
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (80.00, 'Cera Líquida', '2026-06-15', 30, 2, 2);
+
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (60.00, 'Paño Microfibra', NULL, 100, 3, 3);
+
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (200.00, 'Desinfectante', '2025-09-10', 25, 4, 4);
+
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (120.00, 'Limpiador de Vidrios', '2026-01-20', 40, 5, 5);

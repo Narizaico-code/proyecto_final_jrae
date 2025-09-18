@@ -30,7 +30,7 @@ public class ProveedorController {
         return ResponseEntity.ok(this.proveedorService.obtenerTodo());
     }
 
-    @GetMapping("{codigoProveedor}")
+    @GetMapping("{codigo}")
     @Operation(
             summary = "Obtener un proveedor a partir de su identificador",
             description = "Retorna el proveedor que coincida con el identificador enviado",
@@ -51,12 +51,12 @@ public class ProveedorController {
     }
 
 
-    @PutMapping("{codigoProveedor}")
+    @PutMapping("{codigo}")
     public ResponseEntity<ProveedorDto> modificarProveedor(@PathVariable Long codigo, @RequestBody @Valid ModProveedorDto modProveedorDto){
         return ResponseEntity.ok(this.proveedorService.modificarProveedor(codigo, modProveedorDto));
     }
 
-    @DeleteMapping("{codigoProveedor}")
+    @DeleteMapping("{codigo}")
     public ResponseEntity<ProveedorDto> eliminarProveedor(@PathVariable Long codigo){
         this.proveedorService.eliminarProveedor(codigo);
         return ResponseEntity.ok().build();
