@@ -29,6 +29,7 @@ public interface ClientesMapper {
     @Mapping(source = "phoneNumber", target = "telefono")
     @Mapping(source = "address", target = "direccion")
     ClientesEntity toEntity(ClientesDto dto);
-    void modificarEntityFromDto(ModClientesDto modClientesDto, @MappingTarget ClientesEntity clientesEntity);
+    void updateEntityFromDto(ModClientesDto modClientesDto, @MappingTarget ClientesEntity entity);
 
+    void modificarEntityFromDto(ModClientesDto modClientesDto, ClientesEntity clientesEntity);
 }

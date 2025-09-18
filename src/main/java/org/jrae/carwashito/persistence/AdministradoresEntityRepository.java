@@ -2,9 +2,11 @@ package org.jrae.carwashito.persistence;
 
 import org.jrae.carwashito.dominio.dto.AdministradoresDto;
 import org.jrae.carwashito.dominio.dto.ModAdministradoresDto;
+import org.jrae.carwashito.dominio.dto.PrecioVehiculoDto;
 import org.jrae.carwashito.dominio.repository.AdministradoresRepository;
 import org.jrae.carwashito.persistence.crud.CrudAdministradoresEntity;
 import org.jrae.carwashito.persistence.entity.AdministradoresEntity;
+import org.jrae.carwashito.persistence.entity.PrecioVehiculo;
 import org.jrae.carwashito.web.mapper.AdministradoresMapper;
 import org.springframework.stereotype.Repository;
 
@@ -50,15 +52,13 @@ public class AdministradoresEntityRepository implements AdministradoresRepositor
 
     @Override
     public AdministradoresDto modificarAdministradores(Long codigo, ModAdministradoresDto modAdministradoresDto) {
-        AdministradoresEntity administradoresEntity = crudAdministradores.findById(codigo).orElse(null);
+        AdministradoresEntity administradoresEntity = this.crudAdministradores.findById(codigo)
+                .orElseThrow(() -> new RuntimeException("El administrador con código " + codigo + " no existe"));
 
-        if (administradoresEntity == null) {
-            return null;
-        }
-
-        administradoresMapper.modificarEntityFromDto(modAdministradoresDto, administradoresEntity);
-        return administradoresMapper.toDto(crudAdministradores.save(administradoresEntity));
+        this.administradoresMapper.updateEntityFromDto(modAdministradoresDto, administradoresEntity);
+        return this.administradoresMapper.toDto(this.crudAdministradores.save(administradoresEntity));
     }
+
 
     @Override
     public void eliminarAdministradores(Long codigo){

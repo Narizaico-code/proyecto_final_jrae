@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.jrae.carwashito.dominio.dto.AdministradoresDto;
 import org.jrae.carwashito.dominio.dto.ModAdministradoresDto;
+import org.jrae.carwashito.dominio.dto.PrecioVehiculoDto;
 import org.jrae.carwashito.dominio.service.AdministradoresService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,20 +52,15 @@ public class AdministradoresController {
     @PostMapping
     public ResponseEntity<AdministradoresDto>guardarAdministradores
     (@RequestBody AdministradoresDto administradoresDto){
-        // return this.peliculaService.guardarPelicula(peliculaDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.administradoresService.guardarAdministradores(administradoresDto));
     }
 
-    // Modificar película
+    // Modificar Administrador
     @PutMapping("{codigo}")
     public ResponseEntity<AdministradoresDto> modificarAdministradores
-    (@PathVariable Long codigo, @Valid @RequestBody ModAdministradoresDto modAdministradoresDto){
-        // Llamamos al servicio para modificar
-        AdministradoresDto adminActualizado = administradoresService.modificarAdministradores(codigo, modAdministradoresDto);
-
-        // Retornamos la respuesta con 200 OK y el DTO actualizado
-        return ResponseEntity.ok(adminActualizado);
+    (@PathVariable Long codigo, @RequestBody @Valid ModAdministradoresDto modAdministradoresDto){
+        return ResponseEntity.ok(this.administradoresService.modificarAdministradores(codigo, modAdministradoresDto));
     }
 
     // Eliminar película

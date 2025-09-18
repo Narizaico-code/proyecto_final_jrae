@@ -56,12 +56,8 @@ public class ClientesController {
     // Modificar Cliente
     @PutMapping("{codigo}")
     public ResponseEntity<ClientesDto> modificarClientes
-    (@PathVariable Long codigo, @Valid @RequestBody ModClientesDto modClientesDto){
-        // Llamamos al servicio para modificar
-        ClientesDto adminActualizado = clientesService.modificarClientes(codigo, modClientesDto);
-
-        // Retornamos la respuesta con 200 OK y el DTO actualizado
-        return ResponseEntity.ok(adminActualizado);
+    (@PathVariable Long codigo, @RequestBody @Valid ModClientesDto modClientesDto){
+        return ResponseEntity.ok(this.clientesService.modificarClientes(codigo, modClientesDto));
     }
 
     // Eliminar Clientes

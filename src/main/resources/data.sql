@@ -22,6 +22,7 @@ VALUES ('Ana', 'Martínez', 'Anita', 'ana.martinez@example.com', '87654321', 'Ca
 
 INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
 VALUES ('Luis', 'Fernández', 'Lucho', 'luis.fernandez@example.com', '11223344', 'Bulevar Principal 67');
+
 -- precio_vehiculos
 INSERT INTO precio_vehiculos (tipo_vehiculo, valor) VALUES
 ('Automóvil', 50.00),
@@ -30,11 +31,7 @@ INSERT INTO precio_vehiculos (tipo_vehiculo, valor) VALUES
 ('Microbús', 90.00),
 ('Camión', 120.00);
 
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('María', 'Pérez', 'Mari', 'maria.perez@example.com', '44332211', 'Calle del Sol 89');
 
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('José', 'Ramírez', 'Pepe', 'jose.ramirez@example.com', '55667788', 'Av. Las Flores 101');
 -- Servicios
 INSERT INTO servicios (nombre, descripcion, precio) VALUES
 ('Lavado Básico', 'Incluye lavado exterior con agua a presión y jabón especial para automóviles.', 40.00),

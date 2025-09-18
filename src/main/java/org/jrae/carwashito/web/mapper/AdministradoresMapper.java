@@ -26,5 +26,7 @@ public interface AdministradoresMapper {
     @Mapping( source = "email", target = "correo")
     @Mapping( source = "phoneNumber", target = "telefono")
     AdministradoresEntity toEntity(AdministradoresDto dto);
-    void modificarEntityFromDto(ModAdministradoresDto modAdministradoresDto, @MappingTarget AdministradoresEntity administradoresEntity);
+    void updateEntityFromDto(ModAdministradoresDto modAdministradoresDto, @MappingTarget AdministradoresEntity entity);
+
+    //void modificarEntityFromDto(ModAdministradoresDto modAdministradoresDto, @MappingTarget AdministradoresEntity administradoresEntity);
 }

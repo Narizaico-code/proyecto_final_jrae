@@ -48,14 +48,11 @@ public class ClientesEntityRepository implements ClientesRepository {
 
     @Override
     public ClientesDto modificarClientes(Long codigo, ModClientesDto modClientesDto) {
-        ClientesEntity clientesEntity = crudClientes.findById(codigo).orElse(null);
+        ClientesEntity clientesEntity = this.crudClientes.findById(codigo)
+                .orElseThrow(() -> new RuntimeException("El Cliente con código " + codigo + " no existe"));
 
-        if (clientesEntity == null) {
-            return null;
-        }
-
-        clientesMapper.modificarEntityFromDto(modClientesDto, clientesEntity);
-        return clientesMapper.toDto(crudClientes.save(clientesEntity));
+        this.clientesMapper.updateEntityFromDto(modClientesDto, clientesEntity);
+        return this.clientesMapper.toDto(this.crudClientes.save(clientesEntity));
     }
 
     @Override
