@@ -18,6 +18,8 @@ public class ClienteEntity {
     private String apodo;
     @Column(length = 100, unique = true, nullable = false)
     private String correo;
+    @Column(nullable = false)
+    private String contrasena;
     @Column(length = 8, nullable = false)
     private String telefono;
     @Column(length = 150, unique = true, nullable = false)

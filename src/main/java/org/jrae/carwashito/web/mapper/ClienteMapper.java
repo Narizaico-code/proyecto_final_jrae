@@ -17,6 +17,7 @@ public interface ClienteMapper {
     @Mapping(source = "apellido", target = "lastName")
     @Mapping(source = "apodo", target = "nickname")
     @Mapping(source = "correo", target = "email")
+    @Mapping(source = "contrasena", target = "password")
     @Mapping(source = "telefono", target = "phoneNumber")
     @Mapping(source = "direccion", target = "address")
 
@@ -25,12 +26,6 @@ public interface ClienteMapper {
 
     @InheritInverseConfiguration
     ClienteEntity toEntity(ClienteDto dto);
-    @Mapping(source = "name", target = "nombre")
-    @Mapping(source = "lastName", target = "apellido")
-    @Mapping(source = "nickname", target = "apodo")
-    @Mapping(source = "email", target = "correo")
-    @Mapping(source = "phoneNumber", target = "telefono")
-    @Mapping(source = "address", target = "direccion")
     void updateEntityFromDto(ModClienteDto modClientesDto, @MappingTarget ClienteEntity entity);
 
 }

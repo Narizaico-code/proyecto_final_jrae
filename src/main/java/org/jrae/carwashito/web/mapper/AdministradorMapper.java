@@ -17,6 +17,7 @@ public interface AdministradorMapper {
     @Mapping(source = "nombre", target = "name")
     @Mapping(source = "apellido", target = "lastName")
     @Mapping(source = "correo", target = "email")
+    @Mapping(source = "contrasena", target = "password")
     @Mapping(source = "telefono", target = "phoneNumber")
 
     public AdministradorDto toDto(AdministradorEntity entity);
@@ -24,10 +25,6 @@ public interface AdministradorMapper {
 
     @InheritInverseConfiguration
     AdministradorEntity toEntity(AdministradorDto dto);
-    @Mapping( source = "name", target = "nombre")
-    @Mapping( source = "lastName", target = "apellido")
-    @Mapping( source = "email", target = "correo")
-    @Mapping( source = "phoneNumber", target = "telefono")
     void updateEntityFromDto(ModAdministradorDto modAdministradorDto, @MappingTarget AdministradorEntity entity);
 
     //void modificarEntityFromDto(ModAdministradorDto modAdministradoresDto, @MappingTarget AdministradorEntity administradoresEntity);
