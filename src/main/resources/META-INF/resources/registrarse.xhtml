@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h = "http://xmlns.jcp.org/jsf/html"
+        xmlns:f = "http://xmlns.jcp.org/jsf/core"
+        xmlns:p = "http://primefaces.org/ui">
+    <h:head>
+        <title>Registrarse</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+
+        <style>
+            .fondo-color-personalizado {
+                background-color: rgba(100, 149, 237, 0.4);
+                backdrop-filter: blur(8px);
+            }
+        </style>
+    </h:head>
+
+    <h:body style="background-color: rgba(100, 149, 237, 0.4)">
+        <h:form>
+            <div class="border-round-xl border-1 surface-card p-4 flex justify-content-center w-7 mx-auto"
+                      style="background-color: #ff000080 !important; backdrop-filter: blur(8px);">
+                <p>Registrese ahora</p>
+            </div>
+
+            <div class="border-round-xl border-1 surface-card bg-transparent p-4 flex justify-content-center w-5 mx-auto mt-4">
+                <div class="flex flex-column gap-3">
+                    <div class="field">
+                        <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                        <p:inputText id="nombre" required="true"
+                                     value="#{registrarseController.clienteSeleccionado.nombre}"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="apellido">Apellido</p:outputLabel>
+                        <p:inputText id="apellido" required="true"
+                                     value="#{registrarseController.clienteSeleccionado.apellido}"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="apodo">Apodo</p:outputLabel>
+                        <p:inputText id="apodo" required="true"
+                                     value="#{registrarseController.clienteSeleccionado.apellido}"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="correo">Correo</p:outputLabel>
+                        <p:inputText id="correo" required="true"
+                                     value="#{registrarseController.clienteSeleccionado.correo}"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="telefono">Telfono</p:outputLabel>
+                        <p:inputText id="telefono" required="true"
+                                     value="#{registrarseController.clienteSeleccionado.telefono}"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="direccion">Direccion</p:outputLabel>
+                        <p:inputText id="direccion" required="true"
+                                     value="#{registrarseController.clienteSeleccionado.direccion}"/>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+</h:html>
