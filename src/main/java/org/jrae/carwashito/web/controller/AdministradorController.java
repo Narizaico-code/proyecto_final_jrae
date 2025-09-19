@@ -27,6 +27,7 @@ public class AdministradorController {
     }
 
     @GetMapping
+    @Operation(description = "Retorna los Administrador ")
     public ResponseEntity<List<AdministradorDto>> obtenerTodo(){
         return ResponseEntity.ok(this.administradorService.obtenerTodo());
     }
@@ -48,21 +49,24 @@ public class AdministradorController {
 
     // Guardar película
     @PostMapping
+    @Operation(description = "Guarda los Administrador ")
     public ResponseEntity<AdministradorDto>guardarAdministradores
-    (@RequestBody AdministradorDto administradoresDto){
+    (@RequestBody @Valid AdministradorDto administradoresDto){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.administradorService.guardarAdministradores(administradoresDto));
     }
 
     // Modificar Administrador
     @PutMapping("{codigo}")
+    @Operation(description = "Edita los Administrador ")
     public ResponseEntity<AdministradorDto> modificarAdministradores
-    (@PathVariable Long codigo, @RequestBody ModAdministradorDto modAdministradoresDto){
+    (@PathVariable Long codigo, @RequestBody @Valid ModAdministradorDto modAdministradoresDto){
         return ResponseEntity.ok(this.administradorService.modificarAdministradores(codigo, modAdministradoresDto));
     }
 
     // Eliminar película
     @DeleteMapping("{codigo}")
+    @Operation(description = "Elimina los Administrador ")
     public ResponseEntity<AdministradorDto> eliminarAdministrador(@PathVariable Long codigo) {
         administradorService.eliminarAdministradores(codigo);
         return ResponseEntity.noContent().build();

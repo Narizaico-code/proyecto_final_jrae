@@ -1,7 +1,10 @@
 package org.jrae.carwashito.persistence;
 
+import org.hibernate.ObjectNotFoundException;
 import org.jrae.carwashito.dominio.dto.AdministradorDto;
 import org.jrae.carwashito.dominio.dto.ModAdministradorDto;
+import org.jrae.carwashito.dominio.exception.AdministradorNoExisteException;
+import org.jrae.carwashito.dominio.exception.PrecioYaExisteException;
 import org.jrae.carwashito.dominio.repository.AdministradorRepository;
 import org.jrae.carwashito.persistence.crud.CrudAdministradorEntity;
 import org.jrae.carwashito.persistence.entity.AdministradorEntity;
@@ -29,32 +32,39 @@ public class AdministradorEntityRepository implements AdministradorRepository {
 
     @Override
     public AdministradorDto obtenerAdministradoresPorCodigo(Long codigoAdministrador) {
-        return this.administradorMapper.toDto(this.crudAdministrador.findById(codigoAdministrador).orElse(null));
-
+        AdministradorEntity administrador = this.crudAdministrador.findById(codigoAdministrador).orElse(null);
+        if (administrador == null) {
+            throw new AdministradorNoExisteException(codigoAdministrador);
+        }else {
+            return this.administradorMapper.toDto(administrador);
+        }
     }
 
     @Override
     public AdministradorDto guardarAdministradores(AdministradorDto administradoresDto) {
+        if (this.crudAdministrador.findFirstByNombre(administradoresDto.name()) != null) {
+            throw new PrecioYaExisteException(administradoresDto.name());
+        }
         // Instanciar clase de entidad
-        AdministradorEntity administradoresEntity = new AdministradorEntity();
-
-        // Convertir de DTO a Entity usando Mapper
-        administradoresEntity = this.administradorMapper.toEntity(administradoresDto);
+        AdministradorEntity administrador = this.administradorMapper.toEntity(administradoresDto);
 
         // Guardar en la base de datos JPA
-        this.crudAdministrador.save(administradoresEntity);
+        this.crudAdministrador.save(administrador);
 
         // Retornar el valor guardado como DTO
-        return this.administradorMapper.toDto(administradoresEntity);
+        return this.administradorMapper.toDto(administrador);
     }
 
     @Override
     public AdministradorDto modificarAdministradores(Long codigoAdministrador, ModAdministradorDto modAdministradoresDto) {
-        AdministradorEntity administradoresEntity = crudAdministrador.findById(codigoAdministrador)
-                .orElseThrow(() -> new RuntimeException("El administrador con código " + codigoAdministrador + " no existe"));
+        AdministradorEntity administradoresEntity = crudAdministrador.findById(codigoAdministrador).orElse(null);
 
-        administradorMapper.updateEntityFromDto(modAdministradoresDto, administradoresEntity);
-        return this.administradorMapper.toDto(this.crudAdministrador.save(administradoresEntity));
+        if (administradoresEntity == null) {
+            throw new AdministradorNoExisteException(codigoAdministrador);
+        }else {
+            this.administradorMapper.updateEntityFromDto(modAdministradoresDto, administradoresEntity);
+            return this.administradorMapper.toDto(this.crudAdministrador.save(administradoresEntity));
+        }
     }
 
 
@@ -62,8 +72,10 @@ public class AdministradorEntityRepository implements AdministradorRepository {
     public void eliminarAdministradores(Long codigoAdministrador){
         AdministradorEntity administrador = this.crudAdministrador.findById(codigoAdministrador).orElse(null);
 
-        if (administrador != null) {
-            this.crudAdministrador.deleteById(codigoAdministrador); // eliminar si existe
+        if (administrador == null) {
+             throw new AdministradorNoExisteException(codigoAdministrador);
+        }else{
+            this.crudAdministrador.deleteById(codigoAdministrador);
         }
 
     }

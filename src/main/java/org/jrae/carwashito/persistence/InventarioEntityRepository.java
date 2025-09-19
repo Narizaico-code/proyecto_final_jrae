@@ -2,6 +2,8 @@ package org.jrae.carwashito.persistence;
 
 import org.jrae.carwashito.dominio.dto.ModInventarioDto;
 import org.jrae.carwashito.dominio.dto.InventarioDto;
+import org.jrae.carwashito.dominio.exception.InventarioNoExisteException;
+import org.jrae.carwashito.dominio.exception.InventarioYaExisteException;
 import org.jrae.carwashito.dominio.repository.InventarioRepository;
 import org.jrae.carwashito.persistence.crud.CrudInventarioEntity;
 import org.jrae.carwashito.persistence.entity.InventarioEntity;
@@ -28,11 +30,18 @@ public class InventarioEntityRepository implements InventarioRepository {
     @Override
     public InventarioDto obtenerInventarioPorCodigo(Long codigo) {
         InventarioEntity inventario = this.crudInventario.findById(codigo).orElse(null);
+        if (inventario == null) {
+            throw new InventarioNoExisteException(codigo);
+        }else{
         return this.inventarioMapper.toDto(inventario);
+        }
     }
 
     @Override
     public InventarioDto guardarInventario(InventarioDto inventarioDto) {
+        if (this.crudInventario.findFirstByNombre(inventarioDto.name()) != null) {
+            throw new InventarioYaExisteException(inventarioDto.name());
+        }
         InventarioEntity inventario = this.inventarioMapper.toEntity(inventarioDto);
         this.crudInventario.save(inventario);
         return this.inventarioMapper.toDto(inventario);
@@ -41,12 +50,22 @@ public class InventarioEntityRepository implements InventarioRepository {
     @Override
     public InventarioDto modificarInventario(Long id, ModInventarioDto modInventarioDto) {
         InventarioEntity inventario = this.crudInventario.findById(id).orElse(null);
-        this.inventarioMapper.modificarEntityFromDto(modInventarioDto, inventario);
-        return this.inventarioMapper.toDto(this.crudInventario.save(inventario));
+        if (inventario == null) {
+            throw new InventarioNoExisteException(id);
+        }else{
+            this.inventarioMapper.modificarEntityFromDto(modInventarioDto, inventario);
+            return this.inventarioMapper.toDto(this.crudInventario.save(inventario));
+        }
+
     }
 
     @Override
     public void eliminarInventario(Long id) {
-        this.crudInventario.deleteById(id);
+        InventarioEntity inventario = this.crudInventario.findById(id).orElse(null);
+        if (inventario == null) {
+            throw new InventarioNoExisteException(id);
+        }else{
+            this.crudInventario.deleteById(id);
+        }
     }
 }

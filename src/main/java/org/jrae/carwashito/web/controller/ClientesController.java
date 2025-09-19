@@ -26,6 +26,7 @@ public class ClientesController {
     }
 
     @GetMapping
+    @Operation(description = "Retorna los clientes ")
     public ResponseEntity<List<ClienteDto>> obtenerTodo(){
         return ResponseEntity.ok(this.clientesService.obtenerTodo());
     }
@@ -47,14 +48,16 @@ public class ClientesController {
 
     // Guardar Cliente
     @PostMapping
+    @Operation(description = "Guarda los clientes ")
     public ResponseEntity<ClienteDto>guardarClientes
-    (@RequestBody ClienteDto clientesDto){
+    (@RequestBody @Valid ClienteDto clientesDto){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.clientesService.guardarClientes(clientesDto));
     }
 
     // Modificar Cliente
     @PutMapping("{codigo}")
+    @Operation(description = "Modifica los clientes ")
     public ResponseEntity<ClienteDto> modificarClientes
     (@PathVariable Long codigo, @RequestBody @Valid ModClienteDto modClientesDto){
         return ResponseEntity.ok(this.clientesService.modificarClientes(codigo, modClientesDto));
@@ -62,6 +65,7 @@ public class ClientesController {
 
     // Eliminar Clientes
     @DeleteMapping("{codigo}")
+    @Operation(description = "Elimina los clientes ")
     public ResponseEntity<ClienteDto> eliminarClientes(@PathVariable Long codigo) {
         clientesService.eliminarClientes(codigo);
         return ResponseEntity.noContent().build();

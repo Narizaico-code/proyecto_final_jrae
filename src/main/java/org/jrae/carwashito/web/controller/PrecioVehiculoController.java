@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/precioVehiculo")
-@Tag(name = "PrecioVehiculo", description = "Operaciones (CRUD) sobre los precios por vehiculo de CarWashito")
+@Tag(name = "PrecioVehiculo", description = "Operaciones (CRUD) sobre los precios de vehiculos de CarWashito")
 public class PrecioVehiculoController {
     private final PrecioVehiculoService precioVehiculoService;
 
@@ -29,6 +29,7 @@ public class PrecioVehiculoController {
 
     // ---- OBTENER TODOS ----
     @GetMapping
+    @Operation(description = "Retorna los PrecioVehiculos ")
     public ResponseEntity<List<PrecioVehiculoDto>> obtenerTodos(){
         return ResponseEntity.ok(this.precioVehiculoService.obtenerTodos());
     }
@@ -51,6 +52,7 @@ public class PrecioVehiculoController {
 
     // ---- GUARDAR ----
     @PostMapping
+    @Operation(description = "Guarda los PrecioVehiculos ")
     public ResponseEntity<PrecioVehiculoDto> guardarPrecioVehiculo
             (@RequestBody @Valid PrecioVehiculoDto precioVehiculoDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.precioVehiculoService.guardarPrecioVehiculo(precioVehiculoDto));
@@ -58,6 +60,7 @@ public class PrecioVehiculoController {
 
     // ---- MODIFICAR ----
     @PutMapping("{codigo}")
+    @Operation(description = "Modifica los PrecioVehiculos ")
     public ResponseEntity<PrecioVehiculoDto> modificarPrecioVehiculo
     (@PathVariable Long codigo, @RequestBody @Valid PrecioVehiculoDto precioVehiculoDto){
         return ResponseEntity.ok(this.precioVehiculoService.actualizarPrecioVehiculo(codigo, precioVehiculoDto));
@@ -65,6 +68,7 @@ public class PrecioVehiculoController {
 
     // ---- ELIMINAR ----
     @DeleteMapping("{codigo}")
+    @Operation(description = "Elimina los PrecioVehiculos ")
     public ResponseEntity<PrecioVehiculoDto> eliminarPrecioVehiculo
     (@PathVariable Long codigo){
         this.precioVehiculoService.eliminarPrecioVehiculo(codigo);

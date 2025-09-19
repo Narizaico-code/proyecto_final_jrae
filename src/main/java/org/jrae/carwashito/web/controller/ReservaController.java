@@ -26,6 +26,7 @@ public class ReservaController {
 
     // ---- OBTENER TODOS ----
     @GetMapping
+    @Operation(description = "Retorna los Reservas ")
     public ResponseEntity<List<ReservaDto>> obtenerTodo(){
         return ResponseEntity.ok(this.reservaService.obtenerTodo());
     }
@@ -49,6 +50,7 @@ public class ReservaController {
 
     // ---- GUARDAR ----
     @PostMapping
+    @Operation(description = "Guarda los Reservas ")
     public ResponseEntity<ReservaDto> guardarReserva
     (@RequestBody @Valid ReservaDto reservaDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.reservaService.guardarReserva(reservaDto));
@@ -56,6 +58,7 @@ public class ReservaController {
 
     // ---- MODIFICAR ----
     @PutMapping("{codigo}")
+    @Operation(description = "Modifica los Reservas ")
     public ResponseEntity<ReservaDto> modificarReserva
     (@PathVariable Long codigo, @RequestBody @Valid ReservaDto reservaDto)
     {
@@ -64,6 +67,7 @@ public class ReservaController {
 
     // ---- ELIMINAR ----
     @DeleteMapping("{codigo}")
+    @Operation(description = "Elimina los Reservas ")
     public ResponseEntity<ReservaDto> eliminarReserva
     (@PathVariable Long codigo)
     {
