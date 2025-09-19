@@ -21,15 +21,10 @@ public class ProveedorEntityRepository implements ProveedorRepository {
         this.proveedorMapper = proveedorMapper;
     }
 
-
-
-
     @Override
     public List<ProveedorDto> obtenerTodo() {
         return this.proveedorMapper.toDto(this.crudProveedor.findAll());
     }
-
-
 
 
     @Override
@@ -37,8 +32,6 @@ public class ProveedorEntityRepository implements ProveedorRepository {
         ProveedorEntity proveedor = this.crudProveedor.findById(codigo).orElse(null);
         return this.proveedorMapper.toDto(proveedor);
     }
-
-
 
     @Override
     public ProveedorDto guardarProveedor(ProveedorDto proveedorDto) {

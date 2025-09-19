@@ -67,3 +67,20 @@ VALUES
 ('Ana', 'Hernández', 29, TRUE, 4800.20, '2020-11-20', 'ana.hernandez@example.com', '55443322', 'Supervisora', 2),
 
 ('Luis', 'Ramírez', 35, TRUE, 5200.00, '2019-09-12', 'luis.ramirez@example.com', '55998877', 'Encargado', 3);
+
+
+-- Inventarios
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (150.00, 'Shampoo Automotriz', '2025-12-31', 50, 1, 1);
+
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (80.00, 'Cera Líquida', '2026-06-15', 30, 2, 2);
+
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (60.00, 'Paño Microfibra', NULL, 100, 3, 3);
+
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (200.00, 'Desinfectante', '2025-09-10', 25, 4, 4);
+
+INSERT INTO Inventarios (costo, nombre, fecha_caducidad, stock, codigo_administrador, codigo_proveedor)
+VALUES (120.00, 'Limpiador de Vidrios', '2026-01-20', 40, 5, 5);
