@@ -23,7 +23,23 @@ VALUES ('Ana', 'Martínez', 'Anita', 'ana.martinez@example.com', '87654321', 'Ca
 INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
 VALUES ('Luis', 'Fernández', 'Lucho', 'luis.fernandez@example.com', '11223344', 'Bulevar Principal 67');
 
--- precio_vehiculos
+-- Clientes adicionales
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
+VALUES ('Patricia', 'Silva', 'Paty', 'patricia.silva@example.com', '22334455', 'Av. Los Pinos 89');
+
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
+VALUES ('Roberto', 'Vega', 'Rober', 'roberto.vega@example.com', '33445566', 'Calle Norte 234');
+
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
+VALUES ('Elena', 'Castro', 'Ele', 'elena.castro@example.com', '44556677', 'Av. Sur 156');
+
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
+VALUES ('Miguel', 'Ruiz', 'Migue', 'miguel.ruiz@example.com', '55667788', 'Calle Este 78');
+
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
+VALUES ('Sofía', 'Morales', 'Sofi', 'sofia.morales@example.com', '66778899', 'Bulevar Oeste 321');
+
+-- PrecioVehiculos (manteniendo los existentes)
 INSERT IGNORE INTO precio_vehiculos (tipo_vehiculo, valor) VALUES
 ('Automóvil', 50.00),
 ('Motocicleta', 30.00),
@@ -31,8 +47,13 @@ INSERT IGNORE INTO precio_vehiculos (tipo_vehiculo, valor) VALUES
 ('Microbús', 90.00),
 ('Camión', 120.00);
 
+-- PrecioVehiculos adicionales
+INSERT IGNORE INTO precio_vehiculos (tipo_vehiculo, valor) VALUES
+('SUV', 85.00),
+('Pickup', 75.00),
+('Furgoneta', 95.00);
 
--- Servicios
+-- Servicios (manteniendo los existentes)
 INSERT IGNORE INTO servicios (nombre, descripcion, precio) VALUES
 ('Lavado Básico', 'Incluye lavado exterior con agua a presión y jabón especial para automóviles.', 40.00),
 ('Lavado Completo', 'Lavado interior y exterior, aspirado, limpieza de vidrios y aplicación de cera.', 80.00),
@@ -40,6 +61,13 @@ INSERT IGNORE INTO servicios (nombre, descripcion, precio) VALUES
 ('Encerado', 'Aplicación de cera protectora para mejorar el brillo y proteger la pintura.', 60.00),
 ('Aspirado Interior', 'Aspirado de alfombras, asientos y área de maletero.', 30.00);
 
+-- Servicios adicionales
+INSERT IGNORE INTO servicios (nombre, descripcion, precio) VALUES
+('Limpieza de Motor', 'Limpieza profunda del compartimiento del motor con productos especializados.', 50.00),
+('Pulido de Faros', 'Restauración y pulido de faros opacos para mejorar la visibilidad.', 35.00),
+('Desinfección', 'Desinfección completa del interior del vehículo con productos antimicrobianos.', 25.00);
+
+-- Proveedores (manteniendo los existentes)
 INSERT IGNORE INTO Proveedores (nombre, numero, correo, direccion)
 VALUES ('Proveedor Uno', '55510001', 'proveedor1@example.com', 'Calle 1 #101');
 
@@ -54,6 +82,69 @@ VALUES ('Proveedor Cuatro', '55510004', 'proveedor4@example.com', 'Calle 4 #404'
 
 INSERT IGNORE INTO Proveedores (nombre, numero, correo, direccion)
 VALUES ('Proveedor Cinco', '55510005', 'proveedor5@example.com', 'Calle 5 #505');
+
+-- Proveedores adicionales
+INSERT IGNORE INTO Proveedores (nombre, numero, correo, direccion)
+VALUES ('Distribuidora Central', '55510006', 'central@distribuidora.com', 'Av. Industrial 789');
+
+INSERT IGNORE INTO Proveedores (nombre, numero, correo, direccion)
+VALUES ('Químicos del Norte', '55510007', 'ventas@quimicos.com', 'Zona Industrial 456');
+
+-- Empleados
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+VALUES ('Fernando', 'García', 28, true, 1200.00, '2023-01-15', 'fernando.garcia@carwash.com', '11111111', 'Lavador Senior', 1);
+
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+VALUES ('Carmen', 'López', 32, true, 1000.00, '2023-02-01', 'carmen.lopez@carwash.com', '22222222', 'Lavador', 1);
+
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+VALUES ('Diego', 'Moreno', 25, true, 900.00, '2023-03-10', 'diego.moreno@carwash.com', '33333333', 'Asistente', 2);
+
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+VALUES ('Isabella', 'Jiménez', 29, true, 1100.00, '2023-01-20', 'isabella.jimenez@carwash.com', '44444444', 'Lavador', 2);
+
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+VALUES ('Andrés', 'Torres', 35, false, 1300.00, '2022-11-05', 'andres.torres@carwash.com', '55555555', 'Supervisor', 3);
+
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+VALUES ('Valentina', 'Restrepo', 26, true, 950.00, '2023-04-12', 'valentina.restrepo@carwash.com', '66666666', 'Lavador', 3);
+
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+VALUES ('Sebastián', 'Vargas', 31, true, 1050.00, '2023-02-18', 'sebastian.vargas@carwash.com', '77777777', 'Lavador', 4);
+
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+VALUES ('Camila', 'Herrera', 24, true, 850.00, '2023-05-01', 'camila.herrera@carwash.com', '88888888', 'Asistente', 4);
+
+-- Reservas
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (1, 1, 1, 'Efectivo', '2024-01-15', 9, 'Lavado completo para automóvil sedan');
+
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (2, 2, 3, 'Tarjeta', '2024-01-16', 10, 'Servicio premium para camioneta');
+
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (3, 3, 2, 'Transferencia', '2024-01-17', 11, 'Lavado básico para motocicleta');
+
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (4, 4, 1, 'Efectivo', '2024-01-18', 14, 'Encerado y lavado exterior');
+
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (1, 5, 6, 'Tarjeta', '2024-01-19', 15, 'Lavado completo para SUV');
+
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (6, 6, 4, 'Efectivo', '2024-01-20', 8, 'Servicio básico para microbús');
+
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (7, 7, 7, 'Transferencia', '2024-01-21', 12, 'Lavado premium para pickup');
+
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (8, 8, 5, 'Tarjeta', '2024-01-22', 13, 'Lavado exterior para camión');
+
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (2, 1, 8, 'Efectivo', '2024-01-23', 16, 'Servicio completo para furgoneta');
+
+INSERT IGNORE INTO Reservas (codigo_empleado, codigo_cliente, codigo_vehiculo, metodo_pago, fecha, hora, descripcion)
+VALUES (5, 3, 1, 'Tarjeta', '2024-01-24', 9, 'Lavado y aspirado interior');
 
 INSERT IGNORE INTO Empleados
 (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
