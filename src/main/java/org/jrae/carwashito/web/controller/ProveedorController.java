@@ -55,13 +55,13 @@ public class ProveedorController {
 
     @PutMapping("{codigo}")
     @Operation(description = "Modifica los Proveedor ")
-    public ResponseEntity<ProveedorDto> modificarProveedor(@PathVariable Long codigo, @RequestBody @Valid ModProveedorDto modProveedorDto){
+    public ResponseEntity<ProveedorDto> modificarProveedor(@Parameter(description = "Id del proveedor a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ModProveedorDto modProveedorDto){
         return ResponseEntity.ok(this.proveedorService.modificarProveedor(codigo, modProveedorDto));
     }
 
     @DeleteMapping("{codigo}")
     @Operation(description = "Elimina los Proveedor ")
-    public ResponseEntity<ProveedorDto> eliminarProveedor(@PathVariable Long codigo){
+    public ResponseEntity<ProveedorDto> eliminarProveedor(@Parameter(description = "Id del proveedor a eliminar", example = "1")@PathVariable Long codigo){
         this.proveedorService.eliminarProveedor(codigo);
         return ResponseEntity.ok().build();
     }

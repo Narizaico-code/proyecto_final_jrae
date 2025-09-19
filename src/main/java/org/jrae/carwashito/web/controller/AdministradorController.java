@@ -60,14 +60,14 @@ public class AdministradorController {
     @PutMapping("{codigo}")
     @Operation(description = "Edita los Administrador ")
     public ResponseEntity<AdministradorDto> modificarAdministradores
-    (@PathVariable Long codigo, @RequestBody @Valid ModAdministradorDto modAdministradoresDto){
+    (@Parameter(description = "Id del administrador a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ModAdministradorDto modAdministradoresDto){
         return ResponseEntity.ok(this.administradorService.modificarAdministradores(codigo, modAdministradoresDto));
     }
 
     // Eliminar película
     @DeleteMapping("{codigo}")
     @Operation(description = "Elimina los Administrador ")
-    public ResponseEntity<AdministradorDto> eliminarAdministrador(@PathVariable Long codigo) {
+    public ResponseEntity<AdministradorDto> eliminarAdministrador(@Parameter(description = "Id del administrador a eliminar", example = "1")@PathVariable Long codigo) {
         administradorService.eliminarAdministradores(codigo);
         return ResponseEntity.noContent().build();
     }

@@ -62,7 +62,7 @@ public class PrecioVehiculoController {
     @PutMapping("{codigo}")
     @Operation(description = "Modifica los PrecioVehiculos ")
     public ResponseEntity<PrecioVehiculoDto> modificarPrecioVehiculo
-    (@PathVariable Long codigo, @RequestBody @Valid PrecioVehiculoDto precioVehiculoDto){
+    (@Parameter(description = "Id del Precio Vehiculo a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid PrecioVehiculoDto precioVehiculoDto){
         return ResponseEntity.ok(this.precioVehiculoService.actualizarPrecioVehiculo(codigo, precioVehiculoDto));
     }
 
@@ -70,7 +70,7 @@ public class PrecioVehiculoController {
     @DeleteMapping("{codigo}")
     @Operation(description = "Elimina los PrecioVehiculos ")
     public ResponseEntity<PrecioVehiculoDto> eliminarPrecioVehiculo
-    (@PathVariable Long codigo){
+    (@Parameter(description = "Id del Precio Vehiculo a eliminar", example = "1")@PathVariable Long codigo){
         this.precioVehiculoService.eliminarPrecioVehiculo(codigo);
         return ResponseEntity.ok().build();
     }

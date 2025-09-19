@@ -59,14 +59,14 @@ public class EmpleadoController {
     @PutMapping("{codigo}")
     @Operation(description = "modifica los empleados ")
     public ResponseEntity<EmpleadoDto> modificarEmpleado
-    (@PathVariable Long codigo, @RequestBody @Valid ModEmpleadoDto modEmpleadoDto){
+    (@Parameter(description = "Id del empleado a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ModEmpleadoDto modEmpleadoDto){
         return ResponseEntity.ok(this.empleadosService.modificarEmpleado(codigo, modEmpleadoDto));
     }
 
     // Eliminar Empleado
     @DeleteMapping("{codigo}")
     @Operation(description = "elimina los empleados ")
-    public ResponseEntity<EmpleadoDto> eliminarEmpleado (@PathVariable Long codigo) {
+    public ResponseEntity<EmpleadoDto> eliminarEmpleado (@Parameter(description = "Id del empleado a eliminar", example = "1")@PathVariable Long codigo) {
         empleadosService.eliminarEmpleado(codigo);
         return ResponseEntity.noContent().build();
     }

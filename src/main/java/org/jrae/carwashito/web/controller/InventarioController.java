@@ -54,13 +54,13 @@ public class InventarioController {
 
     @PutMapping("{codigo}")
     @Operation(description = "modifica los invevntarios ")
-    public ResponseEntity<InventarioDto> modificarInventario(@PathVariable Long codigo, @RequestBody @Valid ModInventarioDto modInventarioDto){
+    public ResponseEntity<InventarioDto> modificarInventario(@Parameter(description = "Id del inventario a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ModInventarioDto modInventarioDto){
         return ResponseEntity.ok(this.inventarioService.modificarInventario(codigo, modInventarioDto));
     }
 
     @DeleteMapping("{codigo}")
     @Operation(description = "Elimina los inventarios ")
-    public ResponseEntity<Void> eliminarInventario(@PathVariable Long codigo){
+    public ResponseEntity<Void> eliminarInventario(@Parameter(description = "Id del inventario a eliminar", example = "1")@PathVariable Long codigo){
         this.inventarioService.eliminarInventario(codigo);
         return ResponseEntity.ok().build();
     }

@@ -60,7 +60,7 @@ public class ReservaController {
     @PutMapping("{codigo}")
     @Operation(description = "Modifica los Reservas ")
     public ResponseEntity<ReservaDto> modificarReserva
-    (@PathVariable Long codigo, @RequestBody @Valid ReservaDto reservaDto)
+    (@Parameter(description = "Id de la reserva a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ReservaDto reservaDto)
     {
         return ResponseEntity.ok(this.reservaService.modificarReserva(codigo, reservaDto));
     }
@@ -69,7 +69,7 @@ public class ReservaController {
     @DeleteMapping("{codigo}")
     @Operation(description = "Elimina los Reservas ")
     public ResponseEntity<ReservaDto> eliminarReserva
-    (@PathVariable Long codigo)
+    (@Parameter(description = "Id del reserva a eliminar", example = "1")@PathVariable Long codigo)
     {
         this.reservaService.eliminarReserva(codigo);
         return ResponseEntity.ok().build();
