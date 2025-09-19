@@ -22,11 +22,21 @@ public interface EmpleadoMapper {
     @Mapping(source = "correo", target = "email")
     @Mapping(source = "telefono", target = "phoneNumber")
     @Mapping(source = "cargo", target = "position")
+    @Mapping(source = "administrador.codigoAdministrador", target = "codigoAdministrador")
     public EmpleadoDto toDto(EmpleadoEntity entity);
     public List<EmpleadoDto> toDto(Iterable<EmpleadoEntity> entities);
 
     @InheritInverseConfiguration
     EmpleadoEntity toEntity(EmpleadoDto dto);
+    @Mapping(source = "name", target = "nombre")
+    @Mapping(source = "lastName", target = "apellido")
+    @Mapping(source = "age", target = "edad")
+    @Mapping(source = "availability", target = "disponibilidad")
+    @Mapping(source = "salary", target = "sueldo")
+    @Mapping(source = "hireDate", target = "fechaContratacion")
+    @Mapping(source = "email", target = "correo")
+    @Mapping(source = "phoneNumber", target = "telefono")
+    @Mapping(source = "position", target = "cargo")
     void updateEntityFromDto(ModEmpleadoDto modEmpleadoDto, @MappingTarget EmpleadoEntity entity);
 
 }

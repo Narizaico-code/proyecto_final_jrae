@@ -3,6 +3,7 @@ package org.jrae.carwashito.web.mapper;
 import org.jrae.carwashito.dominio.dto.ClienteDto;
 import org.jrae.carwashito.dominio.dto.ModClienteDto;
 import org.jrae.carwashito.persistence.entity.ClienteEntity;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -22,13 +23,14 @@ public interface ClienteMapper {
     public ClienteDto toDto(ClienteEntity entity);
     public List<ClienteDto> toDto(Iterable<ClienteEntity> entities);
 
+    @InheritInverseConfiguration
+    ClienteEntity toEntity(ClienteDto dto);
     @Mapping(source = "name", target = "nombre")
     @Mapping(source = "lastName", target = "apellido")
     @Mapping(source = "nickname", target = "apodo")
     @Mapping(source = "email", target = "correo")
     @Mapping(source = "phoneNumber", target = "telefono")
     @Mapping(source = "address", target = "direccion")
-    ClienteEntity toEntity(ClienteDto dto);
     void updateEntityFromDto(ModClienteDto modClientesDto, @MappingTarget ClienteEntity entity);
 
 }

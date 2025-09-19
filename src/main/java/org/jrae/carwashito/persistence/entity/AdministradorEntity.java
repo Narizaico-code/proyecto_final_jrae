@@ -9,7 +9,7 @@ import lombok.Data;
 public class AdministradorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long codigoAdministrador;
+    private Long codigoAdministrador;
     @Column(length = 150, unique = true, nullable = false)
     private String nombre;
     @Column(length = 150, unique = true, nullable = false)
@@ -18,4 +18,12 @@ public class AdministradorEntity {
     private String correo;
     @Column(length = 8, nullable = false)
     private String telefono;
+
+    // Constructor vacío necesario para JPA
+    public AdministradorEntity() {}
+
+    // Constructor que recibe solo el ID
+    public AdministradorEntity(Long codigoAdministrador) {
+        this.codigoAdministrador = codigoAdministrador;
+    }
 }

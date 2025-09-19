@@ -13,6 +13,7 @@ public record EmpleadoDto(
         LocalDate hireDate,
         String email,
         String phoneNumber,
-        String position
+        String position,
+        Long codigoAdministrador
 ) {
 }

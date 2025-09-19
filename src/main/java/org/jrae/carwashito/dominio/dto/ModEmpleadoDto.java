@@ -26,6 +26,9 @@ public record ModEmpleadoDto(
         @Size(min = 8, max = 8, message = "El teléfono debe tener 8 dígitos")
         String phoneNumber,
         @NotBlank(message = "El cargo es obligatorio")
-        String position
+        String position,
+        @NotNull(message = "El administrador es obligatorio")
+        Long codigoAdministrador // <-- nueva FK
+
 ) {
 }

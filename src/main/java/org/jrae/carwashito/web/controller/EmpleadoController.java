@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.jrae.carwashito.dominio.dto.EmpleadoDto;
 import org.jrae.carwashito.dominio.dto.ModEmpleadoDto;
 import org.jrae.carwashito.dominio.service.EmpleadoService;
@@ -18,10 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/empleados")
 @Tag(name = "Empleados", description = "Opciones (CRUD) sobre los empleados de CarWashito")
-public class EmpleadosController {
+public class EmpleadoController {
     private final EmpleadoService empleadosService;
 
-    public EmpleadosController(EmpleadoService empleadosService) {
+    public EmpleadoController(EmpleadoService empleadosService) {
         this.empleadosService = empleadosService;
     }
 

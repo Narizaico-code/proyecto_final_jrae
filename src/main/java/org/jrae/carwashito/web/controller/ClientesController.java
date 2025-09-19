@@ -41,8 +41,8 @@ public class ClientesController {
     )
     public ResponseEntity<ClienteDto> obtenerClientesPorCodigo
             (@Parameter(description = "Identificador del Cliente a registrar", example = "5")
-             @PathVariable Long codigoCliente){
-        return  ResponseEntity.ok(this.clientesService.obtenerClientesPorCodigo(codigoCliente));
+             @PathVariable Long codigo){
+        return  ResponseEntity.ok(this.clientesService.obtenerClientesPorCodigo(codigo));
     }
 
     // Guardar Cliente
@@ -56,14 +56,14 @@ public class ClientesController {
     // Modificar Cliente
     @PutMapping("{codigo}")
     public ResponseEntity<ClienteDto> modificarClientes
-    (@PathVariable Long codigoCliente, @RequestBody @Valid ModClienteDto modClientesDto){
-        return ResponseEntity.ok(this.clientesService.modificarClientes(codigoCliente, modClientesDto));
+    (@PathVariable Long codigo, @RequestBody @Valid ModClienteDto modClientesDto){
+        return ResponseEntity.ok(this.clientesService.modificarClientes(codigo, modClientesDto));
     }
 
     // Eliminar Clientes
     @DeleteMapping("{codigo}")
-    public ResponseEntity<ClienteDto> eliminarClientes(@PathVariable Long codigoCliente) {
-        clientesService.eliminarClientes(codigoCliente);
-        return ResponseEntity.noContent().build(); // 204 No Content
+    public ResponseEntity<ClienteDto> eliminarClientes(@PathVariable Long codigo) {
+        clientesService.eliminarClientes(codigo);
+        return ResponseEntity.noContent().build();
     }
 }

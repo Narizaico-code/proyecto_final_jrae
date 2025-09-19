@@ -42,8 +42,8 @@ public class AdministradorController {
     )
     public ResponseEntity<AdministradorDto> obtenerAdministradoresPorCodigo
             (@Parameter(description = "Identificador de el Administrador a registrar", example = "5")
-             @PathVariable Long codigoAdministrador){
-        return  ResponseEntity.ok(this.administradorService.obtenerAdministradoresPorCodigo(codigoAdministrador));
+             @PathVariable Long codigo){
+        return  ResponseEntity.ok(this.administradorService.obtenerAdministradoresPorCodigo(codigo));
     }
 
     // Guardar película
@@ -57,14 +57,14 @@ public class AdministradorController {
     // Modificar Administrador
     @PutMapping("{codigo}")
     public ResponseEntity<AdministradorDto> modificarAdministradores
-    (@PathVariable Long codigoAdministrador, @RequestBody @Valid ModAdministradorDto modAdministradoresDto){
-        return ResponseEntity.ok(this.administradorService.modificarAdministradores(codigoAdministrador, modAdministradoresDto));
+    (@PathVariable Long codigo, @RequestBody ModAdministradorDto modAdministradoresDto){
+        return ResponseEntity.ok(this.administradorService.modificarAdministradores(codigo, modAdministradoresDto));
     }
 
     // Eliminar película
     @DeleteMapping("{codigo}")
-    public ResponseEntity<AdministradorDto> eliminarAdministrador(@PathVariable Long codigoAdministrador) {
-        administradorService.eliminarAdministradores(codigoAdministrador);
+    public ResponseEntity<AdministradorDto> eliminarAdministrador(@PathVariable Long codigo) {
+        administradorService.eliminarAdministradores(codigo);
         return ResponseEntity.noContent().build();
     }
 }

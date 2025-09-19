@@ -50,10 +50,10 @@ public class AdministradorEntityRepository implements AdministradorRepository {
 
     @Override
     public AdministradorDto modificarAdministradores(Long codigoAdministrador, ModAdministradorDto modAdministradoresDto) {
-        AdministradorEntity administradoresEntity = this.crudAdministrador.findById(codigoAdministrador)
+        AdministradorEntity administradoresEntity = crudAdministrador.findById(codigoAdministrador)
                 .orElseThrow(() -> new RuntimeException("El administrador con código " + codigoAdministrador + " no existe"));
 
-        this.administradorMapper.updateEntityFromDto(modAdministradoresDto, administradoresEntity);
+        administradorMapper.updateEntityFromDto(modAdministradoresDto, administradoresEntity);
         return this.administradorMapper.toDto(this.crudAdministrador.save(administradoresEntity));
     }
 
