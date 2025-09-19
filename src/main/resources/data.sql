@@ -91,28 +91,28 @@ INSERT IGNORE INTO Proveedores (nombre, numero, correo, direccion)
 VALUES ('Químicos del Norte', '55510007', 'ventas@quimicos.com', 'Zona Industrial 456');
 
 -- Empleados
-INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
 VALUES ('Fernando', 'García', 28, true, 1200.00, '2023-01-15', 'fernando.garcia@carwash.com', '11111111', 'Lavador Senior', 1);
 
-INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
 VALUES ('Carmen', 'López', 32, true, 1000.00, '2023-02-01', 'carmen.lopez@carwash.com', '22222222', 'Lavador', 1);
 
-INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
 VALUES ('Diego', 'Moreno', 25, true, 900.00, '2023-03-10', 'diego.moreno@carwash.com', '33333333', 'Asistente', 2);
 
-INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
 VALUES ('Isabella', 'Jiménez', 29, true, 1100.00, '2023-01-20', 'isabella.jimenez@carwash.com', '44444444', 'Lavador', 2);
 
-INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
 VALUES ('Andrés', 'Torres', 35, false, 1300.00, '2022-11-05', 'andres.torres@carwash.com', '55555555', 'Supervisor', 3);
 
-INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
 VALUES ('Valentina', 'Restrepo', 26, true, 950.00, '2023-04-12', 'valentina.restrepo@carwash.com', '66666666', 'Lavador', 3);
 
-INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
 VALUES ('Sebastián', 'Vargas', 31, true, 1050.00, '2023-02-18', 'sebastian.vargas@carwash.com', '77777777', 'Lavador', 4);
 
-INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, administrador_id)
+INSERT IGNORE INTO Empleados (nombre, apellido, edad, disponibilidad, sueldo, fecha_contratacion, correo, telefono, cargo, codigo_administrador)
 VALUES ('Camila', 'Herrera', 24, true, 850.00, '2023-05-01', 'camila.herrera@carwash.com', '88888888', 'Asistente', 4);
 
 -- Reservas

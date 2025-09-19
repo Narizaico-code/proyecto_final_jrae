@@ -14,10 +14,10 @@ public class ReservaEntity {
     private Long codigoReserva;
     @ManyToOne
     @JoinColumn(name = "codigo_empleado", nullable = false)
-    private EmpleadosEntity empleados;
+    private EmpleadoEntity empleados;
     @ManyToOne
     @JoinColumn(name = "codigo_cliente", nullable = false)
-    private ClientesEntity clientes;
+    private ClienteEntity clientes;
     @ManyToOne
     @JoinColumn(name = "codigo_vehiculo", nullable = false)
     private PrecioVehiculo precioVehiculo;

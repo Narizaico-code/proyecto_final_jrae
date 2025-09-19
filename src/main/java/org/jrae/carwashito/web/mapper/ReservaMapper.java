@@ -14,8 +14,8 @@ public interface ReservaMapper {
 
     @Mapping(source = "codigoReserva", target = "codigo")
     @Mapping(source = "precioVehiculo.codigoVehiculo", target = "vehicleId")
-    @Mapping(source = "empleados.codigo", target = "employeeId")
-    @Mapping(source = "clientes.codigo", target = "clientId")
+    @Mapping(source = "empleados.codigoEmpleado", target = "employeeId")
+    @Mapping(source = "clientes.codigoCliente", target = "clientId")
     @Mapping(source = "metodoPago", target = "payMethod", qualifiedByName = "generarMetodoPago")
     @Mapping(source = "fecha", target = "date")
     @Mapping(source = "hora", target = "hour")

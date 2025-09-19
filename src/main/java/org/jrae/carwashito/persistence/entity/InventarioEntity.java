@@ -23,7 +23,7 @@ public class InventarioEntity {
     private Integer stock;
     @ManyToOne
     @JoinColumn(name = "codigo_administrador", nullable = false)
-    private AdministradoresEntity administrador;
+    private AdministradorEntity administrador;
 
     @ManyToOne
     @JoinColumn(name = "codigo_proveedor", nullable = false)
