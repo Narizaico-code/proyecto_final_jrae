@@ -28,6 +28,7 @@ public class RegistrarseControllerWeb {
     private List<ClienteDto> clientes;
     private ClienteDto clienteSeleccionado;
     private static final Logger logger = LoggerFactory.getLogger(RegistrarseControllerWeb.class);
+    String mensajeExito, mensajeError;
     String sl = System.lineSeparator();
 
     @PostConstruct
@@ -55,7 +56,7 @@ public class RegistrarseControllerWeb {
                 clienteEncontrado = clienteDto;
                 logger.info("El correo y el nickname esta en uso");
                 mostrarError("El correo " + clienteEncontrado.email() + " y/o el nickname " + clienteEncontrado.nickname() + " ya esta en uso");
-            }else if(this.clienteSeleccionado.codigoCliente() == null){
+            }else{
                 this.clienteRepository.guardarClientes(this.clienteSeleccionado);
                 this.clientes.add(this.clienteSeleccionado);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario(cliente) agregado"));
@@ -82,4 +83,3 @@ public class RegistrarseControllerWeb {
         PrimeFaces.current().executeScript("PF('modalError').show()");
     }
     }
-}
