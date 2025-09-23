@@ -16,6 +16,8 @@ public class AdministradorEntity {
     private String apellido;
     @Column(length = 100, unique = true, nullable = false)
     private String correo;
+    @Column(nullable = false)
+    private String contrasena;
     @Column(length = 8, nullable = false)
     private String telefono;
 
