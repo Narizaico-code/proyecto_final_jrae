@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Empleados</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+    </h:head>
+    <h:body>
+        <p>Estoy en Empleados</p>
+
+        <div class="card">
+            <h:form id="formulario-empleados">
+                <p:growl id="mensaje_emergente" showDetails="true"/>
+
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Inicio" icon="pi pi-fw pi-id-card"
+                                    update=":formulario-empleados:tabla-empleado"
+                                    actionListener="#{empleadoControllerWeb.cargarDatos}"/>
+                        <p:menuitem value="Nuevo empleado" icon="pi pi-fw pi-plus"
+                                    actionListener="#{empleadoControllerWeb.agregarEmpleado}"
+                                    update=":formulario-modal:ventana-empleado"
+                                    oncomplete="PF('ventanaModalEmpleado').show()"/>
+                    </p:menubar>
+                </div>
+
+                <div class="card">
+                    <p:dataTable value="#{empleadoControllerWeb.empleados}"
+                                 var="empleado" id="tabla-empleado"
+                                 widgetVar="tablaEmpleados">
+                        <f:facet name="header">
+                            <h3>CarWashito, Empleados</h3>
+                        </f:facet>
+
+                        <p:column headerText="ID"><h:outputText value="#{empleado.codigo}"/></p:column>
+                        <p:column headerText="NOMBRE"><h:outputText value="#{empleado.name}"/></p:column>
+                        <p:column headerText="APELLIDO"><h:outputText value="#{empleado.lastName}"/></p:column>
+                        <p:column headerText="EDAD"><h:outputText value="#{empleado.age}"/></p:column>
+                        <p:column headerText="DISPONIBILIDAD"><h:outputText value="#{empleado.availability ? 'Disponible' : 'No disponible'}"/></p:column>
+                        <p:column headerText="SUELDO">
+                            <h:outputText value="#{empleado.salary}">
+                                <f:convertNumber type="currency" currencySymbol="$"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="FECHA CONTRATACIÓN">
+                            <h:outputText value="#{empleado.hireDate}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="CORREO"><h:outputText value="#{empleado.email}"/></p:column>
+                        <p:column headerText="TELÉFONO"><h:outputText value="#{empleado.phoneNumber}"/></p:column>
+                        <p:column headerText="CARGO"><h:outputText value="#{empleado.position}"/></p:column>
+                        <p:column headerText="ADMINISTRADOR">
+                            <h:outputText value="#{empleado.codigoAdministrador}" />
+                        </p:column>
+
+                        <p:column headerText="OPCIÓN">
+                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
+                                             update=":formulario-modal:ventana-empleado"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalEmpleado').show()">
+                                <f:setPropertyActionListener value="#{empleado}" target="#{empleadoControllerWeb.empleadoSeleccionado}"/>
+                                <p:resetInput target=":formulario-modal:ventana-empleado"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarEmpleado').show()">
+                                <f:setPropertyActionListener value="#{empleado}" target="#{empleadoControllerWeb.empleadoSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle del Empleado" showEffect="fade"
+                          modal="true" widgetVar="ventanaModalEmpleado" responsive="true">
+                    <p:outputPanel id="ventana-empleado" class="ui-fluid">
+
+                        <div class="field">
+                            <p:outputLabel for="nombre">NOMBRE</p:outputLabel>
+                            <p:inputText id="nombre" required="true" value="#{empleadoControllerWeb.empleadoSeleccionado.name}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="apellido">APELLIDO</p:outputLabel>
+                            <p:inputText id="apellido" required="true" value="#{empleadoControllerWeb.empleadoSeleccionado.lastName}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="edad">EDAD</p:outputLabel>
+                            <p:inputNumber id="edad" value="#{empleadoControllerWeb.empleadoSeleccionado.age}"
+                                           decimalPlaces="0" minValue="18" maxValue="65"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="telefono">TELÉFONO</p:outputLabel>
+                            <p:inputText id="telefono" value="#{empleadoControllerWeb.empleadoSeleccionado.phoneNumber}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="correo">CORREO</p:outputLabel>
+                            <p:inputText id="correo" required="true" value="#{empleadoControllerWeb.empleadoSeleccionado.email}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="cargo">CARGO</p:outputLabel>
+                            <p:inputText id="cargo" required="true" value="#{empleadoControllerWeb.empleadoSeleccionado.position}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="disponibilidad">DISPONIBILIDAD</p:outputLabel>
+                            <p:selectBooleanCheckbox id="disponibilidad" value="#{empleadoControllerWeb.empleadoSeleccionado.availability}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="sueldo">SUELDO</p:outputLabel>
+                            <p:inputNumber id="sueldo" value="#{empleadoControllerWeb.empleadoSeleccionado.salary}"
+                                           decimalPlaces="2" minValue="0" symbol="$"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="fechaContratacion">FECHA CONTRATACIÓN</p:outputLabel>
+                            <p:calendar id="fechaContratacion" value="#{empleadoControllerWeb.empleadoSeleccionado.hireDate}"
+                                        pattern="dd/MM/yyyy" showOn="button" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="administrador">CÓDIGO ADMINISTRADOR</p:outputLabel>
+                            <p:inputNumber id="administrador" value="#{empleadoControllerWeb.empleadoSeleccionado.codigoAdministrador}"
+                                           decimalPlaces="0" minValue="1" required="true"/>
+                        </div>
+
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check" class="ui-button-primary"
+                                         process="@this ventana-empleado"
+                                         update=":formulario-empleados:tabla-empleado"
+                                         actionListener="#{empleadoControllerWeb.guardarEmpleado}"
+                                         oncomplete="PF('ventanaModalEmpleado').hide(); PF('tablaEmpleados').clearFilters();"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
+                                         onclick="PF('ventanaModalEmpleado').hide()" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="ventanaEliminarEmpleado" showEffect="fade"
+                                 width="300" message="¿Desea eliminar el empleado?"
+                                 header="Confirme su selección" severity="warn">
+                    <p:commandButton value="Sí" icon="pi pi-check" style="ui-button-primary"
+                                     process="@this"
+                                     actionListener="#{empleadoControllerWeb.eliminarEmpleado}"
+                                     update=":formulario-empleados:tabla-empleado"
+                                     oncomplete="PF('ventanaEliminarEmpleado').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times" style="ui-button-warning"
+                                     onclick="PF('ventanaEliminarEmpleado').hide()" type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>

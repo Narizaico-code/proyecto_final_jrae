@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Precio Vehículos</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+    </h:head>
+    <h:body>
+        <p>Estoy en Precio Vehículos</p>
+
+        <div class="card">
+            <h:form id="formulario-precio-vehiculos">
+                <p:growl id="mensaje_emergente" showDetails="true"/>
+
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Inicio" icon="pi pi-fw pi-car"
+                                    update=":formulario-precio-vehiculos:tabla-precio-vehiculo"
+                                    actionListener="#{precioVehiculoControllerWeb.cargarDatos}"/>
+                        <p:menuitem value="Nuevo precio vehículo" icon="pi pi-fw pi-plus"
+                                    actionListener="#{precioVehiculoControllerWeb.agregarPrecioVehiculo}"
+                                    update=":formulario-modal:ventana-precio-vehiculo"
+                                    oncomplete="PF('ventanaModalPrecioVehiculo').show()"/>
+                    </p:menubar>
+                </div>
+
+                <div class="card">
+                    <p:dataTable value="#{precioVehiculoControllerWeb.precioVehiculos}"
+                                 var="precioVehiculo" id="tabla-precio-vehiculo"
+                                 widgetVar="tablaPrecioVehiculos">
+                        <f:facet name="header">
+                            <h3>CarWashito, Precio Vehículos</h3>
+                        </f:facet>
+
+                        <p:column headerText="CÓDIGO"><h:outputText value="#{precioVehiculo.codigo}"/></p:column>
+                        <p:column headerText="TIPO VEHÍCULO"><h:outputText value="#{precioVehiculo.typeVehicle}"/></p:column>
+                        <p:column headerText="VALOR"><h:outputText value="#{precioVehiculo.value}"/></p:column>
+
+                        <p:column headerText="OPCIÓN">
+                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
+                                             update=":formulario-modal:ventana-precio-vehiculo"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalPrecioVehiculo').show()">
+                                <f:setPropertyActionListener value="#{precioVehiculo}" target="#{precioVehiculoControllerWeb.precioVehiculoSeleccionado}"/>
+                                <p:resetInput target=":formulario-modal:ventana-precio-vehiculo"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarPrecioVehiculo').show()">
+                                <f:setPropertyActionListener value="#{precioVehiculo}" target="#{precioVehiculoControllerWeb.precioVehiculoSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle del Precio Vehículo" showEffect="fade"
+                          modal="true" widgetVar="ventanaModalPrecioVehiculo" responsive="true">
+                    <p:outputPanel id="ventana-precio-vehiculo" class="ui-fluid">
+
+                        <div class="field">
+                            <p:outputLabel for="tipo-vehiculo">TIPO VEHÍCULO</p:outputLabel>
+                            <p:inputText id="tipo-vehiculo" value="#{precioVehiculoControllerWeb.precioVehiculoSeleccionado.typeVehicle}" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="valor">VALOR</p:outputLabel>
+                            <p:inputNumber id="valor" value="#{precioVehiculoControllerWeb.precioVehiculoSeleccionado.value}"
+                                           required="true" decimalPlaces="2" minValue="0" symbol="$"/>
+                        </div>
+
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check" class="ui-button-primary"
+                                         process="@this ventana-precio-vehiculo"
+                                         update=":formulario-precio-vehiculos:tabla-precio-vehiculo"
+                                         actionListener="#{precioVehiculoControllerWeb.guardarPrecioVehiculo}"
+                                         oncomplete="PF('ventanaModalPrecioVehiculo').hide(); PF('tablaPrecioVehiculos').clearFilters();"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
+                                         onclick="PF('ventanaModalPrecioVehiculo').hide()" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="ventanaEliminarPrecioVehiculo" showEffect="fade"
+                                 width="300" message="¿Desea eliminar el precio del vehículo?"
+                                 header="Confirme su selección" severity="warn">
+                    <p:commandButton value="Sí" icon="pi pi-check" style="ui-button-primary"
+                                     process="@this"
+                                     actionListener="#{precioVehiculoControllerWeb.eliminarPrecioVehiculo}"
+                                     update=":formulario-precio-vehiculos:tabla-precio-vehiculo"
+                                     oncomplete="PF('ventanaEliminarPrecioVehiculo').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times" style="ui-button-warning"
+                                     onclick="PF('ventanaEliminarPrecioVehiculo').hide()" type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>

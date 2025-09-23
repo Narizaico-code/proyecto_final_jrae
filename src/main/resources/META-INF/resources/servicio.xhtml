@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Servicios</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+    </h:head>
+    <h:body>
+        <p>Estoy en Servicios</p>
+
+        <div class="card">
+            <h:form id="formulario-servicios">
+                <p:growl id="mensaje_emergente" showDetails="true"/>
+
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Inicio" icon="pi pi-fw pi-home"
+                                    update=":formulario-servicios:tabla-servicio"
+                                    actionListener="#{servicioControllerWeb.cargarDatos}"/>
+                        <p:menuitem value="Nuevo servicio" icon="pi pi-fw pi-plus"
+                                    actionListener="#{servicioControllerWeb.agregarServicio}"
+                                    update=":formulario-modal:ventana-servicio"
+                                    oncomplete="PF('ventanaModalServicio').show()"/>
+                    </p:menubar>
+                </div>
+
+                <div class="card">
+                    <p:dataTable value="#{servicioControllerWeb.servicios}"
+                                 var="srv" id="tabla-servicio"
+                                 widgetVar="tablaServicios">
+                        <f:facet name="header">
+                            <h3>CarWashito, Servicios</h3>
+                        </f:facet>
+
+                        <p:column headerText="ID"><h:outputText value="#{srv.codigo}"/></p:column>
+                        <p:column headerText="NOMBRE"><h:outputText value="#{srv.name}"/></p:column>
+                        <p:column headerText="DESCRIPCIÓN"><h:outputText value="#{srv.description}"/></p:column>
+                        <p:column headerText="PRECIO"><h:outputText value="#{srv.price}"/></p:column>
+
+                        <p:column headerText="OPCIÓN">
+                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
+                                             update=":formulario-modal:ventana-servicio"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalServicio').show()">
+                                <f:setPropertyActionListener value="#{srv}" target="#{servicioControllerWeb.servicioSeleccionado}"/>
+                                <p:resetInput target=":formulario-modal:ventana-servicio"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarServicio').show()">
+                                <f:setPropertyActionListener value="#{srv}" target="#{servicioControllerWeb.servicioSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle del Servicio" showEffect="fade"
+                          modal="true" widgetVar="ventanaModalServicio" responsive="true">
+                    <p:outputPanel id="ventana-servicio" class="ui-fluid">
+
+                        <div class="field">
+                            <p:outputLabel for="nombre">NOMBRE</p:outputLabel>
+                            <p:inputText id="nombre" value="#{servicioControllerWeb.servicioSeleccionado.name}" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="descripcion">DESCRIPCIÓN</p:outputLabel>
+                            <p:inputTextarea id="descripcion" value="#{servicioControllerWeb.servicioSeleccionado.description}" autoResize="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="precio">PRECIO</p:outputLabel>
+                            <p:inputText id="precio" value="#{servicioControllerWeb.servicioSeleccionado.price}" required="true"/>
+                        </div>
+
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check" class="ui-button-primary"
+                                         process="@this ventana-servicio"
+                                         update=":formulario-servicios:tabla-servicio"
+                                         actionListener="#{servicioControllerWeb.guardarServicio}"
+                                         oncomplete="PF('ventanaModalServicio').hide(); PF('tablaServicios').clearFilters();"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
+                                         onclick="PF('ventanaModalServicio').hide()" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="ventanaEliminarServicio" showEffect="fade"
+                                 width="300" message="¿Desea eliminar el servicio?"
+                                 header="Confirme su selección" severity="warn">
+                    <p:commandButton value="Sí" icon="pi pi-check" style="ui-button-primary"
+                                     process="@this"
+                                     actionListener="#{servicioControllerWeb.eliminarServicio}"
+                                     update=":formulario-servicios:tabla-servicio"
+                                     oncomplete="PF('ventanaEliminarServicio').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times" style="ui-button-warning"
+                                     onclick="PF('ventanaEliminarServicio').hide()" type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>

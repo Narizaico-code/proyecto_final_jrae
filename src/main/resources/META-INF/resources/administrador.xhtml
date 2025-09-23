@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Administradores</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+    </h:head>
+    <h:body>
+        <p>Estoy en Administradores</p>
+
+        <div class="card">
+            <h:form id="formulario-administradores">
+                <p:growl id="mensaje_emergente" showDetails="true"/>
+
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Inicio" icon="pi pi-fw pi-user"
+                                    update=":formulario-administradores:tabla-administrador"
+                                    actionListener="#{administradorControllerWeb.cargarDatos}"/>
+                        <p:menuitem value="Nuevo administrador" icon="pi pi-fw pi-plus"
+                                    actionListener="#{administradorControllerWeb.agregarAdministrador}"
+                                    update=":formulario-modal:ventana-administrador"
+                                    oncomplete="PF('ventanaModalAdministrador').show()"/>
+                    </p:menubar>
+                </div>
+
+                <div class="card">
+                    <p:dataTable value="#{administradorControllerWeb.administradores}"
+                                 var="admin" id="tabla-administrador"
+                                 widgetVar="tablaAdministradores">
+                        <f:facet name="header">
+                            <h3>CarWashito, Administradores</h3>
+                        </f:facet>
+
+                        <p:column headerText="ID"><h:outputText value="#{admin.codigoAdministrador}"/></p:column>
+                        <p:column headerText="NOMBRE"><h:outputText value="#{admin.name}"/></p:column>
+                        <p:column headerText="APELLIDO"><h:outputText value="#{admin.lastName}"/></p:column>
+                        <p:column headerText="CORREO"><h:outputText value="#{admin.email}"/></p:column>
+                        <p:column headerText="CONTRASENA"><h:outputText value="#{admin.password}"/></p:column>
+                        <p:column headerText="TELÉFONO"><h:outputText value="#{admin.phoneNumber}"/></p:column>
+
+                        <p:column headerText="OPCIÓN">
+                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
+                                             update=":formulario-modal:ventana-administrador"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalAdministrador').show()">
+                                <f:setPropertyActionListener value="#{admin}" target="#{administradorControllerWeb.administradorSeleccionado}"/>
+                                <p:resetInput target=":formulario-modal:ventana-administrador"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarAdministrador').show()">
+                                <f:setPropertyActionListener value="#{admin}" target="#{administradorControllerWeb.administradorSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle del Administrador" showEffect="fade"
+                          modal="true" widgetVar="ventanaModalAdministrador" responsive="true">
+                    <p:outputPanel id="ventana-administrador" class="ui-fluid">
+
+                        <div class="field">
+                            <p:outputLabel for="nombre">NOMBRE</p:outputLabel>
+                            <p:inputText id="nombre" value="#{administradorControllerWeb.administradorSeleccionado.name}" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="apellido">APELLIDO</p:outputLabel>
+                            <p:inputText id="apellido" value="#{administradorControllerWeb.administradorSeleccionado.lastName}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="telefono">TELÉFONO</p:outputLabel>
+                            <p:inputText id="telefono" value="#{administradorControllerWeb.administradorSeleccionado.phoneNumber}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="correo">CORREO</p:outputLabel>
+                            <p:inputText id="correo" required="true" value="#{administradorControllerWeb.administradorSeleccionado.email}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="contrasena">CONTRASEÑA</p:outputLabel>
+                            <p:password id="contrasena" required="true" value="#{administradorControllerWeb.administradorSeleccionado.password}"/>
+                        </div>
+
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check" class="ui-button-primary"
+                                         process="@this ventana-administrador"
+                                         update=":formulario-administradores:tabla-administrador"
+                                         actionListener="#{administradorControllerWeb.guardarAdministrador}"
+                                         oncomplete="PF('ventanaModalAdministrador').hide(); PF('tablaAdministradores').clearFilters();"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
+                                         onclick="PF('ventanaModalAdministrador').hide()" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="ventanaEliminarAdministrador" showEffect="fade"
+                                 width="300" message="¿Desea eliminar el administrador?"
+                                 header="Confirme su selección" severity="warn">
+                    <p:commandButton value="Sí" icon="pi pi-check" style="ui-button-primary"
+                                     process="@this"
+                                     actionListener="#{administradorControllerWeb.eliminarAdministrador}"
+                                     update=":formulario-administradores:tabla-administrador"
+                                     oncomplete="PF('ventanaEliminarAdministrador').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times" style="ui-button-warning"
+                                     onclick="PF('ventanaEliminarAdministrador').hide()" type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>

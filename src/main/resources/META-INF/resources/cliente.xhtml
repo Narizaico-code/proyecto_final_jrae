@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Clientes</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+    </h:head>
+    <h:body>
+        <p>Estoy en Clientes</p>
+
+        <div class="card">
+            <h:form id="formulario-clientes">
+                <p:growl id="mensaje_emergente" showDetails="true"/>
+
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Inicio" icon="pi pi-fw pi-users"
+                                    update=":formulario-clientes:tabla-cliente"
+                                    actionListener="#{clienteControllerWeb.cargarDatos}"/>
+                        <p:menuitem value="Nuevo cliente" icon="pi pi-fw pi-plus"
+                                    actionListener="#{clienteControllerWeb.agregarCliente}"
+                                    update=":formulario-modal:ventana-cliente"
+                                    oncomplete="PF('ventanaModalCliente').show()"/>
+                    </p:menubar>
+                </div>
+
+                <div class="card">
+                    <p:dataTable value="#{clienteControllerWeb.clientes}"
+                                 var="cliente" id="tabla-cliente"
+                                 widgetVar="tablaClientes">
+                        <f:facet name="header">
+                            <h3>CarWashito, Clientes</h3>
+                        </f:facet>
+
+                        <p:column headerText="ID"><h:outputText value="#{cliente.codigoCliente}"/></p:column>
+                        <p:column headerText="NOMBRE"><h:outputText value="#{cliente.name}"/></p:column>
+                        <p:column headerText="APELLIDO"><h:outputText value="#{cliente.lastName}"/></p:column>
+                        <p:column headerText="APODO"><h:outputText value="#{cliente.nickname}"/></p:column>
+                        <p:column headerText="CORREO"><h:outputText value="#{cliente.email}"/></p:column>
+                        <p:column headerText="CONTRASENA"><h:outputText value="#{cliente.password}"/></p:column>
+                        <p:column headerText="TELÉFONO"><h:outputText value="#{cliente.phoneNumber}"/></p:column>
+                        <p:column headerText="DIRECCIÓN"><h:outputText value="#{cliente.address}"/></p:column>
+
+                        <p:column headerText="OPCIÓN">
+                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
+                                             update=":formulario-modal:ventana-cliente"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalCliente').show()">
+                                <f:setPropertyActionListener value="#{cliente}" target="#{clienteControllerWeb.clienteSeleccionado}"/>
+                                <p:resetInput target=":formulario-modal:ventana-cliente"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarCliente').show()">
+                                <f:setPropertyActionListener value="#{cliente}" target="#{clienteControllerWeb.clienteSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle del Cliente" showEffect="fade"
+                          modal="true" widgetVar="ventanaModalCliente" responsive="true">
+                    <p:outputPanel id="ventana-cliente" class="ui-fluid">
+
+                        <div class="field">
+                            <p:outputLabel for="nombre">NOMBRE</p:outputLabel>
+                            <p:inputText id="nombre" value="#{clienteControllerWeb.clienteSeleccionado.name}" required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="apellido">APELLIDO</p:outputLabel>
+                            <p:inputText id="apellido" value="#{clienteControllerWeb.clienteSeleccionado.lastName}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="apodo">APODO</p:outputLabel>
+                            <p:inputText id="apodo" value="#{clienteControllerWeb.clienteSeleccionado.nickname}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="telefono">TELÉFONO</p:outputLabel>
+                            <p:inputText id="telefono" value="#{clienteControllerWeb.clienteSeleccionado.phoneNumber}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="correo">CORREO</p:outputLabel>
+                            <p:inputText id="correo" required="true" value="#{clienteControllerWeb.clienteSeleccionado.email}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="contrasena">CONTRASEÑA</p:outputLabel>
+                            <p:password id="contrasena" required="true" value="#{clienteControllerWeb.clienteSeleccionado.password}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="direccion">DIRECCIÓN</p:outputLabel>
+                            <p:inputText id="direccion" value="#{clienteControllerWeb.clienteSeleccionado.address}"/>
+                        </div>
+
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check" class="ui-button-primary"
+                                         process="@this ventana-cliente"
+                                         update=":formulario-clientes:tabla-cliente"
+                                         actionListener="#{clienteControllerWeb.guardarCliente}"
+                                         oncomplete="PF('ventanaModalCliente').hide(); PF('tablaClientes').clearFilters();"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
+                                         onclick="PF('ventanaModalCliente').hide()" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="ventanaEliminarCliente" showEffect="fade"
+                                 width="300" message="¿Desea eliminar el cliente?"
+                                 header="Confirme su selección" severity="warn">
+                    <p:commandButton value="Sí" icon="pi pi-check" style="ui-button-primary"
+                                     process="@this"
+                                     actionListener="#{clienteControllerWeb.eliminarCliente}"
+                                     update=":formulario-clientes:tabla-cliente"
+                                     oncomplete="PF('ventanaEliminarCliente').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times" style="ui-button-warning"
+                                     onclick="PF('ventanaEliminarCliente').hide()" type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>
