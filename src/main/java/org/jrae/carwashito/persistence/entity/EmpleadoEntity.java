@@ -33,6 +33,6 @@ public class EmpleadoEntity {
     private String cargo;
     // Relación con Administrador
     @ManyToOne
-    @JoinColumn(name = "codigoAdministrador", nullable = false)
+    @JoinColumn(name = "codigo_administrador", nullable = false)
     private AdministradorEntity administrador;
 }

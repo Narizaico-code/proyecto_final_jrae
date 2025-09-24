@@ -26,6 +26,7 @@ public class InventarioController {
     }
 
     @GetMapping
+    @Operation(description = "Retorna los inventarios ")
     public ResponseEntity<List<InventarioDto>> obtenerTodo(){
         return ResponseEntity.ok(this.inventarioService.obtenerTodo());
     }
@@ -46,17 +47,20 @@ public class InventarioController {
     }
 
     @PostMapping
-    public ResponseEntity<InventarioDto> guardarInventario(@RequestBody InventarioDto inventarioDto){
+    @Operation(description = "guarda los inventarios ")
+    public ResponseEntity<InventarioDto> guardarInventario(@RequestBody @Valid InventarioDto inventarioDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.inventarioService.guardarInventario(inventarioDto));
     }
 
     @PutMapping("{codigo}")
-    public ResponseEntity<InventarioDto> modificarInventario(@PathVariable Long codigo, @RequestBody @Valid ModInventarioDto modInventarioDto){
+    @Operation(description = "modifica los invevntarios ")
+    public ResponseEntity<InventarioDto> modificarInventario(@Parameter(description = "Id del inventario a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ModInventarioDto modInventarioDto){
         return ResponseEntity.ok(this.inventarioService.modificarInventario(codigo, modInventarioDto));
     }
 
     @DeleteMapping("{codigo}")
-    public ResponseEntity<Void> eliminarInventario(@PathVariable Long codigo){
+    @Operation(description = "Elimina los inventarios ")
+    public ResponseEntity<Void> eliminarInventario(@Parameter(description = "Id del inventario a eliminar", example = "1")@PathVariable Long codigo){
         this.inventarioService.eliminarInventario(codigo);
         return ResponseEntity.ok().build();
     }

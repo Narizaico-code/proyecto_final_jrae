@@ -26,6 +26,7 @@ public class ProveedorController {
     }
 
     @GetMapping
+    @Operation(description = "Retorna los Proveedor ")
     public ResponseEntity<List<ProveedorDto>> obtenerTodo(){
         return ResponseEntity.ok(this.proveedorService.obtenerTodo());
     }
@@ -46,18 +47,21 @@ public class ProveedorController {
     }
 
     @PostMapping
-    public ResponseEntity<ProveedorDto> guardarProveedor(@RequestBody ProveedorDto proveedorDto){
+    @Operation(description = "Guarda los Proveedor ")
+    public ResponseEntity<ProveedorDto> guardarProveedor(@RequestBody @Valid ProveedorDto proveedorDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.proveedorService.guardarProveedor(proveedorDto));
     }
 
 
     @PutMapping("{codigo}")
-    public ResponseEntity<ProveedorDto> modificarProveedor(@PathVariable Long codigo, @RequestBody @Valid ModProveedorDto modProveedorDto){
+    @Operation(description = "Modifica los Proveedor ")
+    public ResponseEntity<ProveedorDto> modificarProveedor(@Parameter(description = "Id del proveedor a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ModProveedorDto modProveedorDto){
         return ResponseEntity.ok(this.proveedorService.modificarProveedor(codigo, modProveedorDto));
     }
 
     @DeleteMapping("{codigo}")
-    public ResponseEntity<ProveedorDto> eliminarProveedor(@PathVariable Long codigo){
+    @Operation(description = "Elimina los Proveedor ")
+    public ResponseEntity<ProveedorDto> eliminarProveedor(@Parameter(description = "Id del proveedor a eliminar", example = "1")@PathVariable Long codigo){
         this.proveedorService.eliminarProveedor(codigo);
         return ResponseEntity.ok().build();
     }

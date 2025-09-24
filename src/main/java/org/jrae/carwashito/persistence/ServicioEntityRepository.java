@@ -1,6 +1,8 @@
 package org.jrae.carwashito.persistence;
 
 import org.jrae.carwashito.dominio.dto.ServicioDto;
+import org.jrae.carwashito.dominio.exception.ServicioNoExisteException;
+import org.jrae.carwashito.dominio.exception.ServicioYaExisteException;
 import org.jrae.carwashito.dominio.repository.ServicioRepository;
 import org.jrae.carwashito.persistence.crud.CrudServicioEntity;
 import org.jrae.carwashito.persistence.entity.Servicio;
@@ -26,8 +28,10 @@ public class ServicioEntityRepository implements ServicioRepository {
 
     @Override
     public ServicioDto obtenerServicioPorCodigo(Long codigoServicio) {
-        Servicio servicio = this.crudServicioEntity.findById(codigoServicio)
-                .orElseThrow(() -> new RuntimeException("El servicio con código " + codigoServicio + " no existe"));
+        Servicio servicio = this.crudServicioEntity.findById(codigoServicio).orElse(null);
+        if (servicio == null) {
+            throw  new ServicioNoExisteException(codigoServicio);
+        }
         return this.servicioMapper.toDto(servicio);
     }
 
@@ -35,7 +39,7 @@ public class ServicioEntityRepository implements ServicioRepository {
     public ServicioDto guardarServicio(ServicioDto servicioDto) {
         // Verificar si ya existe un servicio con ese nombre
         if (this.crudServicioEntity.findFirstByNombre(servicioDto.name()) != null) {
-            throw new RuntimeException("El servicio '" + servicioDto.name() + "' ya existe en el sistema");
+            throw new ServicioYaExisteException(servicioDto.name());
         }
 
         Servicio servicio = this.servicioMapper.toEntity(servicioDto);
@@ -45,19 +49,25 @@ public class ServicioEntityRepository implements ServicioRepository {
 
     @Override
     public ServicioDto actualizarServicio(Long codigoServicio, ServicioDto servicioDto) {
-        Servicio servicio = this.crudServicioEntity.findById(codigoServicio)
-                .orElseThrow(() -> new RuntimeException("El servicio con código " + codigoServicio + " no existe"));
+        Servicio servicio = this.crudServicioEntity.findById(codigoServicio).orElse(null);
+        if (servicio == null) {
+            throw new ServicioNoExisteException(codigoServicio);
+        }else{
+            this.servicioMapper.updateEntityFromDto(servicioDto, servicio);
+            servicio = this.crudServicioEntity.save(servicio);
+            return this.servicioMapper.toDto(servicio);
+        }
 
-        this.servicioMapper.updateEntityFromDto(servicioDto, servicio);
-        servicio = this.crudServicioEntity.save(servicio);
-        return this.servicioMapper.toDto(servicio);
     }
 
     @Override
     public void eliminarServicio(Long codigoServicio) {
-        if (!this.crudServicioEntity.existsById(codigoServicio)) {
-            throw new RuntimeException("El servicio con código " + codigoServicio + " no existe");
+        Servicio servicio = this.crudServicioEntity.findById(codigoServicio).orElse(null);
+        if (servicio == null) {
+            throw new ServicioNoExisteException(codigoServicio);
+        }else{
+            this.crudServicioEntity.deleteById(codigoServicio);
         }
-        this.crudServicioEntity.deleteById(codigoServicio);
+
     }
 }

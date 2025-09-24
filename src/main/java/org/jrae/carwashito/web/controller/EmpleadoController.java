@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.jrae.carwashito.dominio.dto.EmpleadoDto;
 import org.jrae.carwashito.dominio.dto.ModEmpleadoDto;
 import org.jrae.carwashito.dominio.service.EmpleadoService;
@@ -25,6 +26,7 @@ public class EmpleadoController {
     }
 
     @GetMapping
+    @Operation(description = "Retorna los Empleados ")
     public ResponseEntity<List<EmpleadoDto>> obtenerTodo() {
         return ResponseEntity.ok(this.empleadosService.obtenerTodo());
     }
@@ -46,22 +48,25 @@ public class EmpleadoController {
 
     // Guardar Empleado
     @PostMapping
+    @Operation(description = "Guarda los empleados ")
     public ResponseEntity<EmpleadoDto>guardarEmpleado
-    (@RequestBody EmpleadoDto empleadoDto){
+    (@RequestBody @Valid EmpleadoDto empleadoDto){
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.empleadosService.guardarEmpleado(empleadoDto));
     }
 
     // Modificar Empleado
     @PutMapping("{codigo}")
+    @Operation(description = "modifica los empleados ")
     public ResponseEntity<EmpleadoDto> modificarEmpleado
-    (@PathVariable Long codigo, @RequestBody ModEmpleadoDto modEmpleadoDto){
+    (@Parameter(description = "Id del empleado a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ModEmpleadoDto modEmpleadoDto){
         return ResponseEntity.ok(this.empleadosService.modificarEmpleado(codigo, modEmpleadoDto));
     }
 
     // Eliminar Empleado
     @DeleteMapping("{codigo}")
-    public ResponseEntity<EmpleadoDto> eliminarEmpleado (@PathVariable Long codigo) {
+    @Operation(description = "elimina los empleados ")
+    public ResponseEntity<EmpleadoDto> eliminarEmpleado (@Parameter(description = "Id del empleado a eliminar", example = "1")@PathVariable Long codigo) {
         empleadosService.eliminarEmpleado(codigo);
         return ResponseEntity.noContent().build();
     }

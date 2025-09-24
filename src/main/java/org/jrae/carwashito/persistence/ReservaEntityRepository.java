@@ -1,6 +1,7 @@
 package org.jrae.carwashito.persistence;
 
 import org.jrae.carwashito.dominio.dto.ReservaDto;
+import org.jrae.carwashito.dominio.exception.ReservaNoExisteException;
 import org.jrae.carwashito.dominio.repository.ReservaRepository;
 import org.jrae.carwashito.persistence.crud.CrudReservaEntity;
 import org.jrae.carwashito.persistence.entity.ReservaEntity;
@@ -27,7 +28,12 @@ public class ReservaEntityRepository implements ReservaRepository {
 
     @Override
     public ReservaDto obtenerReservaPorCodigo(Long codigo) {
-        return this.reservaMapper.toDto((ReservaEntity) this.crudReservaEntity.findById(codigo).orElse(null));
+        ReservaEntity reservaEntity = this.crudReservaEntity.findById(codigo).orElse(null);
+        if (reservaEntity == null) {
+            throw new ReservaNoExisteException(codigo);
+        }else{
+            return this.reservaMapper.toDto(reservaEntity);
+        }
     }
 
     @Override
@@ -40,13 +46,23 @@ public class ReservaEntityRepository implements ReservaRepository {
 
     @Override
     public ReservaDto modificarReserva(Long codigo, ReservaDto modReservaDto) {
-        this.reservaMapper.updateEntityFromDto(modReservaDto,
-                (ReservaEntity) this.crudReservaEntity.findById(codigo).orElse(null));
-        return this.reservaMapper.toDto((ReservaEntity) this.crudReservaEntity.save(this.crudReservaEntity.findById(codigo).orElse(null))) ;
+        ReservaEntity reservaEntity = this.crudReservaEntity.findById(codigo).orElse(null);
+        if (reservaEntity == null) {
+            throw new ReservaNoExisteException(codigo);
+        }else{
+            this.reservaMapper.updateEntityFromDto(modReservaDto,
+                    this.crudReservaEntity.findById(codigo).orElse(null));
+            return this.reservaMapper.toDto(this.crudReservaEntity.save(reservaEntity));
+        }
+
     }
 
     @Override
     public void eliminarReserva(Long codigo) {
-        if (this.crudReservaEntity.findById(codigo).orElse(null) != null) this.crudReservaEntity.deleteById(codigo);
+        if (this.crudReservaEntity.findById(codigo).orElse(null) == null){
+            throw new ReservaNoExisteException(codigo);
+        }else{
+            this.crudReservaEntity.deleteById(codigo);
+        }
     }
 }

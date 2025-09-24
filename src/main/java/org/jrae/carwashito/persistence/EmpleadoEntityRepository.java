@@ -2,6 +2,8 @@ package org.jrae.carwashito.persistence;
 
 import org.jrae.carwashito.dominio.dto.EmpleadoDto;
 import org.jrae.carwashito.dominio.dto.ModEmpleadoDto;
+import org.jrae.carwashito.dominio.exception.EmpleadoNoExisteException;
+import org.jrae.carwashito.dominio.exception.EmpleadoYaExisteException;
 import org.jrae.carwashito.dominio.repository.EmpleadoRepository;
 import org.jrae.carwashito.persistence.crud.CrudAdministradorEntity;
 import org.jrae.carwashito.persistence.crud.CrudEmpleadoEntity;
@@ -31,14 +33,22 @@ public class EmpleadoEntityRepository implements EmpleadoRepository {
 
     @Override
     public EmpleadoDto obtenerEmpleadoPorCodigo(Long codigEmpleado) {
-        return this.empleadoMapper.toDto(this.crudEmpleado.findById(codigEmpleado).orElse(null));
-
+        EmpleadoEntity empleado = this.crudEmpleado.findById(codigEmpleado).orElse(null);
+        if (empleado == null) {
+            throw new EmpleadoNoExisteException(codigEmpleado);
+        }else {
+            return this.empleadoMapper.toDto(empleado);
+        }
     }
 
     @Override
     public EmpleadoDto guardarEmpleado(EmpleadoDto empleadoDto) {
+        if (this.crudEmpleado.findFirstByNombre(empleadoDto.name()) != null) {
+            throw new EmpleadoYaExisteException(empleadoDto.name());
+        }
+
         // Convertir DTO a Entity usando Mapper
-        EmpleadoEntity empleadoEntity = empleadoMapper.toEntity(empleadoDto);
+        EmpleadoEntity empleadoEntity = this.empleadoMapper.toEntity(empleadoDto);
 
         // Asignar el AdministradorEntity usando solo el ID (FK)
         if (empleadoDto.codigoAdministrador() != null) {
@@ -46,39 +56,44 @@ public class EmpleadoEntityRepository implements EmpleadoRepository {
         }
 
         // Guardar en la base de datos y obtener la entidad guardada con ID generado
-        EmpleadoEntity guardado = crudEmpleado.save(empleadoEntity);
+        this.crudEmpleado.save(empleadoEntity);
 
         // Devolver DTO con el registro guardado
-        return empleadoMapper.toDto(guardado);
+        return empleadoMapper.toDto(empleadoEntity);
     }
 
     @Override
     public EmpleadoDto modificarEmpleado(Long codigoEmpleado, ModEmpleadoDto modEmpleadoDto) {
-        EmpleadoEntity empleadoEntity = this.crudEmpleado.findById(codigoEmpleado)
-                .orElseThrow(() -> new RuntimeException("El empleado con código " + codigoEmpleado + " no existe"));
+        EmpleadoEntity empleadoEntity = this.crudEmpleado.findById(codigoEmpleado).orElse(null);
 
-        // 2️⃣ Actualizar los campos con MapStruct
-        this.empleadoMapper.updateEntityFromDto(modEmpleadoDto, empleadoEntity);
+        if (empleadoEntity == null) {
+            throw new EmpleadoNoExisteException(codigoEmpleado);
+        }else {
+            // 2️⃣ Actualizar los campos con MapStruct
+            this.empleadoMapper.updateEntityFromDto(modEmpleadoDto, empleadoEntity);
 
-        // Actualizar la FK administrador manualmente
-        if (modEmpleadoDto.codigoAdministrador() != null) {
-            AdministradorEntity administrador = new AdministradorEntity();
-            administrador.setCodigoAdministrador(modEmpleadoDto.codigoAdministrador());
-            empleadoEntity.setAdministrador(administrador);
+            // Actualizar la FK administrador manualmente
+            if (modEmpleadoDto.codigoAdministrador() != null) {
+                AdministradorEntity administrador = new AdministradorEntity();
+                administrador.setCodigoAdministrador(modEmpleadoDto.codigoAdministrador());
+                empleadoEntity.setAdministrador(administrador);
+            }
+
+            //  uardar la entidad actualizada en la base de datos
+            EmpleadoEntity guardado = this.crudEmpleado.save(empleadoEntity);
+
+            // Convertir de nuevo a DTO y devolver
+            return this.empleadoMapper.toDto(guardado);
         }
-
-        //  uardar la entidad actualizada en la base de datos
-        EmpleadoEntity guardado = this.crudEmpleado.save(empleadoEntity);
-
-        // Convertir de nuevo a DTO y devolver
-        return this.empleadoMapper.toDto(guardado);
     }
 
     @Override
     public void eliminarEmpleado(Long codigoEmpleado){
         EmpleadoEntity empleado = this.crudEmpleado.findById(codigoEmpleado).orElse(null);
 
-        if (empleado != null) {
+        if (empleado == null) {
+            throw new EmpleadoNoExisteException(codigoEmpleado);
+        }else{
             this.crudEmpleado.deleteById(codigoEmpleado); // eliminar si existe
         }
 

@@ -26,6 +26,7 @@ public class ServicioController {
 
     // ---- OBTENER TODOS ----
     @GetMapping
+    @Operation(description = "Retorna los Servicios ")
     public ResponseEntity<List<ServicioDto>> obtenerTodos(){
         return ResponseEntity.ok(this.servicioService.obtenerTodos());
     }
@@ -48,6 +49,7 @@ public class ServicioController {
 
     // ---- GUARDAR ----
     @PostMapping
+    @Operation(description = "Guarda los Servicios ")
     public ResponseEntity<ServicioDto> guardarServicio
             (@RequestBody @Valid ServicioDto servicioDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(this.servicioService.guardarServicio(servicioDto));
@@ -55,15 +57,17 @@ public class ServicioController {
 
     // ---- MODIFICAR ----
     @PutMapping("{codigo}")
+    @Operation(description = "Modifica los Servicios ")
     public ResponseEntity<ServicioDto> modificarServicio
-    (@PathVariable Long codigo, @RequestBody @Valid ServicioDto servicioDto){
+    (@Parameter(description = "Id del servicio a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ServicioDto servicioDto){
         return ResponseEntity.ok(this.servicioService.actualizarServicio(codigo, servicioDto));
     }
 
     // ---- ELIMINAR ----
     @DeleteMapping("{codigo}")
+    @Operation(description = "Elimina los Servicios ")
     public ResponseEntity<ServicioDto> eliminarServicio
-    (@PathVariable Long codigo){
+    (@Parameter(description = "Id del servicio a eliminar", example = "1")@PathVariable Long codigo){
         this.servicioService.eliminarServicio(codigo);
         return ResponseEntity.ok().build();
     }
