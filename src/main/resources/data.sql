@@ -1,17 +1,17 @@
-INSERT IGNORE INTO Administradores (nombre, apellido, correo, telefono)
-VALUES ('Juan', 'Ramírez', 'juan.ramirez@example.com', '55443322');
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Juan', 'Ramírez', 'juan.ramirez@example.com', '129620', '55443322');
 
-INSERT IGNORE INTO Administradores (nombre, apellido, correo, telefono)
-VALUES ('María', 'González', 'maria.gonzalez@example.com', '44221133');
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('María', 'González', 'maria.gonzalez@example.com', '154802', '44221133');
 
-INSERT IGNORE INTO Administradores (nombre, apellido, correo, telefono)
-VALUES ('Carlos', 'Hernández', 'carlos.hernandez@example.com', '66334455');
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Carlos', 'Hernández', 'carlos.hernandez@example.com', '1548795', '66334455');
 
-INSERT IGNORE INTO Administradores (nombre, apellido, correo, telefono)
-VALUES ('Ana', 'Pérez', 'ana.perez@example.com', '77889900');
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Ana', 'Pérez', 'ana.perez@example.com', '12161308', '77889900');
 
-INSERT IGNORE INTO Administradores (nombre, apellido, correo, telefono)
-VALUES ('José', 'Martínez', 'jose.martinez@example.com', '99001122');
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('José', 'Martínez', 'jose.martinez@example.com', '12852156', '99001122');
 
 -- Tuplas para Clientes
 INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)

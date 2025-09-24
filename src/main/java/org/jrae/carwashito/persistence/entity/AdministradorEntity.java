@@ -11,6 +11,7 @@ public class AdministradorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigoAdministrador;
     @Column(length = 150, unique = true, nullable = false)
+
     private String nombre;
     @Column(length = 150, unique = true, nullable = false)
     private String apellido;
@@ -20,7 +21,6 @@ public class AdministradorEntity {
     private String contrasena;
     @Column(length = 8, nullable = false)
     private String telefono;
-
     // Constructor vacío necesario para JPA
     public AdministradorEntity() {}
 
