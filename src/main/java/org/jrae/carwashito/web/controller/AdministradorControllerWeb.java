@@ -66,6 +66,7 @@ public class AdministradorControllerWeb implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Administrador agregado"));
         } else {
             administradorRepository.guardarAdministradores(dto);
+            this.cargarDatos();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Administrador actualizado"));
         }
 

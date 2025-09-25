@@ -61,7 +61,7 @@ public class AdministradorEntityRepository implements AdministradorRepository {
 
         if (administradoresEntity == null) {
             throw new AdministradorNoExisteException(codigoAdministrador);
-        }else {
+        } else {
             this.administradorMapper.updateEntityFromDto(modAdministradoresDto, administradoresEntity);
             return this.administradorMapper.toDto(this.crudAdministrador.save(administradoresEntity));
         }

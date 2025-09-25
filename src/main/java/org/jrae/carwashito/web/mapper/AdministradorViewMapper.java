@@ -12,4 +12,15 @@ public interface AdministradorViewMapper {
     List<AdministradorView> fromDto(Iterable<AdministradorDto> dtos);
     // De View a DTO
     AdministradorDto toDto(AdministradorView view);
+
+    default AdministradorView map(Long codigoAdministrador) {
+        if (codigoAdministrador == null) return null;
+        AdministradorView admin = new AdministradorView();
+        admin.setCodigoAdministrador(codigoAdministrador);
+        return admin;
+    }
+
+    default Long map(AdministradorView view) {
+        return view != null ? view.getCodigoAdministrador() : null;
+    }
 }

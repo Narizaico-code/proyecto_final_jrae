@@ -46,16 +46,13 @@
                             </h:outputText>
                         </p:column>
                         <p:column headerText="FECHA CONTRATACIÓN">
-                            <h:outputText value="#{empleado.hireDate}">
-                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                            </h:outputText>
+                            <h:outputText value="#{empleado.hireDate}" />
                         </p:column>
                         <p:column headerText="CORREO"><h:outputText value="#{empleado.email}"/></p:column>
                         <p:column headerText="TELÉFONO"><h:outputText value="#{empleado.phoneNumber}"/></p:column>
                         <p:column headerText="CARGO"><h:outputText value="#{empleado.position}"/></p:column>
                         <p:column headerText="ADMINISTRADOR">
-                            <h:outputText value="#{empleado.codigoAdministrador}" />
-                        </p:column>
+                            <h:outputText value="#{empleado.administrador.codigoAdministrador}" /></p:column>
 
                         <p:column headerText="OPCIÓN">
                             <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"

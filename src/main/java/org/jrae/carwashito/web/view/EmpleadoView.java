@@ -15,15 +15,16 @@ import java.time.LocalDate;
 @ToString
 
 public class EmpleadoView {
-    private Long codigo;
-    private String name;
-    private String lastName;
-    private Integer age;
-    private boolean availability;
-    private BigDecimal salary;
-    private LocalDate hireDate;
-    private String email;
-    private String phoneNumber;
-    private String position;
-    private AdministradorDto administrador;
+    Long codigo;
+    String name;
+    String lastName;
+    Integer age;
+    boolean availability;
+    BigDecimal salary;
+    LocalDate hireDate;
+    String email;
+    String phoneNumber;
+    String position;
+
+    AdministradorView administrador;
 }

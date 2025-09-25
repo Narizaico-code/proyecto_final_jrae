@@ -62,7 +62,7 @@ public class ClienteEntityRepository implements ClienteRepository {
             throw new ClienteNoExisteException(codigoCliente);
         }else {
             this.clienteMapper.updateEntityFromDto(modClientesDto, clientesEntity);
-            return clienteMapper.toDto(this.crudClientes.save(clientesEntity));
+            return this.clienteMapper.toDto(this.crudClientes.save(clientesEntity));
         }
     }
 

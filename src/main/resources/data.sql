@@ -14,30 +14,30 @@ INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefo
 VALUES ('José', 'Martínez', 'jose.martinez@example.com', '12852156', '99001122');
 
 -- Tuplas para Clientes
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('Carlos', 'Gómez', 'Carlitos', 'carlos.gomez@example.com', '12345678', 'Av. Central 123');
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, contrasena, correo, telefono, direccion)
+VALUES ('Carlos', 'Gómez', 'Carlitos', '12345678', 'carlos.gomez@example.com', '12345678', 'Av. Central 123');
 
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('Ana', 'Martínez', 'Anita', 'ana.martinez@example.com', '87654321', 'Calle 5 #45');
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, contrasena, correo, telefono, direccion)
+VALUES ('Ana', 'Martínez', 'Anita', '12345678', 'ana.martinez@example.com', '87654321', 'Calle 5 #45');
 
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('Luis', 'Fernández', 'Lucho', 'luis.fernandez@example.com', '11223344', 'Bulevar Principal 67');
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, contrasena, correo, telefono, direccion)
+VALUES ('Luis', 'Fernández', 'Lucho', '12345678', 'luis.fernandez@example.com', '11223344', 'Bulevar Principal 67');
 
 -- Clientes adicionales
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('Patricia', 'Silva', 'Paty', 'patricia.silva@example.com', '22334455', 'Av. Los Pinos 89');
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, contrasena, correo, telefono, direccion)
+VALUES ('Patricia', 'Silva', 'Paty', '12345678', 'patricia.silva@example.com', '22334455', 'Av. Los Pinos 89');
 
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('Roberto', 'Vega', 'Rober', 'roberto.vega@example.com', '33445566', 'Calle Norte 234');
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, contrasena, correo, telefono, direccion)
+VALUES ('Roberto', 'Vega', 'Rober', '12345678', 'roberto.vega@example.com', '33445566', 'Calle Norte 234');
 
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('Elena', 'Castro', 'Ele', 'elena.castro@example.com', '44556677', 'Av. Sur 156');
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, contrasena, correo, telefono, direccion)
+VALUES ('Elena', 'Castro', 'Ele', '12345678', 'elena.castro@example.com', '44556677', 'Av. Sur 156');
 
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('Miguel', 'Ruiz', 'Migue', 'miguel.ruiz@example.com', '55667788', 'Calle Este 78');
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, contrasena, correo, telefono, direccion)
+VALUES ('Miguel', 'Ruiz', 'Migue', '12345678', 'miguel.ruiz@example.com', '55667788', 'Calle Este 78');
 
-INSERT IGNORE INTO Clientes (nombre, apellido, apodo, correo, telefono, direccion)
-VALUES ('Sofía', 'Morales', 'Sofi', 'sofia.morales@example.com', '66778899', 'Bulevar Oeste 321');
+INSERT IGNORE INTO Clientes (nombre, apellido, apodo, contrasena, correo, telefono, direccion)
+VALUES ('Sofía', 'Morales', 'Sofi', '12345678', 'sofia.morales@example.com', '66778899', 'Bulevar Oeste 321');
 
 -- PrecioVehiculos (manteniendo los existentes)
 INSERT IGNORE INTO precio_vehiculos (tipo_vehiculo, valor) VALUES

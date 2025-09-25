@@ -18,10 +18,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/clientes")
 @Tag(name = "Clientes", description = "Opciones (CRUD) sobre los clientes de carWashito")
-public class ClientesController {
+public class ClienteController {
     private final ClienteService clientesService;
 
-    public ClientesController(ClienteService clientesService ) {
+    public ClienteController(ClienteService clientesService ) {
         this.clientesService = clientesService;
     }
 
@@ -58,7 +58,7 @@ public class ClientesController {
     // Modificar Cliente
     @PutMapping("{codigo}")
     @Operation(description = "Modifica los clientes ")
-    public ResponseEntity<ClienteDto> modificarClientes
+    public ResponseEntity<ClienteDto>modificarClientes
     (@Parameter(description = "Id del cliente a modificar", example = "1")@PathVariable Long codigo, @RequestBody @Valid ModClienteDto modClientesDto){
         return ResponseEntity.ok(this.clientesService.modificarClientes(codigo, modClientesDto));
     }
