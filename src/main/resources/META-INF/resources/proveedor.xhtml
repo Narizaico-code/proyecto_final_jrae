@@ -18,7 +18,7 @@
                 <div class="card">
                     <p:menubar>
                         <p:menuitem value="Inicio" icon="pi pi-fw pi-home"
-                                    update=":formulario-proveedores:tabla-proveedor"
+                                    update=":formulario-proveedores:tabla-proveedores"
                                     actionListener="#{proveedorControllerWeb.cargarDatos}"/>
                         <p:menuitem value="Nuevo proveedor" icon="pi pi-fw pi-plus"
                                     actionListener="#{proveedorControllerWeb.agregarProveedor}"
@@ -29,7 +29,7 @@
 
                 <div class="card">
                     <p:dataTable value="#{proveedorControllerWeb.proveedores}"
-                                 var="prov" id="tabla-proveedor"
+                                 var="prov" id="tabla-proveedores"
                                  widgetVar="tablaProveedores">
                         <f:facet name="header">
                             <h3>CarWashito, Proveedores</h3>
@@ -37,7 +37,7 @@
 
                         <p:column headerText="ID"><h:outputText value="#{prov.codigoProveedor}"/></p:column>
                         <p:column headerText="NOMBRE"><h:outputText value="#{prov.name}"/></p:column>
-                        <p:column headerText="NÚMERO"><h:outputText value="#{prov.number}"/></p:column>
+                        <p:column headerText="NUMERO"><h:outputText value="#{prov.number}"/></p:column>
                         <p:column headerText="CORREO"><h:outputText value="#{prov.email}"/></p:column>
                         <p:column headerText="DIRECCIÓN"><h:outputText value="#{prov.address}"/></p:column>
 
@@ -47,7 +47,6 @@
                                              process="@this"
                                              oncomplete="PF('ventanaModalProveedor').show()">
                                 <f:setPropertyActionListener value="#{prov}" target="#{proveedorControllerWeb.proveedorSeleccionado}"/>
-                                <p:resetInput target=":formulario-modal:ventana-proveedor"/>
                             </p:commandButton>
                             <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
                                              process="@this"
@@ -69,16 +68,16 @@
                             <p:inputText id="nombre" value="#{proveedorControllerWeb.proveedorSeleccionado.name}" required="true"/>
                         </div>
                         <div class="field">
-                            <p:outputLabel for="numero">NÚMERO</p:outputLabel>
-                            <p:inputText id="numero" value="#{proveedorControllerWeb.proveedorSeleccionado.number}" required="true"/>
+                            <p:outputLabel for="numero">NUMERO</p:outputLabel>
+                            <p:inputText id="numero" value="#{proveedorControllerWeb.proveedorSeleccionado.number}"/>
                         </div>
                         <div class="field">
                             <p:outputLabel for="correo">CORREO</p:outputLabel>
-                            <p:inputText id="correo" value="#{proveedorControllerWeb.proveedorSeleccionado.email}" required="true"/>
+                            <p:inputText id="correo" required="true" value="#{proveedorControllerWeb.proveedorSeleccionado.email}"/>
                         </div>
                         <div class="field">
                             <p:outputLabel for="direccion">DIRECCIÓN</p:outputLabel>
-                            <p:inputText id="direccion" value="#{proveedorControllerWeb.proveedorSeleccionado.address}" required="true"/>
+                            <p:inputText id="direccion" value="#{proveedorControllerWeb.proveedorSeleccionado.address}"/>
                         </div>
 
                     </p:outputPanel>
@@ -86,7 +85,7 @@
                     <f:facet name="footer">
                         <p:commandButton value="Guardar" icon="pi pi-check" class="ui-button-primary"
                                          process="@this ventana-proveedor"
-                                         update=":formulario-proveedores:tabla-proveedor"
+                                         update=":formulario-proveedores:tabla-proveedores"
                                          actionListener="#{proveedorControllerWeb.guardarProveedor}"
                                          oncomplete="PF('ventanaModalProveedor').hide(); PF('tablaProveedores').clearFilters();"/>
                         <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
@@ -97,12 +96,15 @@
                 <p:confirmDialog widgetVar="ventanaEliminarProveedor" showEffect="fade"
                                  width="300" message="¿Desea eliminar el proveedor?"
                                  header="Confirme su selección" severity="warn">
-                    <p:commandButton value="Sí" icon="pi pi-check" style="ui-button-primary"
+                    <p:commandButton value="Sí" icon="pi pi-check" class="ui-button-primary"
                                      process="@this"
                                      actionListener="#{proveedorControllerWeb.eliminarProveedor}"
-                                     update=":formulario-proveedores:tabla-proveedor"
-                                     oncomplete="PF('ventanaEliminarProveedor').hide()"/>
-                    <p:commandButton value="No" icon="pi pi-times" style="ui-button-warning"
+                                     update=":formulario-proveedores:tabla-proveedores :formulario-proveedores:mensaje_emergente"
+                                     oncomplete="PF('ventanaEliminarProveedor').hide();">
+                        <f:setPropertyActionListener value="#{proveedorControllerWeb.proveedorSeleccionado}"
+                                                     target="#{proveedorControllerWeb.proveedorSeleccionado}" />
+                    </p:commandButton>
+                    <p:commandButton value="No" icon="pi pi-times" class="ui-button-warning"
                                      onclick="PF('ventanaEliminarProveedor').hide()" type="button"/>
                 </p:confirmDialog>
             </h:form>
