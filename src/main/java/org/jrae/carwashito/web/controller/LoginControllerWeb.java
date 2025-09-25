@@ -1,6 +1,5 @@
 package org.jrae.carwashito.web.controller;
 
-
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.faces.context.FacesContext;
@@ -16,79 +15,132 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Component
 @Data
 @ViewScoped
-public class LoginControllerWeb {
+public class LoginControllerWeb implements Serializable {
 
     @Autowired
-    ClienteRepository clienteRepository;
+    private ClienteRepository clienteRepository;
+
     @Autowired
-    AdministradorRepository administradorRepository;
-    private List<ClienteDto> clientes;
-    private List<AdministradorDto> administradores;
-    private ClienteDto clienteSeleccionado;
-    private AdministradorDto administradorSeleccionado;
-    String mensajeExito, mensajeError;
+    private AdministradorRepository administradorRepository;
+
+    // Campos del formulario
+    private String correoONickname;
+    private String password;
+
+    // Mensajes para los modales
+    private String mensajeExito;
+    private String mensajeError;
+
     private static final Logger logger = LoggerFactory.getLogger(LoginControllerWeb.class);
-    String sl = System.lineSeparator();
+    private String sl = System.lineSeparator();
 
     @PostConstruct
-    public void init(){
+    public void init() {
         cargarDatos();
     }
 
-    public void cargarDatos(){
-        this.clienteRepository.obtenerTodo().forEach(clienteDto -> logger.info(clienteDto.toString() + sl));
-        this.clienteRepository.obtenerTodo().forEach(administradorDto -> logger.info(administradorDto.toString() + sl));
+    public void cargarDatos() {
+        // Cargar datos iniciales si es necesario
+        List<ClienteDto> clientes = this.clienteRepository.obtenerTodo();
+        List<AdministradorDto> administradores = this.administradorRepository.obtenerTodo();
+
+        clientes.forEach(clienteDto -> logger.info("Cliente: " + clienteDto.toString() + sl));
+        administradores.forEach(administradorDto -> logger.info("Admin: " + administradorDto.toString() + sl));
     }
 
-    public void iniciarSesion(){
-        this.clientes = this.clienteRepository.obtenerTodo();
-        this.administradores = this.administradorRepository.obtenerTodo();
-        ClienteDto clienteEncontrado = null;
-        if (clienteSeleccionado.email() == null || clienteSeleccionado.password() == null || this.clienteSeleccionado.nickname() == null || clienteSeleccionado.email().trim().isEmpty() || clienteSeleccionado.password().trim().isEmpty() || this.clienteSeleccionado.nickname().trim().isEmpty()){
-            mostrarError("Porfavor complete todos los campos");
-            return;}
-        for (ClienteDto clienteDto : this.clientes){
-            if (clienteDto.email().equals(this.clienteSeleccionado.email().trim()) || clienteDto.nickname().equals(this.clienteSeleccionado.nickname().trim())){
-                if(clienteDto.password().equals(this.clienteSeleccionado.password())){
-                    clienteEncontrado = clienteDto;
-                    HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-                            .getExternalContext().getSession(true);
-                    session.setAttribute("clienteLogueado", clienteEncontrado);
-                    session.setAttribute("usuarioAutenticado", true);
-                    logger.info("Login exitoso para: " + clienteEncontrado.email());
-                    mostrarExito("¡Bienvenido " + clienteEncontrado.name() + "!");
-                    PrimeFaces.current().executeScript(
-                            "setTimeout(function(){ window.location.href = 'menuPrincipal.xhtml'; }, 2000);"
-                    );
-                    break;
+    public void iniciarSesion() {
+        if (correoONickname == null || password == null ||
+                correoONickname.trim().isEmpty() || password.trim().isEmpty()) {
+            mostrarError("Por favor complete todos los campos");
+            return;
+        }
+
+        // Primero validamos si es cliente
+        List<ClienteDto> clientes = this.clienteRepository.obtenerTodo();
+        for (ClienteDto clienteDto : clientes) {
+            if (clienteDto.email().equals(correoONickname.trim()) ||
+                    clienteDto.nickname().equals(correoONickname.trim())) {
+
+                if (clienteDto.password().equals(password)) {
+                    iniciarSesionCliente(clienteDto);
+                    return;
+                } else {
+                    logger.warn("Contraseña incorrecta para cliente: " + correoONickname);
+                    mostrarError("Correo/nickname o contraseña incorrectos");
+                    return;
                 }
-                else
-                {
-                 logger.warn("Contraseña incorrecta");
-                 mostrarError("Correo o contraseña incorrectos");
-                }
-                clienteEncontrado = clienteDto;
-                break;
             }
         }
 
-        if (clienteEncontrado == null){
-            logger.warn("Correo no encontrado: " + this.clienteSeleccionado.email());
-            mostrarError("Correo o contraseña incorrectos");
+        // Si no fue cliente, intentamos con administrador
+        List<AdministradorDto> administradores = this.administradorRepository.obtenerTodo();
+        for (AdministradorDto adminDto : administradores) {
+            if (adminDto.email().equals(correoONickname.trim())) {
+                if (adminDto.password().equals(password)) {
+                    iniciarSesionAdministrador(adminDto);
+                    return;
+                } else {
+                    logger.warn("Contraseña incorrecta para administrador: " + correoONickname);
+                    mostrarError("Correo o contraseña incorrectos");
+                    return;
+                }
+            }
         }
+
+        logger.warn("Usuario no encontrado: " + correoONickname);
+        mostrarError("Correo/nickname o contraseña incorrectos");
     }
+
+    private void iniciarSesionCliente(ClienteDto clienteEncontrado) {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+        session.setAttribute("clienteLogueado", clienteEncontrado);
+        session.setAttribute("usuarioAutenticado", true);
+        session.setAttribute("tipoUsuario", "cliente");
+
+        logger.info("Login exitoso (Cliente) para: " + clienteEncontrado.email());
+        mostrarExito("¡Bienvenido " + clienteEncontrado.name() + "!");
+
+        PrimeFaces.current().executeScript(
+                "setTimeout(function(){ window.location.href = 'amoramoramor.xhtml'; }, 2000);"
+        );
+    }
+
+    private void iniciarSesionAdministrador(AdministradorDto adminEncontrado) {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(true);
+        session.setAttribute("adminLogueado", adminEncontrado);
+        session.setAttribute("usuarioAutenticado", true);
+        session.setAttribute("tipoUsuario", "administrador");
+
+        logger.info("Login exitoso (Admin) para: " + adminEncontrado.email());
+        mostrarExito("¡Bienvenido Administrador " + adminEncontrado.name() + "!");
+
+        PrimeFaces.current().executeScript(
+                "setTimeout(function(){ window.location.href = 'admin-dashboard.html'; }, 2000);"
+        );
+    }
+
     private void mostrarExito(String mensaje) {
-        mensajeExito = mensaje;
+        this.mensajeExito = mensaje;
         PrimeFaces.current().executeScript("PF('modalExito').show()");
     }
 
     private void mostrarError(String mensaje) {
-        mensajeError = mensaje;
+        this.mensajeError = mensaje;
         PrimeFaces.current().executeScript("PF('modalError').show()");
+    }
+
+    public void limpiarFormulario() {
+        this.correoONickname = "";
+        this.password = "";
+        this.mensajeError = null;
+        this.mensajeExito = null;
     }
 }
