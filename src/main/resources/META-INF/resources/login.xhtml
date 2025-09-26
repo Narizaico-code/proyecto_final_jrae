@@ -22,14 +22,53 @@
                 <div class="border-round-xl border-1 surface-card fondo-difuminado p-6 flex flex-column justify-content-center w-4 mx-auto">
                     <div class="flex flex-column gap-3">
                         <p class="text-2xl font-bold text-center">Inicia Sesión</p>
-                        <h:outputLabel for="email" value="Correo Electrónico" />
-                        <p:inputText id="email" type="email" placeholder="ejemplo@correo.com" />
+
+                        <h:outputLabel for="email" value="Correo Electrónico / Nickname" />
+                        <p:inputText id="email"
+                                     value="#{loginControllerWeb.correoONickname}"
+                                     placeholder="ejemplo@correo.com o nickname"
+                                     required="true" />
+
                         <h:outputLabel for="password" value="Contraseña" />
-                        <p:password id="password" feedback="false" placeholder="Ingresa tu contraseña" />
-                        <p:commandButton value="Login" icon="pi pi-sign-in" styleClass="mt-3" />
+                        <p:password id="password"
+                                    value="#{loginControllerWeb.password}"
+                                    feedback="false"
+                                    placeholder="Ingresa tu contraseña"
+                                    required="true" />
+
+                        <p:commandButton value="Login"
+                                         icon="pi pi-sign-in"
+                                         styleClass="mt-3"
+                                         action="#{loginControllerWeb.iniciarSesion}"
+                                         update="@form" />
                     </div>
                 </div>
             </div>
+
+            <!-- Modal de Éxito -->
+            <p:dialog id="modalExito"
+                      header="¡Éxito!"
+                      widgetVar="modalExito"
+                      modal="true"
+                      resizable="false"
+                      closable="false">
+                <h:outputText value="#{loginControllerWeb.mensajeExito}" />
+            </p:dialog>
+
+            <!-- Modal de Error -->
+            <p:dialog id="modalError"
+                      header="Error"
+                      widgetVar="modalError"
+                      modal="true"
+                      resizable="false"
+                      closable="true">
+                <h:outputText value="#{loginControllerWeb.mensajeError}" />
+                <f:facet name="footer">
+                    <p:commandButton value="Cerrar"
+                                     onclick="PF('modalError').hide()"
+                                     type="button" />
+                </f:facet>
+            </p:dialog>
         </h:form>
     </h:body>
 </h:html>

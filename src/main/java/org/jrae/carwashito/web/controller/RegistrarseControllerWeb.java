@@ -1,13 +1,12 @@
 package org.jrae.carwashito.web.controller;
 
-
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
-import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.jrae.carwashito.dominio.dto.ClienteDto;
+import org.jrae.carwashito.dominio.exception.ClienteYaExisteException;
 import org.jrae.carwashito.dominio.repository.ClienteRepository;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
@@ -18,68 +17,165 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Data
 @ViewScoped
+@Data
 public class RegistrarseControllerWeb {
 
     @Autowired
-    ClienteRepository clienteRepository;
+    private ClienteRepository clienteRepository;
 
     private List<ClienteDto> clientes;
-    private ClienteDto clienteSeleccionado;
+    private ClienteView clienteView;
     private static final Logger logger = LoggerFactory.getLogger(RegistrarseControllerWeb.class);
-    String mensajeExito, mensajeError;
-    String sl = System.lineSeparator();
+
+    private String mensajeExito;
+    private String mensajeError;
+    private String sl = System.lineSeparator();
 
     @PostConstruct
-    public void init(){
+    public void init() {
+        clienteView = new ClienteView();
         cargarDatos();
     }
 
-    public void cargarDatos(){
-        this.clienteRepository.obtenerTodo().forEach(clienteDto -> logger.info(clienteDto.toString() + sl));
-    }
-
-    public void agregarEmpleado(){
-        this.clienteSeleccionado = new ClienteDto(this.clienteSeleccionado.codigoCliente(), this.clienteSeleccionado.name(), this.clienteSeleccionado.lastName(), this.clienteSeleccionado.nickname(), this.clienteSeleccionado.password(), this.clienteSeleccionado.email(), this.clienteSeleccionado.phoneNumber(), this.clienteSeleccionado.address());
-    }
-
-    public void guardarUsuario(){
-        logger.info("Usuario a guardar: " + this.clienteSeleccionado + sl);
-        this.clientes = this.clienteRepository.obtenerTodo();
-        ClienteDto clienteEncontrado = null;
-        if (this.clienteSeleccionado == null){
-            mostrarError("Porfavor complete todos los campos");
-            return;}
-        for (ClienteDto clienteDto : this.clientes){
-            if (clienteDto.email().equals(this.clienteSeleccionado.email().trim()) || clienteDto.nickname().equals(this.clienteSeleccionado.nickname().trim())) {
-                clienteEncontrado = clienteDto;
-                logger.info("El correo y el nickname esta en uso");
-                mostrarError("El correo " + clienteEncontrado.email() + " y/o el nickname " + clienteEncontrado.nickname() + " ya esta en uso");
-            }else{
-                this.clienteRepository.guardarClientes(this.clienteSeleccionado);
-                this.clientes.add(this.clienteSeleccionado);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Usuario(cliente) agregado"));
-                logger.warn("Contraseña incorrecta");
-                mostrarError("Correo o contraseña incorrectos");
-                }
-                clienteEncontrado = clienteDto;
-                break;
-            }
-
-
-        if (clienteEncontrado == null){
-            logger.warn("Correo no encontrado: " + this.clienteSeleccionado.email());
-            mostrarError("Correo o contraseña incorrectos");
+    public void cargarDatos() {
+        try {
+            this.clientes = clienteRepository.obtenerTodo();
+            logger.info("Clientes cargados: {}", clientes.size());
+        } catch (Exception e) {
+            logger.error("Error al cargar datos: {}", e.getMessage());
+            mostrarError("Error al cargar los datos");
         }
     }
+
+    public void prepararNuevoCliente() {
+        this.clienteView = new ClienteView();
+    }
+
+    public void guardarUsuario() {
+        logger.info("Intentando guardar usuario: {}", this.clienteView);
+
+        try {
+            if (!validarDatosCliente()) {
+                return;
+            }
+
+            if (existeEmail(clienteView.getEmail())) {
+                mostrarError("El correo " + clienteView.getEmail() + " ya está en uso");
+                return;
+            }
+
+            if (existeNickname(clienteView.getNickname())) {
+                mostrarError("El nickname " + clienteView.getNickname() + " ya está en uso");
+                return;
+            }
+
+            ClienteDto clienteDto = convertirViewADto();
+
+            ClienteDto clienteGuardado = clienteRepository.guardarClientes(clienteDto);
+
+            if (clienteGuardado != null) {
+                mostrarExito("Usuario registrado exitosamente");
+                prepararNuevoCliente();
+                cargarDatos();
+                PrimeFaces.current().executeScript(
+                        "setTimeout(function(){ window.location.href = 'index.xhtml'; }, 2000);"
+                );
+            } else {
+                mostrarError("Error al guardar el usuario");
+            }
+
+        } catch (ClienteYaExisteException e) {
+            logger.error("Cliente ya existe: {}", e.getMessage());
+            mostrarError("El cliente ya existe en el sistema");
+        } catch (Exception e) {
+            logger.error("Error al guardar usuario: {}", e.getMessage());
+            mostrarError("Error interno del sistema al guardar el usuario");
+        }
+    }
+
+    private ClienteDto convertirViewADto() {
+        return new ClienteDto(
+                0L,
+                clienteView.getName(),
+                clienteView.getLastName(),
+                clienteView.getNickname(),
+                clienteView.getPassword(),
+                clienteView.getEmail(),
+                clienteView.getPhoneNumber(),
+                clienteView.getAddress()
+        );
+    }
+
+    private boolean existeEmail(String email) {
+        if (clientes == null) return false;
+        return clientes.stream()
+                .anyMatch(cliente -> cliente.email().equalsIgnoreCase(email.trim()));
+    }
+
+    private boolean existeNickname(String nickname) {
+        if (clientes == null) return false;
+        return clientes.stream()
+                .anyMatch(cliente -> cliente.nickname().equalsIgnoreCase(nickname.trim()));
+    }
+
+    private boolean validarDatosCliente() {
+        if (clienteView == null) {
+            mostrarError("Por favor complete todos los campos");
+            return false;
+        }
+        if (clienteView.getName() == null || clienteView.getName().trim().isEmpty()) {
+            mostrarError("El nombre es obligatorio");
+            return false;
+        }
+        if (clienteView.getLastName() == null || clienteView.getLastName().trim().isEmpty()) {
+            mostrarError("El apellido es obligatorio");
+            return false;
+        }
+        if (clienteView.getNickname() == null || clienteView.getNickname().trim().isEmpty()) {
+            mostrarError("El apodo (nickname) es obligatorio");
+            return false;
+        }
+        if (clienteView.getEmail() == null || clienteView.getEmail().trim().isEmpty()) {
+            mostrarError("El correo electrónico es obligatorio");
+            return false;
+        }
+        if (clienteView.getPassword() == null || clienteView.getPassword().trim().isEmpty()) {
+            mostrarError("La contraseña es obligatoria");
+            return false;
+        }
+        if (clienteView.getPhoneNumber() == null || clienteView.getPhoneNumber().trim().isEmpty()) {
+            mostrarError("El teléfono es obligatorio");
+            return false;
+        }
+        if (clienteView.getAddress() == null || clienteView.getAddress().trim().isEmpty()) {
+            mostrarError("La dirección es obligatoria");
+            return false;
+        }
+
+        if (!clienteView.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            mostrarError("El formato del correo electrónico no es válido");
+            return false;
+        }
+
+        if (!clienteView.getPhoneNumber().matches("\\d{8}")) {
+            mostrarError("El teléfono debe tener 8 dígitos");
+            return false;
+        }
+        return true;
+    }
+
     private void mostrarExito(String mensaje) {
         mensajeExito = mensaje;
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", mensaje));
         PrimeFaces.current().executeScript("PF('modalExito').show()");
     }
 
     private void mostrarError(String mensaje) {
         mensajeError = mensaje;
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", mensaje));
         PrimeFaces.current().executeScript("PF('modalError').show()");
     }
-    }
+}

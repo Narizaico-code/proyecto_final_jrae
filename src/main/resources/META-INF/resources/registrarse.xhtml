@@ -1,62 +1,91 @@
 <!DOCTYPE html>
-<h:html xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:h = "http://xmlns.jcp.org/jsf/html"
-        xmlns:f = "http://xmlns.jcp.org/jsf/core"
-        xmlns:p = "http://primefaces.org/ui">
-    <h:head>
-        <title>Registrarse</title>
-        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
-        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 
-        <style>
-            .fondo-color-personalizado {
-                background-color: rgba(100, 149, 237, 0.4);
-                backdrop-filter: blur(8px);
-            }
-        </style>
-    </h:head>
+<h:head>
+    <title>Registro de Cliente</title>
+    <style>
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+        .panel-center {
+            width: 600px;
+            margin: 20px auto;
+        }
+    </style>
+</h:head>
 
-    <h:body style="background-color: rgba(100, 149, 237, 0.4)">
-        <h:form>
-            <div class="border-round-xl border-1 surface-card p-4 flex justify-content-center w-7 mx-auto"
-                      style="background-color: #ff000080 !important; backdrop-filter: blur(8px);">
-                <p>Registrese ahora</p>
-            </div>
+<h:body>
+    <h:form id="formRegistro">
+        <p:growl id="growl" showDetail="true" life="3000" />
 
-            <div class="border-round-xl border-1 surface-card bg-transparent p-4 flex justify-content-center w-5 mx-auto mt-4">
-                <div class="flex flex-column gap-3">
-                    <div class="field">
-                        <p:outputLabel for="nombre">Nombre</p:outputLabel>
-                        <p:inputText id="nombre" required="true"
-                                     value="#{registrarseController.clienteSeleccionado.nombre}"/>
-                    </div>
-                    <div class="field">
-                        <p:outputLabel for="apellido">Apellido</p:outputLabel>
-                        <p:inputText id="apellido" required="true"
-                                     value="#{registrarseController.clienteSeleccionado.apellido}"/>
-                    </div>
-                    <div class="field">
-                        <p:outputLabel for="apodo">Apodo</p:outputLabel>
-                        <p:inputText id="apodo" required="true"
-                                     value="#{registrarseController.clienteSeleccionado.apellido}"/>
-                    </div>
-                    <div class="field">
-                        <p:outputLabel for="correo">Correo</p:outputLabel>
-                        <p:inputText id="correo" required="true"
-                                     value="#{registrarseController.clienteSeleccionado.correo}"/>
-                    </div>
-                    <div class="field">
-                        <p:outputLabel for="telefono">Telfono</p:outputLabel>
-                        <p:inputText id="telefono" required="true"
-                                     value="#{registrarseController.clienteSeleccionado.telefono}"/>
-                    </div>
-                    <div class="field">
-                        <p:outputLabel for="direccion">Direccion</p:outputLabel>
-                        <p:inputText id="direccion" required="true"
-                                     value="#{registrarseController.clienteSeleccionado.direccion}"/>
-                    </div>
-                </div>
-            </div>
-        </h:form>
-    </h:body>
-</h:html>
+        <p:panel header="Registrese ahora" styleClass="panel-center">
+            <p:panelGrid columns="2" layout="grid" style="width: 100%" columnClasses="label, input">
+
+                <p:outputLabel for="name" value="Nombre" styleClass="required-field" />
+                <p:inputText id="name" value="#{registrarseControllerWeb.clienteView.name}"
+                             required="true" requiredMessage="Nombre es obligatorio"
+                             maxlength="150" />
+
+                <p:outputLabel for="lastName" value="Apellido" styleClass="required-field" />
+                <p:inputText id="lastName" value="#{registrarseControllerWeb.clienteView.lastName}"
+                             required="true" requiredMessage="Apellido es obligatorio"
+                             maxlength="150" />
+
+                <p:outputLabel for="nickname" value="Apodo" styleClass="required-field" />
+                <p:inputText id="nickname" value="#{registrarseControllerWeb.clienteView.nickname}"
+                             required="true" requiredMessage="Apodo es obligatorio"
+                             maxlength="50" />
+
+                <p:outputLabel for="password" value="Contraseña" styleClass="required-field" />
+                <p:password id="password" value="#{registrarseControllerWeb.clienteView.password}"
+                            required="true" requiredMessage="Contraseña es obligatoria"
+                            feedback="false" />
+
+                <p:outputLabel for="email" value="Correo Electrónico" styleClass="required-field" />
+                <p:inputText id="email" value="#{registrarseControllerWeb.clienteView.email}"
+                             required="true" requiredMessage="Correo es obligatorio"
+                             maxlength="100" />
+
+                <p:outputLabel for="phoneNumber" value="Teléfono" styleClass="required-field" />
+                <p:inputText id="phoneNumber" value="#{registrarseControllerWeb.clienteView.phoneNumber}"
+                             required="true" requiredMessage="Teléfono es obligatorio"
+                             maxlength="8" />
+
+                <p:outputLabel for="address" value="Dirección" styleClass="required-field" />
+                <p:inputText id="address" value="#{registrarseControllerWeb.clienteView.address}"
+                             required="true" requiredMessage="Dirección es obligatoria"
+                             maxlength="150" />
+
+            </p:panelGrid>
+
+            <p:separator />
+
+            <p:commandButton value="Registrar" actionListener="#{registrarseControllerWeb.guardarUsuario}"
+                             update="growl, formRegistro" styleClass="ui-button-primary"
+                             icon="pi pi-check"/>
+
+            <p:commandButton value="Limpiar" actionListener="#{registrarseControllerWeb.prepararNuevoCliente}"
+                             update="formRegistro" styleClass="ui-button-secondary"
+                             icon="pi pi-refresh" />
+        </p:panel>
+
+        <p:dialog header="Éxito" widgetVar="modalExito" modal="true" resizable="false" draggable="false">
+            <h:outputText value="#{registrarseControllerWeb.mensajeExito}" />
+            <f:facet name="footer">
+                <p:commandButton value="Aceptar" oncomplete="PF('modalExito').hide()" />
+            </f:facet>
+        </p:dialog>
+
+        <p:dialog header="Error" widgetVar="modalError" modal="true" resizable="false" draggable="false">
+            <h:outputText value="#{registrarseControllerWeb.mensajeError}" />
+            <f:facet name="footer">
+                <p:commandButton value="Aceptar" oncomplete="PF('modalError').hide()" />
+            </f:facet>
+        </p:dialog>
+    </h:form>
+</h:body>
+</html>
