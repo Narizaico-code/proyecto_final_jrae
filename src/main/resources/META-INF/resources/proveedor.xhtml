@@ -8,106 +8,132 @@
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
     </h:head>
-    <h:body>
-        <p>Estoy en Proveedores</p>
+    <h:body style="background-color: #F2F2F2; color: #400C0C;">
+        <div class="p-4 mx-auto" style="max-width: 1200px;">
+            <p:outputLabel value="Estoy en Proveedores" styleClass="text-4xl font-bold block mb-4 text-center" style="color: #400C0C;"/>
 
-        <div class="card">
-            <h:form id="formulario-proveedores">
-                <p:growl id="mensaje_emergente" showDetails="true"/>
+            <div class="card p-shadow-4 p-5" style="background-color: white; border-radius: 8px;">
+                <h:form id="formulario-proveedores">
+                    <p:growl id="mensaje_emergente" showDetails="true"/>
 
-                <div class="card">
-                    <p:menubar>
-                        <p:menuitem value="Inicio" icon="pi pi-fw pi-home"
-                                    update=":formulario-proveedores:tabla-proveedores"
-                                    actionListener="#{proveedorControllerWeb.cargarDatos}"/>
-                        <p:menuitem value="Nuevo proveedor" icon="pi pi-fw pi-plus"
-                                    actionListener="#{proveedorControllerWeb.agregarProveedor}"
-                                    update=":formulario-modal:ventana-proveedor"
-                                    oncomplete="PF('ventanaModalProveedor').show()"/>
-                    </p:menubar>
-                </div>
+                    <div class="card mb-4" style="background-color: #591D1D; border-radius: 4px;">
+                        <p:menubar style="background: none; border: none;">
+                            <p:menuitem value="Inicio" icon="pi pi-fw pi-home"
+                                        actionListener="#{proveedorControllerWeb.cargarDatos}"
+                                        update=":formulario-proveedores:tabla-proveedores"
+                                        onclick="window.location.href='menu.xhtml';return false;"
+                                        style="color: #F2F2F2; font-weight: bold;"/>
+                            <p:menuitem value="Nuevo proveedor" icon="pi pi-fw pi-plus"
+                                        actionListener="#{proveedorControllerWeb.agregarProveedor}"
+                                        update=":formulario-modal:ventana-proveedor"
+                                        oncomplete="PF('ventanaModalProveedor').show()"
+                                        style="color: #F2F2F2; font-weight: bold;"/>
+                        </p:menubar>
+                    </div>
 
-                <div class="card">
-                    <p:dataTable value="#{proveedorControllerWeb.proveedores}"
-                                 var="prov" id="tabla-proveedores"
-                                 widgetVar="tablaProveedores">
-                        <f:facet name="header">
-                            <h3>CarWashito, Proveedores</h3>
+                    <div class="card p-0" style="border: 1px solid #D9BFBF; border-radius: 4px; overflow: hidden;">
+                        <p:dataTable value="#{proveedorControllerWeb.proveedores}"
+                                     var="prov" id="tabla-proveedores"
+                                     widgetVar="tablaProveedores"
+                                     rows="8" paginator="true"
+                                     emptyMessage="No se encontraron proveedores.">
+                            <f:facet name="header">
+                                <h:outputText value="CarWashito - Proveedores" class="font-bold block p-3" style="background-color: #A66F6F; color: #400C0C; font-size: 1.25rem;"/>
+                            </f:facet>
+
+                            <p:column headerText="ID" style="background-color: #D9BFBF; color: #400C0C;">
+                                <h:outputText value="#{prov.codigoProveedor}"/>
+                            </p:column>
+
+                            <p:column headerText="NOMBRE" style="background-color: #D9BFBF; color: #400C0C;" filterBy="#{prov.name}">
+                                <h:outputText value="#{prov.name}"/>
+                            </p:column>
+
+                            <p:column headerText="NUMERO" style="background-color: #D9BFBF; color: #400C0C;" filterBy="#{prov.number}">
+                                <h:outputText value="#{prov.number}"/>
+                            </p:column>
+
+                            <p:column headerText="CORREO" style="background-color: #D9BFBF; color: #400C0C;" filterBy="#{prov.email}">
+                                <h:outputText value="#{prov.email}"/>
+                            </p:column>
+
+                            <p:column headerText="DIRECCIÓN" style="background-color: #D9BFBF; color: #400C0C;">
+                                <h:outputText value="#{prov.address}"/>
+                            </p:column>
+
+                            <p:column headerText="OPCIÓN" style="width:180px; text-align: center; background-color: #D9BFBF; color: #400C0C;">
+                                <p:commandButton value="Editar" icon="pi pi-pencil" class="mr-2"
+                                                 update=":formulario-modal:ventana-proveedor"
+                                                 process="@this"
+                                                 oncomplete="PF('ventanaModalProveedor').show()"
+                                                 style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;">
+                                    <f:setPropertyActionListener value="#{prov}" target="#{proveedorControllerWeb.proveedorSeleccionado}"/>
+                                </p:commandButton>
+                                <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                                 process="@this"
+                                                 oncomplete="PF('ventanaEliminarProveedor').show()"
+                                                 style="background-color: #591D1D; border-color: #591D1D; color: #F2F2F2;">
+                                    <f:setPropertyActionListener value="#{prov}" target="#{proveedorControllerWeb.proveedorSeleccionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </h:form>
+
+                <h:form id="formulario-modal">
+                    <p:dialog header="Detalle del Proveedor" showEffect="fade"
+                              modal="true" widgetVar="ventanaModalProveedor" responsive="true"
+                              style="border-radius: 8px;">
+                        <p:outputPanel id="ventana-proveedor" class="ui-fluid p-4" style="background-color: white;">
+                            <div class="field mb-3">
+                                <p:outputLabel for="nombre" style="font-weight: bold; color: #400C0C;">NOMBRE</p:outputLabel>
+                                <p:inputText id="nombre" value="#{proveedorControllerWeb.proveedorSeleccionado.name}" required="true"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="numero" style="font-weight: bold; color: #400C0C;">NUMERO</p:outputLabel>
+                                <p:inputText id="numero" value="#{proveedorControllerWeb.proveedorSeleccionado.number}"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="correo" style="font-weight: bold; color: #400C0C;">CORREO</p:outputLabel>
+                                <p:inputText id="correo" required="true" value="#{proveedorControllerWeb.proveedorSeleccionado.email}"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="direccion" style="font-weight: bold; color: #400C0C;">DIRECCIÓN</p:outputLabel>
+                                <p:inputText id="direccion" value="#{proveedorControllerWeb.proveedorSeleccionado.address}"/>
+                            </div>
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <div style="background-color: #D9BFBF; padding: 0.5rem 1rem; text-align: right;">
+                                <p:commandButton value="Guardar" icon="pi pi-check" class="mr-2"
+                                                 process="@this ventana-proveedor"
+                                                 update=":formulario-proveedores:tabla-proveedores"
+                                                 actionListener="#{proveedorControllerWeb.guardarProveedor}"
+                                                 oncomplete="PF('ventanaModalProveedor').hide(); PF('tablaProveedores').clearFilters();"
+                                                 style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;"/>
+                                <p:commandButton value="Cancelar" icon="pi pi-times"
+                                                 onclick="PF('ventanaModalProveedor').hide()" type="button"
+                                                 style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"/>
+                            </div>
                         </f:facet>
+                    </p:dialog>
 
-                        <p:column headerText="ID"><h:outputText value="#{prov.codigoProveedor}"/></p:column>
-                        <p:column headerText="NOMBRE"><h:outputText value="#{prov.name}"/></p:column>
-                        <p:column headerText="NUMERO"><h:outputText value="#{prov.number}"/></p:column>
-                        <p:column headerText="CORREO"><h:outputText value="#{prov.email}"/></p:column>
-                        <p:column headerText="DIRECCIÓN"><h:outputText value="#{prov.address}"/></p:column>
-
-                        <p:column headerText="OPCIÓN">
-                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
-                                             update=":formulario-modal:ventana-proveedor"
-                                             process="@this"
-                                             oncomplete="PF('ventanaModalProveedor').show()">
-                                <f:setPropertyActionListener value="#{prov}" target="#{proveedorControllerWeb.proveedorSeleccionado}"/>
-                            </p:commandButton>
-                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
-                                             process="@this"
-                                             oncomplete="PF('ventanaEliminarProveedor').show()">
-                                <f:setPropertyActionListener value="#{prov}" target="#{proveedorControllerWeb.proveedorSeleccionado}"/>
-                            </p:commandButton>
-                        </p:column>
-                    </p:dataTable>
-                </div>
-            </h:form>
-
-            <h:form id="formulario-modal">
-                <p:dialog header="Detalle del Proveedor" showEffect="fade"
-                          modal="true" widgetVar="ventanaModalProveedor" responsive="true">
-                    <p:outputPanel id="ventana-proveedor" class="ui-fluid">
-
-                        <div class="field">
-                            <p:outputLabel for="nombre">NOMBRE</p:outputLabel>
-                            <p:inputText id="nombre" value="#{proveedorControllerWeb.proveedorSeleccionado.name}" required="true"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="numero">NUMERO</p:outputLabel>
-                            <p:inputText id="numero" value="#{proveedorControllerWeb.proveedorSeleccionado.number}"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="correo">CORREO</p:outputLabel>
-                            <p:inputText id="correo" required="true" value="#{proveedorControllerWeb.proveedorSeleccionado.email}"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="direccion">DIRECCIÓN</p:outputLabel>
-                            <p:inputText id="direccion" value="#{proveedorControllerWeb.proveedorSeleccionado.address}"/>
-                        </div>
-
-                    </p:outputPanel>
-
-                    <f:facet name="footer">
-                        <p:commandButton value="Guardar" icon="pi pi-check" class="ui-button-primary"
-                                         process="@this ventana-proveedor"
-                                         update=":formulario-proveedores:tabla-proveedores"
-                                         actionListener="#{proveedorControllerWeb.guardarProveedor}"
-                                         oncomplete="PF('ventanaModalProveedor').hide(); PF('tablaProveedores').clearFilters();"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
-                                         onclick="PF('ventanaModalProveedor').hide()" type="button"/>
-                    </f:facet>
-                </p:dialog>
-
-                <p:confirmDialog widgetVar="ventanaEliminarProveedor" showEffect="fade"
-                                 width="300" message="¿Desea eliminar el proveedor?"
-                                 header="Confirme su selección" severity="warn">
-                    <p:commandButton value="Sí" icon="pi pi-check" class="ui-button-primary"
-                                     process="@this"
-                                     actionListener="#{proveedorControllerWeb.eliminarProveedor}"
-                                     update=":formulario-proveedores:tabla-proveedores :formulario-proveedores:mensaje_emergente"
-                                     oncomplete="PF('ventanaEliminarProveedor').hide();">
-                        <f:setPropertyActionListener value="#{proveedorControllerWeb.proveedorSeleccionado}"
-                                                     target="#{proveedorControllerWeb.proveedorSeleccionado}" />
+                    <p:confirmDialog widgetVar="ventanaEliminarProveedor" showEffect="fade"
+                                     width="300" message="¿Desea eliminar el proveedor?"
+                                     header="Confirme su selección" severity="warn">
+                        <p:commandButton value="Sí" icon="pi pi-check" class="ui-button-primary"
+                                         process="@this"
+                                         actionListener="#{proveedorControllerWeb.eliminarProveedor}"
+                                         update=":formulario-proveedores:tabla-proveedores :formulario-proveedores:mensaje_emergente"
+                                         oncomplete="PF('ventanaEliminarProveedor').hide()"
+                                                 style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;">
                     </p:commandButton>
-                    <p:commandButton value="No" icon="pi pi-times" class="ui-button-warning"
-                                     onclick="PF('ventanaEliminarProveedor').hide()" type="button"/>
+                    <p:commandButton value="No" icon="pi pi-times"
+                                     onclick="PF('ventanaEliminarProveedor').hide()" type="button"
+                                     style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"/>
                 </p:confirmDialog>
             </h:form>
         </div>
-    </h:body>
+    </div>
+</h:body>
 </h:html>
