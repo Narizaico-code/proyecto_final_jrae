@@ -13,6 +13,27 @@ VALUES ('Ana', 'Pérez', 'ana.perez@example.com', '12161308', '77889900');
 INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
 VALUES ('José', 'Martínez', 'jose.martinez@example.com', '12852156', '99001122');
 
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Lucía', 'Fernández', 'lucia.fernandez@example.com', '147852', '33112244');
+
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Pedro', 'López', 'pedro.lopez@example.com', '963258', '55667788');
+
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Sofía', 'Torres', 'sofia.torres@example.com', '753951', '66778899');
+
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Miguel', 'Castillo', 'miguel.castillo@example.com', '852369', '77880011');
+
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Laura', 'Morales', 'laura.morales@example.com', '951357', '88992233');
+
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Andrés', 'Ruiz', 'andres.ruiz@example.com', '456123', '99003344');
+
+INSERT IGNORE INTO Administradores (nombre, apellido, correo, contrasena, telefono)
+VALUES ('Elena', 'Vargas', 'elena.vargas@example.com', '159753', '22001133');
+
 -- Tuplas para Clientes
 INSERT IGNORE INTO Clientes (nombre, apellido, apodo, contrasena, correo, telefono, direccion)
 VALUES ('Carlos', 'Gómez', 'Carlitos', '12345678', 'carlos.gomez@example.com', '12345678', 'Av. Central 123');

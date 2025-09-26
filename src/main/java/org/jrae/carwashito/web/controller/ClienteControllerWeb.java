@@ -70,7 +70,7 @@ public class ClienteControllerWeb implements Serializable {
         PrimeFaces.current().executeScript("PF('ventanaModalCliente').hide()");
         PrimeFaces.current().ajax().update(
                 "formulario-clientes:mensaje_emergente",
-                "formulario-clientes:tabla-clientes"
+                "formulario-clientes:tabla-cliente"
         );
 
         this.clienteSeleccionado = null;
@@ -90,7 +90,7 @@ public class ClienteControllerWeb implements Serializable {
 
         PrimeFaces.current().ajax().update(
                 "formulario-clientes:mensaje_emergente",
-                "formulario-clientes:tabla-clientes"
+                "formulario-clientes:tabla-cliente"
         );
 
         this.clienteSeleccionado = null;

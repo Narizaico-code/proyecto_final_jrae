@@ -8,119 +8,150 @@
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
     </h:head>
-    <h:body>
-        <p>Estoy en Clientes</p>
+    <h:body style="background-color: #F2F2F2; color: #400C0C;">
+        <div class="p-4 mx-auto" style="max-width: 1200px;">
+            <p:outputLabel value="Estoy en Clientes" styleClass="text-4xl font-bold block mb-4 text-center" style="color: #400C0C;"/>
 
-        <div class="card">
-            <h:form id="formulario-clientes">
-                <p:growl id="mensaje_emergente" showDetails="true"/>
+            <div class="card p-shadow-4 p-5" style="background-color: white; border-radius: 8px;">
+                <h:form id="formulario-clientes">
+                    <p:growl id="mensaje_emergente" showDetails="true"/>
 
-                <div class="card">
-                    <p:menubar>
-                        <p:menuitem value="Inicio" icon="pi pi-fw pi-users"
-                                    update=":formulario-clientes:tabla-cliente"
-                                    actionListener="#{clienteControllerWeb.cargarDatos}"/>
-                        <p:menuitem value="Nuevo cliente" icon="pi pi-fw pi-plus"
-                                    actionListener="#{clienteControllerWeb.agregarCliente}"
-                                    update=":formulario-modal:ventana-cliente"
-                                    oncomplete="PF('ventanaModalCliente').show()"/>
-                    </p:menubar>
-                </div>
+                    <div class="card mb-4" style="background-color: #591D1D; border-radius: 4px;">
+                        <p:menubar style="background: none; border: none;">
+                            <p:menuitem value="Regreso" icon="pi pi-fw pi-sign-out"
+                                        action="index.xhtml?faces-redirect=true"
+                                        style="color: #F2F2F2; font-weight: bold;"/>
 
-                <div class="card">
-                    <p:dataTable value="#{clienteControllerWeb.clientes}"
-                                 var="cliente" id="tabla-cliente"
-                                 widgetVar="tablaClientes">
-                        <f:facet name="header">
-                            <h3>CarWashito, Clientes</h3>
+                            <p:menuitem value="Nuevo cliente" icon="pi pi-fw pi-user-plus"
+                                        actionListener="#{clienteControllerWeb.agregarCliente}"
+                                        update=":formulario-modal:ventana-cliente"
+                                        oncomplete="PF('ventanaModalCliente').show()"
+                                        style="color: #F2F2F2; font-weight: bold;"/>
+                        </p:menubar>
+                    </div>
+
+                    <div class="card p-0" style="border: 1px solid #D9BFBF; border-radius: 4px; overflow: hidden;">
+                        <p:dataTable value="#{clienteControllerWeb.clientes}"
+                                     var="cliente" id="tabla-cliente"
+                                     widgetVar="tablaClientes"
+                                     rows="8" paginator="true"
+                                     emptyMessage="No se encontraron clientes.">
+                            <f:facet name="header">
+                                <h:outputText value="CarWashito - Clientes" class="font-bold block p-3" style="background-color: #A66F6F; color: #400C0C; font-size: 1.25rem;"/>
+                            </f:facet>
+
+                            <p:column headerText="ID" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{cliente.codigoCliente}"/></p:column>
+
+                            <p:column headerText="NOMBRE" style="background-color: #D9BFBF; color: #400C0C;" filterBy="#{cliente.name}">
+                                <h:outputText value="#{cliente.name}"/>
+                            </p:column>
+
+                            <p:column headerText="APELLIDO" style="background-color: #D9BFBF; color: #400C0C;" filterBy="#{cliente.lastName}">
+                                <h:outputText value="#{cliente.lastName}"/>
+                            </p:column>
+
+                            <p:column headerText="APODO" style="background-color: #D9BFBF; color: #400C0C;" filterBy="#{cliente.nickname}">
+                                <h:outputText value="#{cliente.nickname}"/>
+                            </p:column>
+
+                            <p:column headerText="CORREO" style="background-color: #D9BFBF; color: #400C0C;" filterBy="#{cliente.email}">
+                                <h:outputText value="#{cliente.email}"/>
+                            </p:column>
+
+                            <p:column headerText="CONTRASENA" style="background-color: #D9BFBF; color: #400C0C;">
+                                <h:outputText value="********" rendered="#{cliente.password ne null}"/>
+                                <h:outputText value="" rendered="#{cliente.password eq null}"/>
+                            </p:column>
+                            <p:column headerText="TELÉFONO" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{cliente.phoneNumber}"/></p:column>
+                            <p:column headerText="DIRECCIÓN" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{cliente.address}"/></p:column>
+
+                            <p:column headerText="OPCIÓN" style="width:180px; text-align: center; background-color: #D9BFBF; color: #400C0C;">
+                                <p:commandButton value="Editar" icon="pi pi-pencil" class="mr-2"
+                                                 update=":formulario-modal:ventana-cliente"
+                                                 process="@this"
+                                                 oncomplete="PF('ventanaModalCliente').show()"
+                                                 style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;">
+                                    <f:setPropertyActionListener value="#{cliente}" target="#{clienteControllerWeb.clienteSeleccionado}"/>
+                                    <p:resetInput target=":formulario-modal:ventana-cliente"/>
+                                </p:commandButton>
+                                <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                                 process="@this"
+                                                 oncomplete="PF('ventanaEliminarCliente').show()"
+                                                 style="background-color: #591D1D; border-color: #591D1D; color: #F2F2F2;">
+                                    <f:setPropertyActionListener value="#{cliente}" target="#{clienteControllerWeb.clienteSeleccionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </h:form>
+
+                <h:form id="formulario-modal">
+                    <p:dialog header="Detalle del Cliente" showEffect="fade"
+                              modal="true" widgetVar="ventanaModalCliente" responsive="true"
+                              style="border-radius: 8px;">
+                        <p:outputPanel id="ventana-cliente" class="ui-fluid p-4" style="background-color: white;">
+
+                            <div class="field mb-3">
+                                <p:outputLabel for="nombre" style="font-weight: bold; color: #400C0C;">NOMBRE</p:outputLabel>
+                                <p:inputText id="nombre" value="#{clienteControllerWeb.clienteSeleccionado.name}" required="true"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="apellido" style="font-weight: bold; color: #400C0C;">APELLIDO</p:outputLabel>
+                                <p:inputText id="apellido" value="#{clienteControllerWeb.clienteSeleccionado.lastName}"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="apodo" style="font-weight: bold; color: #400C0C;">APODO</p:outputLabel>
+                                <p:inputText id="apodo" value="#{clienteControllerWeb.clienteSeleccionado.nickname}"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="telefono" style="font-weight: bold; color: #400C0C;">TELÉFONO</p:outputLabel>
+                                <p:inputText id="telefono" value="#{clienteControllerWeb.clienteSeleccionado.phoneNumber}"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="correo" style="font-weight: bold; color: #400C0C;">CORREO</p:outputLabel>
+                                <p:inputText id="correo" required="true" value="#{clienteControllerWeb.clienteSeleccionado.email}"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="contrasena" style="font-weight: bold; color: #400C0C;">CONTRASEÑA</p:outputLabel>
+                                <p:password id="contrasena" required="true" value="#{clienteControllerWeb.clienteSeleccionado.password}" redisplay="true"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="direccion" style="font-weight: bold; color: #400C0C;">DIRECCIÓN</p:outputLabel>
+                                <p:inputText id="direccion" value="#{clienteControllerWeb.clienteSeleccionado.address}"/>
+                            </div>
+
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <div style="background-color: #D9BFBF; padding: 0.5rem 1rem; text-align: right;">
+                                <p:commandButton value="Guardar" icon="pi pi-check" class="mr-2"
+                                                 process="@this ventana-cliente"
+                                                 update=":formulario-clientes:tabla-cliente :formulario-clientes:mensaje_emergente"
+                                                 actionListener="#{clienteControllerWeb.guardarCliente}"
+                                                 oncomplete="PF('ventanaModalCliente').hide(); PF('tablaClientes').clearFilters();"
+                                                 style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;"/>
+                                <p:commandButton value="Cancelar" icon="pi pi-times"
+                                                 onclick="PF('ventanaModalCliente').hide()" type="button"
+                                                 style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"/>
+                            </div>
                         </f:facet>
+                    </p:dialog>
 
-                        <p:column headerText="ID"><h:outputText value="#{cliente.codigoCliente}"/></p:column>
-                        <p:column headerText="NOMBRE"><h:outputText value="#{cliente.name}"/></p:column>
-                        <p:column headerText="APELLIDO"><h:outputText value="#{cliente.lastName}"/></p:column>
-                        <p:column headerText="APODO"><h:outputText value="#{cliente.nickname}"/></p:column>
-                        <p:column headerText="CORREO"><h:outputText value="#{cliente.email}"/></p:column>
-                        <p:column headerText="CONTRASENA"><h:outputText value="#{cliente.password}"/></p:column>
-                        <p:column headerText="TELÉFONO"><h:outputText value="#{cliente.phoneNumber}"/></p:column>
-                        <p:column headerText="DIRECCIÓN"><h:outputText value="#{cliente.address}"/></p:column>
-
-                        <p:column headerText="OPCIÓN">
-                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
-                                             update=":formulario-modal:ventana-cliente"
-                                             process="@this"
-                                             oncomplete="PF('ventanaModalCliente').show()">
-                                <f:setPropertyActionListener value="#{cliente}" target="#{clienteControllerWeb.clienteSeleccionado}"/>
-                                <p:resetInput target=":formulario-modal:ventana-cliente"/>
-                            </p:commandButton>
-                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
-                                             process="@this"
-                                             oncomplete="PF('ventanaEliminarCliente').show()">
-                                <f:setPropertyActionListener value="#{cliente}" target="#{clienteControllerWeb.clienteSeleccionado}"/>
-                            </p:commandButton>
-                        </p:column>
-                    </p:dataTable>
-                </div>
-            </h:form>
-
-            <h:form id="formulario-modal">
-                <p:dialog header="Detalle del Cliente" showEffect="fade"
-                          modal="true" widgetVar="ventanaModalCliente" responsive="true">
-                    <p:outputPanel id="ventana-cliente" class="ui-fluid">
-
-                        <div class="field">
-                            <p:outputLabel for="nombre">NOMBRE</p:outputLabel>
-                            <p:inputText id="nombre" value="#{clienteControllerWeb.clienteSeleccionado.name}" required="true"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="apellido">APELLIDO</p:outputLabel>
-                            <p:inputText id="apellido" value="#{clienteControllerWeb.clienteSeleccionado.lastName}"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="apodo">APODO</p:outputLabel>
-                            <p:inputText id="apodo" value="#{clienteControllerWeb.clienteSeleccionado.nickname}"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="telefono">TELÉFONO</p:outputLabel>
-                            <p:inputText id="telefono" value="#{clienteControllerWeb.clienteSeleccionado.phoneNumber}"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="correo">CORREO</p:outputLabel>
-                            <p:inputText id="correo" required="true" value="#{clienteControllerWeb.clienteSeleccionado.email}"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="contrasena">CONTRASEÑA</p:outputLabel>
-                            <p:password id="contrasena" required="true" value="#{clienteControllerWeb.clienteSeleccionado.password}"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="direccion">DIRECCIÓN</p:outputLabel>
-                            <p:inputText id="direccion" value="#{clienteControllerWeb.clienteSeleccionado.address}"/>
-                        </div>
-
-                    </p:outputPanel>
-
-                    <f:facet name="footer">
-                        <p:commandButton value="Guardar" icon="pi pi-check" class="ui-button-primary"
-                                         process="@this ventana-cliente"
-                                         update=":formulario-clientes:tabla-cliente"
-                                         actionListener="#{clienteControllerWeb.guardarCliente}"
-                                         oncomplete="PF('ventanaModalCliente').hide(); PF('tablaClientes').clearFilters();"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
-                                         onclick="PF('ventanaModalCliente').hide()" type="button"/>
-                    </f:facet>
-                </p:dialog>
-
-                <p:confirmDialog widgetVar="ventanaEliminarCliente" showEffect="fade"
-                                 width="300" message="¿Desea eliminar el cliente?"
-                                 header="Confirme su selección" severity="warn">
-                    <p:commandButton value="Sí" icon="pi pi-check" style="ui-button-primary"
-                                     process="@this"
-                                     actionListener="#{clienteControllerWeb.eliminarCliente}"
-                                     update=":formulario-clientes:tabla-cliente"
-                                     oncomplete="PF('ventanaEliminarCliente').hide()"/>
-                    <p:commandButton value="No" icon="pi pi-times" style="ui-button-warning"
-                                     onclick="PF('ventanaEliminarCliente').hide()" type="button"/>
-                </p:confirmDialog>
-            </h:form>
+                    <p:confirmDialog widgetVar="ventanaEliminarCliente" showEffect="fade"
+                                     width="300" message="¿Desea eliminar el cliente?"
+                                     header="Confirme su selección" severity="warn">
+                        <p:commandButton value="Sí" icon="pi pi-check"
+                                         process="@this"
+                                         actionListener="#{clienteControllerWeb.eliminarCliente}"
+                                         update=":formulario-clientes:tabla-cliente :formulario-clientes:mensaje_emergente"
+                                         oncomplete="PF('ventanaEliminarCliente').hide()"
+                                         style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;"/>
+                        <p:commandButton value="No" icon="pi pi-times"
+                                         onclick="PF('ventanaEliminarCliente').hide()" type="button"
+                                         style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"/>
+                    </p:confirmDialog>
+                </h:form>
+            </div>
         </div>
     </h:body>
 </h:html>

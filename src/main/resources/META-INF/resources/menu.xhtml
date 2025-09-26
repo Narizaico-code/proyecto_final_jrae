@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>CarWashito - Menú Principal</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+    </h:head>
+
+    <h:body style="background-color: #F2F2F2; color: #400C0C; min-height: 100vh;">
+        <div class="p-4 mx-auto" style="max-width: 1400px; padding-top: 4rem;">
+
+            <h:form id="formulario-salida" class="flex justify-content-end mb-3">
+                <p:commandButton value="Cerrar Sesión" icon="pi pi-sign-out"
+                                 action="index.xhtml?faces-redirect=true"  immediate="true"
+                                 style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;"/>
+            </h:form>
+
+            <h:panelGroup layout="block" class="text-center font-bold pb-2 mb-5"
+                          style="font-size: 3rem; color: #400C0C; border-bottom: 3px solid #A66F6F;">
+                <h:outputText value="CarWashito - Menú de Gestión"/>
+            </h:panelGroup>
+
+            <h:form id="formulario-menu">
+                <p:growl id="mensaje_emergente" showDetail="true"/>
+
+                <div class="grid p-nogutter">
+
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <p:commandLink action="administrador.xhtml?faces-redirect=true"
+                                       class="p-shadow-3 flex flex-column align-items-center justify-content-center border-round h-15rem transition-all transition-duration-300 hover:p-shadow-6"
+                                       style="background-color: #A66F6F; border: 1px solid #400C0C;">
+                            <i class="pi pi-shield mb-3" style="font-size: 3rem; color: #F2F2F2;"></i>
+                            <h:outputText value="Administradores" class="text-xl font-bold" style="color: #F2F2F2;"/>
+                        </p:commandLink>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <p:commandLink action="cliente.xhtml?faces-redirect=true"
+                                       class="p-shadow-3 flex flex-column align-items-center justify-content-center border-round h-15rem transition-all transition-duration-300 hover:p-shadow-6"
+                                       style="background-color: #A66F6F; border: 1px solid #400C0C;">
+                            <i class="pi pi-users mb-3" style="font-size: 3rem; color: #F2F2F2;"></i>
+                            <h:outputText value="Clientes" class="text-xl font-bold" style="color: #F2F2F2;"/>
+                        </p:commandLink>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <p:commandLink action="empleado.xhtml?faces-redirect=true"
+                                       class="p-shadow-3 flex flex-column align-items-center justify-content-center border-round h-15rem transition-all transition-duration-300 hover:p-shadow-6"
+                                       style="background-color: #A66F6F; border: 1px solid #400C0C;">
+                            <i class="pi pi-id-card mb-3" style="font-size: 3rem; color: #F2F2F2;"></i>
+                            <h:outputText value="Empleados" class="text-xl font-bold" style="color: #F2F2F2;"/>
+                        </p:commandLink>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <p:commandLink action="inventario.xhtml?faces-redirect=true"
+                                       class="p-shadow-3 flex flex-column align-items-center justify-content-center border-round h-15rem transition-all transition-duration-300 hover:p-shadow-6"
+                                       style="background-color: #A66F6F; border: 1px solid #400C0C;">
+                            <i class="pi pi-box mb-3" style="font-size: 3rem; color: #F2F2F2;"></i>
+                            <h:outputText value="Inventario" class="text-xl font-bold" style="color: #F2F2F2;"/>
+                        </p:commandLink>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <p:commandLink action="precioVehiculo.xhtml?faces-redirect=true"
+                                       class="p-shadow-3 flex flex-column align-items-center justify-content-center border-round h-15rem transition-all transition-duration-300 hover:p-shadow-6"
+                                       style="background-color: #A66F6F; border: 1px solid #400C0C;">
+                            <i class="pi pi-tag mb-3" style="font-size: 3rem; color: #F2F2F2;"></i>
+                            <h:outputText value="Precios de Vehículos" class="text-xl font-bold" style="color: #F2F2F2;"/>
+                        </p:commandLink>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <p:commandLink action="proveedor.xhtml?faces-redirect=true"
+                                       class="p-shadow-3 flex flex-column align-items-center justify-content-center border-round h-15rem transition-all transition-duration-300 hover:p-shadow-6"
+                                       style="background-color: #A66F6F; border: 1px solid #400C0C;">
+                            <i class="pi pi-truck mb-3" style="font-size: 3rem; color: #F2F2F2;"></i>
+                            <h:outputText value="Proveedores" class="text-xl font-bold" style="color: #F2F2F2;"/>
+                        </p:commandLink>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <p:commandLink action="reserva.xhtml?faces-redirect=true"
+                                       class="p-shadow-3 flex flex-column align-items-center justify-content-center border-round h-15rem transition-all transition-duration-300 hover:p-shadow-6"
+                                       style="background-color: #A66F6F; border: 1px solid #400C0C;">
+                            <i class="pi pi-calendar-plus mb-3" style="font-size: 3rem; color: #F2F2F2;"></i>
+                            <h:outputText value="Reservas" class="text-xl font-bold" style="color: #F2F2F2;"/>
+                        </p:commandLink>
+                    </div>
+
+                    <div class="col-12 md:col-6 lg:col-3 p-3">
+                        <p:commandLink action="servicio.xhtml?faces-redirect=true"
+                                       class="p-shadow-3 flex flex-column align-items-center justify-content-center border-round h-15rem transition-all transition-duration-300 hover:p-shadow-6"
+                                       style="background-color: #A66F6F; border: 1px solid #400C0C;">
+                            <i class="pi pi-car mb-3" style="font-size: 3rem; color: #F2F2F2;"></i>
+                            <h:outputText value="Servicios" class="text-xl font-bold" style="color: #F2F2F2;"/>
+                        </p:commandLink>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>
