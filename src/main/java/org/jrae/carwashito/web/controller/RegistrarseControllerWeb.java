@@ -79,6 +79,9 @@ public class RegistrarseControllerWeb {
                 mostrarExito("Usuario registrado exitosamente");
                 prepararNuevoCliente();
                 cargarDatos();
+                PrimeFaces.current().executeScript(
+                        "setTimeout(function(){ window.location.href = 'index.xhtml'; }, 2000);"
+                );
             } else {
                 mostrarError("Error al guardar el usuario");
             }

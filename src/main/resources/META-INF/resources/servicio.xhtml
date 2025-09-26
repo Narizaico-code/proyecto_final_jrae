@@ -100,7 +100,8 @@
                 <p:menubar>
                     <p:menuitem value="Inicio" icon="pi pi-fw pi-home"
                                 actionListener="#{servicioControllerWeb.cargarDatos}"
-                                update=":formulario-servicios:tabla-servicio"/>
+                                update=":formulario-servicios:tabla-servicio"
+                    onclick="window.location.href='menu.xhtml';return false;"/>
                     <p:menuitem value="Nuevo servicio" icon="pi pi-fw pi-plus"
                                 actionListener="#{servicioControllerWeb.agregarServicio}"
                                 update=":formulario-modal:ventana-servicio"
@@ -116,10 +117,10 @@
                         <h3>CarWashito, Servicios</h3>
                     </f:facet>
 
-                    <p:column headerText="ID"><h:outputText value="#{srv.codigo()}"/></p:column>
-                    <p:column headerText="NOMBRE"><h:outputText value="#{srv.name()}"/></p:column>
-                    <p:column headerText="DESCRIPCIÓN"><h:outputText value="#{srv.description()}"/></p:column>
-                    <p:column headerText="PRECIO"><h:outputText value="#{srv.price()}"/></p:column>
+                    <p:column headerText="ID" filterBy="#{srv.codigo()}"><h:outputText value="#{srv.codigo()}"/></p:column>
+                    <p:column headerText="NOMBRE" filterBy="#{srv.name()}"><h:outputText value="#{srv.name()}"/></p:column>
+                    <p:column headerText="DESCRIPCIÓN" filterBy="#{srv.description()}"><h:outputText value="#{srv.description()}"/></p:column>
+                    <p:column headerText="PRECIO" filterBy="#{srv.price()}"><h:outputText value="#{srv.price()}"/></p:column>
 
                     <p:column headerText="OPCIONES">
                         <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
