@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
     </h:head>
+
     <h:body style="background-color: #F2F2F2; color: #400C0C;">
         <div class="p-4 mx-auto" style="max-width: 1200px;">
             <p:outputLabel value="Estoy en Proveedores" styleClass="text-4xl font-bold block mb-4 text-center" style="color: #400C0C;"/>
@@ -18,11 +19,16 @@
 
                     <div class="card mb-4" style="background-color: #591D1D; border-radius: 4px;">
                         <p:menubar style="background: none; border: none;">
+
+                            <p:menuitem value="Regreso" icon="pi pi-fw pi-sign-out"
+                                        action="menu.xhtml?faces-redirect=true"
+                                        style="color: #F2F2F2; font-weight: bold;"/>
+
                             <p:menuitem value="Inicio" icon="pi pi-fw pi-home"
                                         actionListener="#{proveedorControllerWeb.cargarDatos}"
                                         update=":formulario-proveedores:tabla-proveedores"
-                                        onclick="window.location.href='menu.xhtml';return false;"
                                         style="color: #F2F2F2; font-weight: bold;"/>
+
                             <p:menuitem value="Nuevo proveedor" icon="pi pi-fw pi-plus"
                                         actionListener="#{proveedorControllerWeb.agregarProveedor}"
                                         update=":formulario-modal:ventana-proveedor"
@@ -37,6 +43,7 @@
                                      widgetVar="tablaProveedores"
                                      rows="8" paginator="true"
                                      emptyMessage="No se encontraron proveedores.">
+
                             <f:facet name="header">
                                 <h:outputText value="CarWashito - Proveedores" class="font-bold block p-3" style="background-color: #A66F6F; color: #400C0C; font-size: 1.25rem;"/>
                             </f:facet>
@@ -85,21 +92,26 @@
                               modal="true" widgetVar="ventanaModalProveedor" responsive="true"
                               style="border-radius: 8px;">
                         <p:outputPanel id="ventana-proveedor" class="ui-fluid p-4" style="background-color: white;">
+
                             <div class="field mb-3">
                                 <p:outputLabel for="nombre" style="font-weight: bold; color: #400C0C;">NOMBRE</p:outputLabel>
-                                <p:inputText id="nombre" value="#{proveedorControllerWeb.proveedorSeleccionado.name}" required="true"/>
+                                <p:inputText id="nombre" value="#{proveedorControllerWeb.proveedorSeleccionado.name}" required="true"
+                                             style="border-color: #D9BFBF; color: #400C0C;"/>
                             </div>
                             <div class="field mb-3">
                                 <p:outputLabel for="numero" style="font-weight: bold; color: #400C0C;">NUMERO</p:outputLabel>
-                                <p:inputText id="numero" value="#{proveedorControllerWeb.proveedorSeleccionado.number}"/>
+                                <p:inputText id="numero" value="#{proveedorControllerWeb.proveedorSeleccionado.number}"
+                                             style="border-color: #D9BFBF; color: #400C0C;"/>
                             </div>
                             <div class="field mb-3">
                                 <p:outputLabel for="correo" style="font-weight: bold; color: #400C0C;">CORREO</p:outputLabel>
-                                <p:inputText id="correo" required="true" value="#{proveedorControllerWeb.proveedorSeleccionado.email}"/>
+                                <p:inputText id="correo" required="true" value="#{proveedorControllerWeb.proveedorSeleccionado.email}"
+                                             style="border-color: #D9BFBF; color: #400C0C;"/>
                             </div>
                             <div class="field mb-3">
                                 <p:outputLabel for="direccion" style="font-weight: bold; color: #400C0C;">DIRECCIÓN</p:outputLabel>
-                                <p:inputText id="direccion" value="#{proveedorControllerWeb.proveedorSeleccionado.address}"/>
+                                <p:inputText id="direccion" value="#{proveedorControllerWeb.proveedorSeleccionado.address}"
+                                             style="border-color: #D9BFBF; color: #400C0C;"/>
                             </div>
                         </p:outputPanel>
 
@@ -107,7 +119,7 @@
                             <div style="background-color: #D9BFBF; padding: 0.5rem 1rem; text-align: right;">
                                 <p:commandButton value="Guardar" icon="pi pi-check" class="mr-2"
                                                  process="@this ventana-proveedor"
-                                                 update=":formulario-proveedores:tabla-proveedores"
+                                                 update=":formulario-proveedores:tabla-proveedores :formulario-proveedores:mensaje_emergente"
                                                  actionListener="#{proveedorControllerWeb.guardarProveedor}"
                                                  oncomplete="PF('ventanaModalProveedor').hide(); PF('tablaProveedores').clearFilters();"
                                                  style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;"/>
@@ -121,19 +133,18 @@
                     <p:confirmDialog widgetVar="ventanaEliminarProveedor" showEffect="fade"
                                      width="300" message="¿Desea eliminar el proveedor?"
                                      header="Confirme su selección" severity="warn">
-                        <p:commandButton value="Sí" icon="pi pi-check" class="ui-button-primary"
+                        <p:commandButton value="Sí" icon="pi pi-check"
                                          process="@this"
                                          actionListener="#{proveedorControllerWeb.eliminarProveedor}"
                                          update=":formulario-proveedores:tabla-proveedores :formulario-proveedores:mensaje_emergente"
                                          oncomplete="PF('ventanaEliminarProveedor').hide()"
-                                                 style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;">
-                    </p:commandButton>
-                    <p:commandButton value="No" icon="pi pi-times"
-                                     onclick="PF('ventanaEliminarProveedor').hide()" type="button"
-                                     style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"/>
-                </p:confirmDialog>
-            </h:form>
+                                         style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;"/>
+                        <p:commandButton value="No" icon="pi pi-times"
+                                         onclick="PF('ventanaEliminarProveedor').hide()" type="button"
+                                         style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"/>
+                    </p:confirmDialog>
+                </h:form>
+            </div>
         </div>
-    </div>
-</h:body>
+    </h:body>
 </h:html>

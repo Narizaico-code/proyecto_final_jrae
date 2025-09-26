@@ -8,114 +8,143 @@
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
     </h:head>
-    <h:body>
-        <p>Estoy en Inventario</p>
 
-        <div class="card">
-            <h:form id="formulario-inventario">
-                <p:growl id="mensaje_emergente" showDetails="true"/>
+    <h:body style="background-color: #F2F2F2; color: #400C0C;">
+        <div class="p-4 mx-auto" style="max-width: 1200px;">
+            <p:outputLabel value="Estoy en Inventario" styleClass="text-4xl font-bold block mb-4 text-center" style="color: #400C0C;"/>
 
-                <div class="card">
-                    <p:menubar>
-                        <p:menuitem value="Inicio" icon="pi pi-fw pi-home"
-                                    update=":formulario-inventario:tabla-inventario"
-                                    actionListener="#{inventarioControllerWeb.cargarDatos}"/>
-                        <p:menuitem value="Nuevo producto" icon="pi pi-fw pi-plus"
-                                    actionListener="#{inventarioControllerWeb.agregarInventario}"
-                                    update=":formulario-modal:ventana-inventario"
-                                    oncomplete="PF('ventanaModalInventario').show()"/>
-                    </p:menubar>
-                </div>
+            <div class="card p-shadow-4 p-5" style="background-color: white; border-radius: 8px;">
+                <h:form id="formulario-inventario">
+                    <p:growl id="mensaje_emergente" showDetails="true"/>
 
-                <div class="card">
-                    <p:dataTable value="#{inventarioControllerWeb.inventarios}"
-                                 var="inv" id="tabla-inventario"
-                                 widgetVar="tablaInventario">
-                        <f:facet name="header">
-                            <h3>CarWashito, Inventario</h3>
+                    <div class="card mb-4" style="background-color: #591D1D; border-radius: 4px;">
+                        <p:menubar style="background: none; border: none;">
+
+                            <p:menuitem value="Regreso" icon="pi pi-fw pi-sign-out"
+                                        action="menu.xhtml?faces-redirect=true"
+                                        style="color: #F2F2F2; font-weight: bold;"/>
+
+                            <p:menuitem value="Inicio" icon="pi pi-fw pi-home"
+                                        update=":formulario-inventario:tabla-inventario"
+                                        actionListener="#{inventarioControllerWeb.cargarDatos}"
+                                        style="color: #F2F2F2; font-weight: bold;"/>
+
+                            <p:menuitem value="Nuevo producto" icon="pi pi-fw pi-plus"
+                                        actionListener="#{inventarioControllerWeb.agregarInventario}"
+                                        update=":formulario-modal:ventana-inventario"
+                                        oncomplete="PF('ventanaModalInventario').show()"
+                                        style="color: #F2F2F2; font-weight: bold;"/>
+                        </p:menubar>
+                    </div>
+
+                    <div class="card p-0" style="border: 1px solid #D9BFBF; border-radius: 4px; overflow: hidden;">
+                        <p:dataTable value="#{inventarioControllerWeb.inventarios}"
+                                     var="inv" id="tabla-inventario"
+                                     widgetVar="tablaInventario"
+                                     rows="10" paginator="true"
+                                     emptyMessage="No se encontraron productos en inventario.">
+
+                            <f:facet name="header">
+                                <h:outputText value="CarWashito - Inventario" class="font-bold block p-3" style="background-color: #A66F6F; color: #400C0C; font-size: 1.25rem;"/>
+                            </f:facet>
+
+                            <p:column headerText="ID" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{inv.inventoryId}"/></p:column>
+                            <p:column headerText="NOMBRE" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{inv.name}"/></p:column>
+                            <p:column headerText="COSTO" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{inv.cost}"/></p:column>
+                            <p:column headerText="FECHA CADUCIDAD" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{inv.expirationDate}"/></p:column>
+                            <p:column headerText="STOCK" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{inv.stock}"/></p:column>
+                            <p:column headerText="ID ADMINISTRADOR" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{inv.administratorId}"/></p:column>
+                            <p:column headerText="ID PROVEEDOR" style="background-color: #D9BFBF; color: #400C0C;"><h:outputText value="#{inv.providerId}"/></p:column>
+
+                            <p:column headerText="OPCIÓN" style="width:180px; text-align: center; background-color: #D9BFBF; color: #400C0C;">
+                                <p:commandButton value="Editar" icon="pi pi-pencil" class="mr-2"
+                                                 update=":formulario-modal:ventana-inventario"
+                                                 process="@this"
+                                                 oncomplete="PF('ventanaModalInventario').show()"
+                                                 style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;">
+                                    <f:setPropertyActionListener value="#{inv}" target="#{inventarioControllerWeb.inventarioSeleccionado}"/>
+                                    <p:resetInput target=":formulario-modal:ventana-inventario"/>
+                                </p:commandButton>
+                                <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                                 process="@this"
+                                                 oncomplete="PF('ventanaEliminarInventario').show()"
+                                                 style="background-color: #591D1D; border-color: #591D1D; color: #F2F2F2;">
+                                    <f:setPropertyActionListener value="#{inv}" target="#{inventarioControllerWeb.inventarioSeleccionado}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </h:form>
+
+                <h:form id="formulario-modal">
+                    <p:dialog header="Detalle del Inventario" showEffect="fade"
+                              modal="true" widgetVar="ventanaModalInventario" responsive="true"
+                              style="border-radius: 8px;">
+                        <p:outputPanel id="ventana-inventario" class="ui-fluid p-4" style="background-color: white;">
+
+                            <div class="field mb-3">
+                                <p:outputLabel for="nombre" style="font-weight: bold; color: #400C0C;">NOMBRE</p:outputLabel>
+                                <p:inputText id="nombre" value="#{inventarioControllerWeb.inventarioSeleccionado.name}" required="true"
+                                             style="border-color: #D9BFBF; color: #400C0C;"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="costo" style="font-weight: bold; color: #400C0C;">COSTO</p:outputLabel>
+                                <p:inputText id="costo" value="#{inventarioControllerWeb.inventarioSeleccionado.cost}" required="true"
+                                             style="border-color: #D9BFBF; color: #400C0C;"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="fechaCaducidad" style="font-weight: bold; color: #400C0C;">FECHA CADUCIDAD</p:outputLabel>
+                                <p:calendar id="fechaCaducidad" value="#{inventarioControllerWeb.inventarioSeleccionado.expirationDate}" pattern="yyyy-MM-dd"
+                                            style="border-color: #D9BFBF; color: #400C0C;"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="stock" style="font-weight: bold; color: #400C0C;">STOCK</p:outputLabel>
+                                <p:inputText id="stock" value="#{inventarioControllerWeb.inventarioSeleccionado.stock}" required="true"
+                                             style="border-color: #D9BFBF; color: #400C0C;"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="administrador" style="font-weight: bold; color: #400C0C;">ADMINISTRADOR (ID)</p:outputLabel>
+                                <p:inputText id="administrador" value="#{inventarioControllerWeb.inventarioSeleccionado.administratorId}" required="true"
+                                             style="border-color: #D9BFBF; color: #400C0C;"/>
+                            </div>
+                            <div class="field mb-3">
+                                <p:outputLabel for="proveedor" style="font-weight: bold; color: #400C0C;">PROVEEDOR (ID)</p:outputLabel>
+                                <p:inputText id="proveedor" value="#{inventarioControllerWeb.inventarioSeleccionado.providerId}" required="true"
+                                             style="border-color: #D9BFBF; color: #400C0C;"/>
+                            </div>
+
+                        </p:outputPanel>
+
+                        <f:facet name="footer">
+                            <div style="background-color: #D9BFBF; padding: 0.5rem 1rem; text-align: right;">
+                                <p:commandButton value="Guardar" icon="pi pi-check" class="mr-2"
+                                                 process="@this ventana-inventario"
+                                                 update=":formulario-inventario:tabla-inventario :formulario-inventario:mensaje_emergente"
+                                                 actionListener="#{inventarioControllerWeb.guardarInventario}"
+                                                 oncomplete="PF('ventanaModalInventario').hide(); PF('tablaInventario').clearFilters();"
+                                                 style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;"/>
+                                <p:commandButton value="Cancelar" icon="pi pi-times"
+                                                 onclick="PF('ventanaModalInventario').hide()" type="button"
+                                                 style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"/>
+                            </div>
                         </f:facet>
+                    </p:dialog>
 
-                        <p:column headerText="ID"><h:outputText value="#{inv.inventoryId}"/></p:column>
-                        <p:column headerText="NOMBRE"><h:outputText value="#{inv.name}"/></p:column>
-                        <p:column headerText="COSTO"><h:outputText value="#{inv.cost}"/></p:column>
-                        <p:column headerText="FECHA CADUCIDAD"><h:outputText value="#{inv.expirationDate}"/></p:column>
-                        <p:column headerText="STOCK"><h:outputText value="#{inv.stock}"/></p:column>
-                        <p:column headerText="ID ADMINISTRADOR"><h:outputText value="#{inv.administratorId}"/></p:column>
-                        <p:column headerText="ID PROVEEDOR"><h:outputText value="#{inv.providerId}"/></p:column>
-
-                        <p:column headerText="OPCIÓN">
-                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
-                                             update=":formulario-modal:ventana-inventario"
-                                             process="@this"
-                                             oncomplete="PF('ventanaModalInventario').show()">
-                                <f:setPropertyActionListener value="#{inv}" target="#{inventarioControllerWeb.inventarioSeleccionado}"/>
-                                <p:resetInput target=":formulario-modal:ventana-inventario"/>
-                            </p:commandButton>
-                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
-                                             process="@this"
-                                             oncomplete="PF('ventanaEliminarInventario').show()">
-                                <f:setPropertyActionListener value="#{inv}" target="#{inventarioControllerWeb.inventarioSeleccionado}"/>
-                            </p:commandButton>
-                        </p:column>
-                    </p:dataTable>
-                </div>
-            </h:form>
-
-            <h:form id="formulario-modal">
-                <p:dialog header="Detalle del Inventario" showEffect="fade"
-                          modal="true" widgetVar="ventanaModalInventario" responsive="true">
-                    <p:outputPanel id="ventana-inventario" class="ui-fluid">
-
-                        <div class="field">
-                            <p:outputLabel for="nombre">NOMBRE</p:outputLabel>
-                            <p:inputText id="nombre" value="#{inventarioControllerWeb.inventarioSeleccionado.name}" required="true"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="costo">COSTO</p:outputLabel>
-                            <p:inputText id="costo" value="#{inventarioControllerWeb.inventarioSeleccionado.cost}" required="true"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="fechaCaducidad">FECHA CADUCIDAD</p:outputLabel>
-                            <p:calendar id="fechaCaducidad" value="#{inventarioControllerWeb.inventarioSeleccionado.expirationDate}" pattern="yyyy-MM-dd"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="stock">STOCK</p:outputLabel>
-                            <p:inputText id="stock" value="#{inventarioControllerWeb.inventarioSeleccionado.stock}" required="true"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="administrador">ADMINISTRADOR (ID)</p:outputLabel>
-                            <p:inputText id="administrador" value="#{inventarioControllerWeb.inventarioSeleccionado.administratorId}" required="true"/>
-                        </div>
-                        <div class="field">
-                            <p:outputLabel for="proveedor">PROVEEDOR (ID)</p:outputLabel>
-                            <p:inputText id="proveedor" value="#{inventarioControllerWeb.inventarioSeleccionado.providerId}" required="true"/>
-                        </div>
-
-                    </p:outputPanel>
-
-                    <f:facet name="footer">
-                        <p:commandButton value="Guardar" icon="pi pi-check" class="ui-button-primary"
-                                         process="@this ventana-inventario"
-                                         update=":formulario-inventario:tabla-inventario"
-                                         actionListener="#{inventarioControllerWeb.guardarInventario}"
-                                         oncomplete="PF('ventanaModalInventario').hide(); PF('tablaInventario').clearFilters();"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
-                                         onclick="PF('ventanaModalInventario').hide()" type="button"/>
-                    </f:facet>
-                </p:dialog>
-
-                <p:confirmDialog widgetVar="ventanaEliminarInventario" showEffect="fade"
-                                 width="300" message="¿Desea eliminar el inventario?"
-                                 header="Confirme su selección" severity="warn">
-                    <p:commandButton value="Sí" icon="pi pi-check" style="ui-button-primary"
-                                     process="@this"
-                                     actionListener="#{inventarioControllerWeb.eliminarInventario}"
-                                     update=":formulario-inventario:tabla-inventario"
-                                     oncomplete="PF('ventanaEliminarInventario').hide()"/>
-                    <p:commandButton value="No" icon="pi pi-times" style="ui-button-warning"
-                                     onclick="PF('ventanaEliminarInventario').hide()" type="button"/>
-                </p:confirmDialog>
-            </h:form>
+                    <p:confirmDialog widgetVar="ventanaEliminarInventario" showEffect="fade"
+                                     width="300" message="¿Desea eliminar el inventario?"
+                                     header="Confirme su selección" severity="warn">
+                        <p:commandButton value="Sí" icon="pi pi-check"
+                                         process="@this"
+                                         actionListener="#{inventarioControllerWeb.eliminarInventario}"
+                                         update=":formulario-inventario:tabla-inventario :formulario-inventario:mensaje_emergente"
+                                         oncomplete="PF('ventanaEliminarInventario').hide()"
+                                         style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;"/>
+                        <p:commandButton value="No" icon="pi pi-times"
+                                         onclick="PF('ventanaEliminarInventario').hide()" type="button"
+                                         style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"/>
+                    </p:confirmDialog>
+                </h:form>
+            </div>
         </div>
     </h:body>
 </h:html>

@@ -108,7 +108,7 @@ public class LoginControllerWeb implements Serializable {
         mostrarExito("¡Bienvenido " + clienteEncontrado.name() + "!");
 
         PrimeFaces.current().executeScript(
-                "setTimeout(function(){ window.location.href = 'servicio.xhtml'; }, 2000);"
+                "setTimeout(function(){ window.location.href = 'menu.xhtml'; }, 2000);"
         );
     }
 
@@ -123,7 +123,7 @@ public class LoginControllerWeb implements Serializable {
         mostrarExito("¡Bienvenido Administrador " + adminEncontrado.name() + "!");
 
         PrimeFaces.current().executeScript(
-                "setTimeout(function(){ window.location.href = 'servicio.xhtml'; }, 2000);"
+                "setTimeout(function(){ window.location.href = 'menu.xhtml'; }, 2000);"
         );
     }
 

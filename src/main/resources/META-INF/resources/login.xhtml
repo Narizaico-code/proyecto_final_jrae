@@ -7,68 +7,86 @@
         <title>Login CarWashito</title>
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
-        <style>
-            .fondo-difuminado {
-                background-color: rgba(255, 255, 255, 0.2);
-                backdrop-filter: blur(8px);
-            }
-        </style>
     </h:head>
 
     <h:body style="background: url('https://static.vecteezy.com/system/resources/thumbnails/030/662/440/small_2x/naturalgraphy-front-view-car-racing-free-photo.jpg') no-repeat center center fixed;
-               background-size: cover;">
-        <h:form>
-            <div class="h-screen flex align-items-center justify-content-center">
-                <div class="border-round-xl border-1 surface-card fondo-difuminado p-6 flex flex-column justify-content-center w-4 mx-auto">
-                    <div class="flex flex-column gap-3">
-                        <p class="text-2xl font-bold text-center">Inicia Sesión</p>
+               background-size: cover;
+               color: #400C0C;"> <h:form>
+        <div class="h-screen flex align-items-center justify-content-center">
+            <div class="border-round-xl border-1 p-shadow-4 p-6 flex flex-column justify-content-center w-4 mx-auto"
+                 style="max-width: 400px;
+                            background-color: rgba(242, 242, 242, 0.9); /* F2F2F2 con opacidad */
+                            backdrop-filter: blur(8px);
+                            border: 2px solid #A66F6F;">
 
-                        <h:outputLabel for="email" value="Correo Electrónico / Nickname" />
-                        <p:inputText id="email"
-                                     value="#{loginControllerWeb.correoONickname}"
-                                     placeholder="ejemplo@correo.com o nickname"
-                                     required="true" />
+                <div class="flex flex-column gap-3">
+                    <p class="text-3xl font-bold text-center mb-4" style="color: #400C0C;">
+                        CarWashito - Inicia Sesión
+                    </p>
 
-                        <h:outputLabel for="password" value="Contraseña" />
-                        <p:password id="password"
-                                    value="#{loginControllerWeb.password}"
-                                    feedback="false"
-                                    placeholder="Ingresa tu contraseña"
-                                    required="true" />
+                    <h:outputLabel for="email" value="Correo Electrónico / Nickname" style="font-weight: bold; color: #400C0C;" />
+                    <p:inputText id="email"
+                                 value="#{loginControllerWeb.correoONickname}"
+                                 placeholder="ejemplo@correo.com o nickname"
+                                 required="true"
+                                 style="background-color: white; color: #400C0C; border-color: #A66F6F;"/>
 
-                        <p:commandButton value="Login"
-                                         icon="pi pi-sign-in"
-                                         styleClass="mt-3"
-                                         action="#{loginControllerWeb.iniciarSesion}"
-                                         update="@form" />
-                    </div>
+                    <h:outputLabel for="password" value="Contraseña" style="font-weight: bold; color: #400C0C;" />
+                    <p:password id="password"
+                                value="#{loginControllerWeb.password}"
+                                feedback="false"
+                                placeholder="Ingresa tu contraseña"
+                                required="true"
+                                style="background-color: white; color: #400C0C; border-color: #A66F6F;"/>
+
+                    <p:commandButton value="Login"
+                                     icon="pi pi-sign-in"
+                                     styleClass="mt-3"
+                                     style="background-color: #591D1D; border-color: #591D1D; color: #F2F2F2;"
+                                     action="#{loginControllerWeb.iniciarSesion}"
+                                     update="@form" />
+
+                    <p:button value="Cancelar"
+                              icon="pi pi-times"
+                              outcome="index.xhtml"
+                              styleClass="mt-2"
+                              style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"
+                              immediate="true" />
                 </div>
             </div>
+        </div>
 
-            <!-- Modal de Éxito -->
-            <p:dialog id="modalExito"
-                      header="¡Éxito!"
-                      widgetVar="modalExito"
-                      modal="true"
-                      resizable="false"
-                      closable="false">
-                <h:outputText value="#{loginControllerWeb.mensajeExito}" />
-            </p:dialog>
+        <p:dialog id="modalExito"
+                  header="¡Éxito!"
+                  widgetVar="modalExito"
+                  modal="true"
+                  resizable="false"
+                  closable="false"
+                  style="border-radius: 8px;">
+            <f:facet name="header">
+                <h:outputText value="¡Éxito!" style="color: #400C0C; font-weight: bold;"/>
+            </f:facet>
+            <h:outputText value="#{loginControllerWeb.mensajeExito}" style="color: #400C0C;"/>
+        </p:dialog>
 
-            <!-- Modal de Error -->
-            <p:dialog id="modalError"
-                      header="Error"
-                      widgetVar="modalError"
-                      modal="true"
-                      resizable="false"
-                      closable="true">
-                <h:outputText value="#{loginControllerWeb.mensajeError}" />
-                <f:facet name="footer">
-                    <p:commandButton value="Cerrar"
-                                     onclick="PF('modalError').hide()"
-                                     type="button" />
-                </f:facet>
-            </p:dialog>
-        </h:form>
+        <p:dialog id="modalError"
+                  header="Error"
+                  widgetVar="modalError"
+                  modal="true"
+                  resizable="false"
+                  closable="true"
+                  style="border-radius: 8px;">
+            <f:facet name="header">
+                <h:outputText value="Error" style="color: #591D1D; font-weight: bold;"/>
+            </f:facet>
+            <h:outputText value="#{loginControllerWeb.mensajeError}" style="color: #400C0C;"/>
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar"
+                                 onclick="PF('modalError').hide()"
+                                 type="button"
+                                 style="background-color: #A66F6F; border-color: #A66F6F; color: #400C0C;"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
     </h:body>
 </h:html>

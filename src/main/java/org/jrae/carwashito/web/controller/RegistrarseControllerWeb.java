@@ -8,6 +8,7 @@ import lombok.Data;
 import org.jrae.carwashito.dominio.dto.ClienteDto;
 import org.jrae.carwashito.dominio.exception.ClienteYaExisteException;
 import org.jrae.carwashito.dominio.repository.ClienteRepository;
+import org.jrae.carwashito.web.view.ClienteView;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

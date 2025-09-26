@@ -6,26 +6,28 @@
     <h:head>
         <title>Menu Principal</title>
         <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
-        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
-        <style>
-            .fondo-difuminado {
-                background-color: rgba(255, 255, 255, 0.2);
-                backdrop-filter: blur(8px);
-            }
-        </style>
     </h:head>
 
     <h:body style="background: url('https://static.vecteezy.com/system/resources/thumbnails/030/662/440/small_2x/naturalgraphy-front-view-car-racing-free-photo.jpg') no-repeat center center fixed;
                background-size: cover;">
         <h:form>
-            <div class="border-round-xl border-1 surface-card fondo-difuminado p-4 flex justify-content-center w-7 mx-auto">
-                <p>Bienvenido a CarWashito</p>
+            <div class="border-round-xl p-4 flex justify-content-center w-7 mx-auto"
+                 style="background-color: white; border: 1px solid #400C0C; color: #400C0C;">
+                <p style="font-size: 2rem; font-weight: bold;">Bienvenido a CarWashito</p>
             </div>
-            <div class="border-round-xl border-1 surface-card p-4 flex justify-content-center w-5 mx-auto mt-4">
-            <div class="flex gap-3">
-                <p:commandButton value="Iniciar Sesion" icon="pi pi-sign-in" />
-                <p:commandButton value="Registrarse" icon="pi pi-user-plus"  />
-            </div>
+
+            <div class="border-round-xl p-4 flex justify-content-center w-5 mx-auto mt-4"
+                 style="background-color: white; border: 1px solid #400C0C;">
+                <div class="flex gap-3">
+
+                    <p:commandButton value="Iniciar Sesion" icon="pi pi-sign-in"
+                                     onclick="window.location.href='login.xhtml';return false;"
+                                     style="background-color: #400C0C; border-color: #400C0C; color: #F2F2F2;"/>
+
+                    <p:commandButton value="Registrarse" icon="pi pi-user-plus"
+                                     onclick="window.location.href='registrarse.xhtml';return false;"
+                                     style="background-color: #591D1D; border-color: #591D1D; color: #F2F2F2;"/>
+                </div>
             </div>
         </h:form>
     </h:body>
