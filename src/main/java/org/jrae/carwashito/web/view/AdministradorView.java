@@ -8,8 +8,9 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 
+@ToString(of = {"name", "lastName"})
 public class AdministradorView {
     Long codigoAdministrador;
     String name;

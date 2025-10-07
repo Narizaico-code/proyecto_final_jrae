@@ -139,12 +139,28 @@
                                             pattern="dd/MM/yyyy" showOn="button" required="true"
                                             style="border-color: #D9BFBF; color: #400C0C;"/>
                             </div>
+
                             <div class="field mb-3">
-                                <p:outputLabel for="administrador" style="font-weight: bold; color: #400C0C;">CÓDIGO ADMINISTRADOR</p:outputLabel>
-                                <p:inputNumber id="administrador" value="#{empleadoControllerWeb.empleadoSeleccionado.codigoAdministrador}"
-                                               decimalPlaces="0" minValue="1" required="true"
-                                               style="border-color: #D9BFBF; color: #400C0C;"/>
+                                <p:outputLabel for="administrador" style="font-weight: bold; color: #400C0C;">ADMINISTRADOR</p:outputLabel>
+                                <p:selectOneMenu id="administrador"
+                                                 value="#{empleadoControllerWeb.empleadoSeleccionado.administrador}"
+
+                                                 required="true"
+                                                 style="width: 100%; border-color: #D9BFBF; color: #400C0C;">
+                                    <f:selectItem itemLabel="-- Seleccione un administrador --" itemValue="#{null}" noSelectionOption="true"/>
+                                    <f:selectItems value="#{empleadoControllerWeb.listaAdministradores}"
+                                                   var="admin"
+                                                   itemLabel="#{admin.name} #{admin.lastName}"
+                                                   itemValue="#{admin}"/>
+                                </p:selectOneMenu>
                             </div>
+
+<!--                            <div class="field mb-3">-->
+<!--                                <p:outputLabel for="administrador" style="font-weight: bold; color: #400C0C;">CÓDIGO ADMINISTRADOR</p:outputLabel>-->
+<!--                                <p:inputNumber id="administrador" value="#{empleadoControllerWeb.empleadoSeleccionado.codigoAdministrador}"-->
+<!--                                               decimalPlaces="0" minValue="1" required="true"-->
+<!--                                               style="border-color: #D9BFBF; color: #400C0C;"/>-->
+<!--                            </div>-->
 
                         </p:outputPanel>
 

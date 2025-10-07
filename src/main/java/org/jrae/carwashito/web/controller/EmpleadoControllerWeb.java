@@ -7,6 +7,7 @@ import jakarta.faces.view.ViewScoped;
 import lombok.Data;
 import org.jrae.carwashito.dominio.dto.EmpleadoDto;
 import org.jrae.carwashito.dominio.repository.EmpleadoRepository;
+import org.jrae.carwashito.persistence.entity.AdministradorEntity;
 import org.jrae.carwashito.web.mapper.EmpleadoViewMapper;
 import org.jrae.carwashito.web.view.AdministradorView;
 import org.jrae.carwashito.web.view.EmpleadoView;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
 @Component
@@ -51,6 +53,19 @@ public class EmpleadoControllerWeb {
         this.empleados.forEach(empleados -> logger.info(empleados.toString() + sl));
     }
 
+   /* public void cargarAdministradores() {
+        this.listaAdministradores = administradorControllerWeb.getAdministradores();
+        .stream()
+                .map(administrador -> {
+                    AdministradorView administradorView = new AdministradorView();
+                    administradorView.setCodigoAdministrador(administrador.getCodigoAdministrador());
+                    administradorView.setName(administrador.getName());
+                    administradorView.setLastName(administrador.getLastName());
+                    return administradorView;
+                })
+                .toList();
+    }*/
+
     public void cargarAdministradores() {
         this.listaAdministradores = administradorControllerWeb.getAdministradores()
                 .stream()
@@ -59,7 +74,6 @@ public class EmpleadoControllerWeb {
                     administradorView.setCodigoAdministrador(administrador.getCodigoAdministrador());
                     administradorView.setName(administrador.getName());
                     administradorView.setLastName(administrador.getLastName());
-                    administradorView.setEmail(administrador.getEmail());
                     return administradorView;
                 })
                 .toList();
@@ -67,6 +81,7 @@ public class EmpleadoControllerWeb {
 
     public void agregarEmpleado() {
         this.empleadoSeleccionado = new EmpleadoView();
+        this.empleadoSeleccionado.setAdministrador(new AdministradorView());
     }
 
     public void guardarEmpleado() {
